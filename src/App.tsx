@@ -14,11 +14,15 @@ function App() {
       <Container>
         <div className="header">
           <div className="logo">
-            <p>Magnificent Calendar</p>
+            <span>M</span>agnificent Calendar
           </div>
           <div className="header-links">
-            <Link href="#">Dashboard</Link>
-            <Link href="#">Calendar</Link>
+            <a className="link active" href="#">
+              Dashboard
+            </a>
+            <a className="link" href="#">
+              Calendar
+            </a>
           </div>
         </div>
 
@@ -26,17 +30,21 @@ function App() {
           <div className="left-sidebar">
             <div className="user-info">
               <div className="user-info__date">
-                <p className="p gray-p big-p">Saturday, October 14, 07:00</p>
+                <p className="p big-p">Saturday, October 14, 07:00</p>
               </div>
               <div className="user-info__greeting">
                 <h2 className="h2">Hi, Anatolii</h2>
               </div>
               <div className="user-info__planned">
-                <p className="p gray-p">You have:</p>
-                <p className="p">1 meeting today</p>
-                <p className="p">7 meetings in next week</p>
+                <p className="p">You have:</p>
+                <p className="p planned__text">
+                  1 meeting <span className="today">today</span>
+                </p>
+                <p className="p planned__text">
+                  7 meetings <span className="upcoming">in next week</span>
+                </p>
               </div>
-              <Button>View Schedule</Button>
+              <div className="button outlined">View Schedule</div>
             </div>
             <div className="statistic">
               <div className="statistic__box staticstic__box-color-1">
@@ -74,7 +82,9 @@ function App() {
             <div className="event-list__row">
               <div className="event-list__top">
                 <h2 className="h2">Today's Events</h2>
-                <Button>See All</Button>
+                <a className="link active" href="#">
+                  See All
+                </a>
               </div>
               <div className="event-list__item">
                 <h2 className="h2">Meeting with John</h2>
@@ -117,7 +127,9 @@ function App() {
             <div className="event-list__row">
               <div className="event-list__top">
                 <h2 className="h2">Upcoming</h2>
-                <Button>See All</Button>
+                <a className="link active" href="#">
+                  See All
+                </a>
               </div>
               <div className="event-list__item">
                 <h2 className="h2">Job Interview</h2>
@@ -142,7 +154,7 @@ function App() {
 
           <div className="right-sidebar">
             <div className="right-sidebar__calendar"></div>
-            <Button>Add Event</Button>
+            <div className="button">Add Event</div>
             <div className="right-sidebar__reminder">
               <div className="reminder__top">
                 <h3 className="h3">Reminders</h3>
@@ -151,11 +163,17 @@ function App() {
                 </Button>
               </div>
               <div className="reminder__item">
-                <FormControlLabel label="Call to Maria" control={<Checkbox />} />
+                <FormControlLabel
+                  label="Call to Maria"
+                  control={<Checkbox />}
+                />
                 <p className="p">13:00</p>
               </div>
               <div className="reminder__item">
-                <FormControlLabel label="Find september archive" control={<Checkbox />} />
+                <FormControlLabel
+                  label="Find september archive"
+                  control={<Checkbox />}
+                />
                 <p className="p">14:00</p>
               </div>
             </div>
