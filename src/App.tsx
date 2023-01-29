@@ -6,6 +6,10 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import PlaceIcon from "@mui/icons-material/Place";
+import ApartmentIcon from "@mui/icons-material/Apartment";
+import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import "./App.css";
 
 function App() {
@@ -87,36 +91,36 @@ function App() {
                 </a>
               </div>
               <div className="event-list__item">
-                <h2 className="h2">Meeting with John</h2>
+                <h2 className="h3">Meeting with John</h2>
                 <p className="p">
-                  <img src="/" alt="" />
+                  <AccessTimeIcon fontSize="small" />
                   07:30-11:00
                 </p>
                 <p className="p">
-                  <img src="/" alt="" />
+                  <PlaceIcon fontSize="small" />
                   London, Great Street, 18
                 </p>
                 <div className="event-list__item-bottom">
                   <p className="p">
-                    <img src="/" alt="" />
+                    <ApartmentIcon fontSize="small" />
                     Atlant agency
                   </p>
                   <div className="event-list__item-time">In 30 min</div>
                 </div>
               </div>
               <div className="event-list__item">
-                <h2 className="h2">Meeting with John</h2>
+                <h2 className="h3">Meeting with John</h2>
                 <p className="p">
-                  <img src="/" alt="" />
+                  <AccessTimeIcon fontSize="small" />
                   07:30-11:00
                 </p>
                 <p className="p">
-                  <img src="/" alt="" />
+                  <PlaceIcon fontSize="small" />
                   London, Great Street, 18
                 </p>
                 <div className="event-list__item-bottom">
                   <p className="p">
-                    <img src="/" alt="" />
+                    <ApartmentIcon fontSize="small" />
                     Atlant agency
                   </p>
                   <div className="event-list__item-time">Rejected</div>
@@ -132,18 +136,18 @@ function App() {
                 </a>
               </div>
               <div className="event-list__item">
-                <h2 className="h2">Job Interview</h2>
+                <h2 className="h3">Job Interview</h2>
                 <p className="p">
-                  <img src="/" alt="" />
+                  <AccessTimeIcon fontSize="small" />
                   07:30-11:00
                 </p>
                 <p className="p">
-                  <img src="/" alt="" />
+                  <PlaceIcon fontSize="small" />
                   London, Great Street, 18
                 </p>
                 <div className="event-list__item-bottom">
                   <p className="p">
-                    <img src="/" alt="" />
+                    <ApartmentIcon fontSize="small" />
                     Atlant agency
                   </p>
                   <div className="event-list__item-time">15 October</div>
@@ -158,9 +162,9 @@ function App() {
             <div className="right-sidebar__reminder">
               <div className="reminder__top">
                 <h3 className="h3">Reminders</h3>
-                <Button>
-                  <img src="/" alt="" />
-                </Button>
+                <div>
+                  <AddCircleOutlinedIcon sx={{ color: "#3664da" }} />
+                </div>
               </div>
               <div className="reminder__item">
                 <FormControlLabel
