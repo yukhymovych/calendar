@@ -1,0 +1,20 @@
+.user-info {
+  background-color: var(--gray-light);
+  border-radius: 10px;
+  border: 1px solid var(--border-gray);
+  padding: 30px;
+  margin-bottom: 30px;
+}
+.user-info__date {
+  margin-bottom: 15px;
+}
+.user-info__greeting {
+}
+.user-info__planned {
+  margin-bottom: 50px;
+}
+.planned__text.p {
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--main-black);
+}

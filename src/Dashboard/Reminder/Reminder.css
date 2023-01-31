@@ -1,0 +1,21 @@
+.right-sidebar__reminder {
+  background-color: var(--gray-light);
+  border-radius: 10px;
+  border: 1px solid var(--border-gray);
+  padding: 30px;
+  margin-top: 30px;
+}
+.reminder__top {
+  display: flex;
+  justify-content: space-between;
+}
+.reminder__top .h3 {
+  margin-bottom: 0;
+}
+.reminder__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-gray);
+  margin: 10px 0;
+}

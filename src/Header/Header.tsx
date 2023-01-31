@@ -1,8 +1,8 @@
-import React from "react";
+import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 
-const Header = () => {
+const Header: FC = () => {
   const { pathname } = useLocation();
   const isActiveDashboard = pathname === "/";
   const isActiveCalendar = pathname === "/calendar";
@@ -14,7 +14,9 @@ const Header = () => {
       </div>
       <div className="header-links">
         <Link to="/">
-          <span className={`link ${isActiveDashboard && "active"}`}>Dashboard</span>
+          <span className={`link ${isActiveDashboard && "active"}`}>
+            Dashboard
+          </span>
         </Link>
         <Link to="/calendar">
           <span className={`link ${isActiveCalendar && "active"}`}>
