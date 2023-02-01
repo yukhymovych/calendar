@@ -1,2 +1,13 @@
 .right-sidebar__datepicker {
+  border: 1px solid var(--border-gray);
+  border-radius: 10px;
+  padding: 5px 5px 0;
+  margin-bottom: 20px;
+}
+.right-sidebar__datepicker .MuiDialogActions-root,
+.right-sidebar__datepicker .MuiPickersToolbar-root {
+  display: none;
+}
+.MuiButtonBase-root.MuiPickersDay-root.Mui-selected {
+  background-color: var(--main-blue);
 }
