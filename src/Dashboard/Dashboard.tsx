@@ -1,10 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 
 import UserInfo from "./UserInfo/UserInfo";
 import Statistic from "./Statistic/Statistic";
 import EventListColumn from "./EventListColumn/EventListColumn";
 import Reminder from "./Reminder/Reminder";
 import SidebarDatepicker from "./SidebarDatepicker/SidebarDatepicker";
+import { getItems, addItem, removeItem, updateItem } from "../firebase/crud";
 
 import "./Dashboard.css";
 
@@ -63,6 +64,11 @@ const reminderMocks = [
 ];
 
 const Dashboard: FC = () => {
+  const data = getItems();
+  
+  useEffect(() => {
+  }, [data])
+
   return (
     <div className="content">
       <div className="left-sidebar">
