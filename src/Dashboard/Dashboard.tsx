@@ -5,7 +5,7 @@ import Statistic from "./Statistic/Statistic";
 import EventListColumn from "./EventListColumn/EventListColumn";
 import Reminder from "./Reminder/Reminder";
 import SidebarDatepicker from "./SidebarDatepicker/SidebarDatepicker";
-import { getItems, addItem, removeItem, updateItem } from "../firebase/crud";
+import { getItems } from "../firebase/crud";
 
 import "./Dashboard.css";
 
@@ -67,6 +67,7 @@ const Dashboard: FC = () => {
   const data = getItems();
   
   useEffect(() => {
+    console.log(data)
   }, [data])
 
   return (
