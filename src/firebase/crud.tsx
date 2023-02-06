@@ -2,10 +2,8 @@ import { useState, useEffect } from "react";
 import { firebaseDB } from "./config";
 import { set, ref, onValue, remove, update } from "@firebase/database";
 import { EventItem } from "../types";
-// import { uid } from "uid";
 
 export const addItem = (item: EventItem) => {
-  // const id = uid();
   set(ref(firebaseDB, `/events/${item.id}`), {
     ...item,
   });
