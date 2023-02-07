@@ -1,4 +1,5 @@
 import React, { FC, useEffect } from "react";
+import { isToday } from "date-fns";
 
 import UserInfo from "./UserInfo/UserInfo";
 import Statistic from "./Statistic/Statistic";
@@ -23,33 +24,6 @@ const statisticMocks = {
   completed: 87,
 };
 
-const eventListTodaysMocks = [
-  {
-    title: "Meeting with John",
-    time: "07:30-11:00",
-    place: "London, Great Street, 18",
-    additional: "Atlant agency",
-    status: "in 15 min",
-  },
-  {
-    title: "Meeting with John",
-    time: "07:30-11:00",
-    place: "London, Great Street, 18",
-    additional: "Atlant agency",
-    status: "Rejected",
-  },
-];
-
-const eventListUpcomingMocks = [
-  {
-    title: "Job Interview",
-    time: "07:30-11:00",
-    place: "London, Great Street, 18",
-    additional: "Atlant agency",
-    status: "October 15",
-  },
-];
-
 const reminderMocks = [
   {
     title: "Call to Maria",
@@ -65,10 +39,17 @@ const reminderMocks = [
 
 const Dashboard: FC = () => {
   const data = getItems();
-  
+
   useEffect(() => {
-    console.log(data)
-  }, [data])
+    console.log(data);
+  }, [data]);
+
+  const eventListTodays = data.filter((item) =>
+    isToday(new Date(item.startDate))
+  );
+  const eventListUpcoming = data.filter(
+    (item) => !isToday(new Date(item.startDate))
+  );
 
   return (
     <div className="content">
@@ -78,8 +59,16 @@ const Dashboard: FC = () => {
       </div>
 
       <div className="event-list">
-        <EventListColumn title="Today's Events" data={eventListTodaysMocks} />
-        <EventListColumn title="Upcoming" data={eventListUpcomingMocks} />
+        {eventListTodays.length !== 0 && (
+          <EventListColumn
+            title="Today's Events"
+            data={eventListTodays}
+            today
+          />
+        )}
+        {eventListUpcoming.length !== 0 && (
+          <EventListColumn title="Upcoming" data={eventListUpcoming} />
+        )}
       </div>
 
       <div className="right-sidebar">

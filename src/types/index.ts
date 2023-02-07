@@ -14,3 +14,8 @@ export enum EventItemStatus {
   Rejected = "rejected",
   Completed = "completed",
 };
+
+export enum EventModalType {
+  Create = "create",
+  Edit = "edit"
+};

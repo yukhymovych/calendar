@@ -13,7 +13,7 @@ export const getItems = () => {
   const [items, setItems] = useState<EventItem[]>([]);
 
   useEffect(() => {
-    onValue(ref(firebaseDB, '/events/'), (snapshot) => {
+    onValue(ref(firebaseDB, "/events/"), (snapshot) => {
       const data = snapshot.val();
       if (data !== null) {
         setItems(data);
@@ -21,7 +21,10 @@ export const getItems = () => {
     });
   }, []);
 
-  return Object.values(items || []);
+  return Object.values(items || []).sort(
+    (a: any, b: any) =>
+      new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+  );
 };
 
 export const removeItem = (item: EventItem) => {
