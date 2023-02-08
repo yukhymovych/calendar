@@ -27,12 +27,12 @@ export const getItems = () => {
   );
 };
 
-export const removeItem = (item: EventItem) => {
-  remove(ref(firebaseDB, `/${item.id}`));
+export const removeItem = (id: string) => {
+  remove(ref(firebaseDB, `/events/${id}`));
 };
 
 export const updateItem = (item: EventItem) => {
-  update(ref(firebaseDB, `/${item.id}`), {
+  update(ref(firebaseDB, `/events/${item.id}`), {
     ...item,
   });
 };

@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from "react";
-import { isToday } from "date-fns";
+import { isToday, isFuture } from "date-fns";
 
 import UserInfo from "./UserInfo/UserInfo";
 import Statistic from "./Statistic/Statistic";
@@ -40,15 +40,16 @@ const reminderMocks = [
 const Dashboard: FC = () => {
   const data = getItems();
 
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   const eventListTodays = data.filter((item) =>
     isToday(new Date(item.startDate))
   );
   const eventListUpcoming = data.filter(
-    (item) => !isToday(new Date(item.startDate))
+    (item) =>
+      !isToday(new Date(item.startDate)) && isFuture(new Date(item.startDate))
   );
 
   return (

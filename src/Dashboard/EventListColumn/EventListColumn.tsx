@@ -2,8 +2,12 @@ import React, { FC, useState } from "react";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PlaceIcon from "@mui/icons-material/Place";
 import ApartmentIcon from "@mui/icons-material/Apartment";
-import { EventItem } from "../../types";
-import { format, formatDistanceToNowStrict } from "date-fns";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import Grid from "@mui/material/Grid";
+import { format, formatDistanceToNowStrict, isPast } from "date-fns";
+import { EventModal, EventRemoveModal } from "../../components";
+import { EventModalType, EventItem } from "../../types";
 import "./EventListColumn.css";
 
 interface EventListColumnProps {
@@ -19,6 +23,36 @@ const EventListColumn: FC<EventListColumnProps> = ({
 }) => {
   const [showAll, setShowAll] = useState(false);
   const showSeeAllButton = data.length > 4;
+  const [openEditModal, setOpenEditModal] = useState(false);
+  const [openRemoveModal, setOpenRemoveModal] = useState(false);
+  const [removeEventId, setRemoveEventId] = useState("");
+  const [initialEventData, setInitialEventData] = useState<EventItem>({
+    id: "",
+    title: "",
+    startDate: "",
+    endDate: "",
+    place: "",
+    additional: "",
+    color: "",
+  });
+
+  const getTodayStartTime = (startDate: string | Date) => {
+    const isPastTime = isPast(new Date(startDate));
+    const todayTime = isPastTime
+      ? formatDistanceToNowStrict(new Date(startDate)) + " ago"
+      : "in " + formatDistanceToNowStrict(new Date(startDate));
+    return today ? todayTime : format(new Date(startDate), "MMMM d");
+  };
+
+  const handleEdit = (item: EventItem) => {
+    setInitialEventData(item);
+    setOpenEditModal(true);
+  };
+
+  const handleRemove = (itemId: string) => {
+    setRemoveEventId(itemId);
+    setOpenRemoveModal(true);
+  };
 
   return (
     <div className="event-list__column">
@@ -39,13 +73,26 @@ const EventListColumn: FC<EventListColumnProps> = ({
           format(new Date(item.startDate), "HH:mm") +
           "-" +
           format(new Date(item.endDate), "HH:mm");
-        const startTime = today
-          ? "in " + formatDistanceToNowStrict(new Date(item.startDate))
-          : format(new Date(item.startDate), "MMMM d");
 
         return (
           <div className="event-list__item">
-            <h2 className="h3">{item.title}</h2>
+            <Grid container justifyContent="space-between">
+              <h2 className="h3">{item.title}</h2>
+              <div className="event-list__button-wrapper">
+                <div
+                  className="event-list__item-button"
+                  onClick={() => handleEdit(item)}
+                >
+                  <EditIcon fontSize="small" />
+                </div>
+                <div
+                  className="event-list__item-button"
+                  onClick={() => handleRemove(item.id)}
+                >
+                  <DeleteIcon fontSize="small" />
+                </div>
+              </div>
+            </Grid>
             <p className="p">
               <AccessTimeIcon fontSize="small" />
               {startEndTimePeriod}
@@ -56,20 +103,29 @@ const EventListColumn: FC<EventListColumnProps> = ({
                 {item.place}
               </p>
             )}
-            <div className="event-list__item-bottom">
-              {item.additional ? (
-                <p className="p">
-                  <ApartmentIcon fontSize="small" />
-                  {item.additional}
-                </p>
-              ) : (
-                <div></div>
-              )}
-              <div className="event-list__item-time">{startTime}</div>
+            {item.additional && (
+              <p className="p">
+                <ApartmentIcon fontSize="small" />
+                {item.additional}
+              </p>
+            )}
+            <div className="event-list__item-time">
+              {getTodayStartTime(item.startDate)}
             </div>
           </div>
         );
       })}
+      <EventModal
+        open={openEditModal}
+        setOpen={setOpenEditModal}
+        type={EventModalType.Edit}
+        initialData={initialEventData}
+      />
+      <EventRemoveModal
+        open={openRemoveModal}
+        setOpen={setOpenRemoveModal}
+        eventId={removeEventId}
+      />
     </div>
   );
 };

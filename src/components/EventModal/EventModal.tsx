@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -8,17 +8,17 @@ import { TextInput, DateTimePickerInput } from "../../components";
 import { useForm } from "react-hook-form";
 import { uid } from "uid";
 import { addItem } from "../../firebase/crud";
-import { format } from "date-fns";
+import { format, addHours } from "date-fns";
 import { EventModalType, EventItem } from "../../types";
 
 interface EventModalProps {
-  staticDatePickerValue: Date;
+  staticDatePickerValue?: Date;
   open: boolean;
   setOpen: (value: boolean) => void;
   type: EventModalType;
   initialData?: EventItem;
 }
-
+// TODO: resolve problem with no showing initial values when editing
 export const EventModal: FC<EventModalProps> = ({
   staticDatePickerValue = new Date(),
   open = false,
@@ -30,13 +30,22 @@ export const EventModal: FC<EventModalProps> = ({
     type === EventModalType.Create ? "Create New Event" : "Edit Event";
   const modalSubmitButtonText =
     type === EventModalType.Create ? "Create" : "Save";
-  const formDefaultValues = {
-    title: null,
-    place: null,
-    additional: null,
-    startDate: staticDatePickerValue,
-    endDate: null,
-  };
+  const formDefaultValues = initialData
+    ? {
+        ...initialData,
+        startDate: new Date(initialData.startDate),
+        endDate: new Date(initialData.endDate),
+      }
+    : ({
+        id: "",
+        title: "",
+        place: "",
+        additional: "",
+        startDate: staticDatePickerValue,
+        endDate: addHours(staticDatePickerValue, 1),
+      } as EventItem);
+
+  console.log(formDefaultValues);
 
   const {
     handleSubmit,
@@ -66,7 +75,6 @@ export const EventModal: FC<EventModalProps> = ({
       startDate: format(data.startDate, "yyyy-MM-dd HH:mm"),
       endDate: format(data.endDate, "yyyy-MM-dd HH:mm"),
       color: null,
-      status: "scheduled",
     };
     addItem(newItem);
     reset();

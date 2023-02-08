@@ -19,7 +19,9 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  line-height: 2;
+  line-height: 1.5;
+  padding-right: 90px;
+  margin: 5px 0;
 }
 .event-list__item-bottom {
   display: flex;
@@ -33,4 +35,19 @@
   display: inline-block;
   padding: 7px 10px;
   border-radius: 6px;
+  float: right;
+  margin-top: -30px;
+}
+.event-list__button-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+.event-list__item-button {
+  cursor: pointer;
+  color: var(--main-gray);
+  transition: 0.2s;
+}
+.event-list__item-button:hover {
+  color: var(--main-blue);
 }
