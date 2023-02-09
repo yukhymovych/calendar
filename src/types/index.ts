@@ -3,9 +3,9 @@ export type EventItem = {
   title: string;
   startDate: string | Date;
   endDate: string | Date;
-  place: string;
-  additional: string;
-  color: string;
+  place?: string | null;
+  additional?: string | null;
+  color: string | null;
 };
 
 export enum EventModalType {

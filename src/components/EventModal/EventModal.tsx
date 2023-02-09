@@ -1,13 +1,13 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { TextInput, DateTimePickerInput } from "../../components";
-import { useForm } from "react-hook-form";
+import TextField from "@mui/material/TextField";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { uid } from "uid";
-import { addItem } from "../../firebase/crud";
+import { addItem, updateItem } from "../../firebase/crud";
 import { format, addHours } from "date-fns";
 import { EventModalType, EventItem } from "../../types";
 
@@ -18,7 +18,7 @@ interface EventModalProps {
   type: EventModalType;
   initialData?: EventItem;
 }
-// TODO: resolve problem with no showing initial values when editing
+
 export const EventModal: FC<EventModalProps> = ({
   staticDatePickerValue = new Date(),
   open = false,
@@ -30,115 +30,132 @@ export const EventModal: FC<EventModalProps> = ({
     type === EventModalType.Create ? "Create New Event" : "Edit Event";
   const modalSubmitButtonText =
     type === EventModalType.Create ? "Create" : "Save";
-  const formDefaultValues = initialData
-    ? {
-        ...initialData,
-        startDate: new Date(initialData.startDate),
-        endDate: new Date(initialData.endDate),
-      }
-    : ({
-        id: "",
-        title: "",
-        place: "",
-        additional: "",
-        startDate: staticDatePickerValue,
-        endDate: addHours(staticDatePickerValue, 1),
-      } as EventItem);
-
-  console.log(formDefaultValues);
-
-  const {
-    handleSubmit,
-    reset,
-    control,
-    formState: { errors, isValid },
-  } = useForm({
-    defaultValues: formDefaultValues,
-  });
-
-  const handleClose = () => {
-    setOpen(false);
-    reset();
+  const formDefaultValue = {
+    title: "",
+    place: "",
+    additional: "",
+    startDate: staticDatePickerValue,
+    endDate: addHours(staticDatePickerValue, 1),
   };
+  const [formData, setFormData] = useState(formDefaultValue);
 
-  const handleSubmitButton = () => {
-    if (isValid) {
-      setOpen(false);
+  const setDefaultData = () => {
+    if (initialData) {
+      const { id, color, ...data } = initialData;
+      setFormData(data as any);
+    } else {
+      setFormData(formDefaultValue);
     }
   };
 
-  const onSubmit = (data: any) => {
-    const itemId = uid();
-    const newItem = {
-      ...data,
-      id: itemId,
-      startDate: format(data.startDate, "yyyy-MM-dd HH:mm"),
-      endDate: format(data.endDate, "yyyy-MM-dd HH:mm"),
-      color: null,
-    };
-    addItem(newItem);
-    reset();
+  useEffect(() => {
+    setDefaultData();
+  }, [initialData]);
+
+  const handleClose = () => {
+    setOpen(false);
+    setDefaultData();
+  };
+
+  const handleSubmitButton = () => {
+    setOpen(false);
+  };
+
+  const handleOnSubmit = (e: any) => {
+    e.preventDefault();
+    if (type === EventModalType.Create) {
+      const itemId = uid();
+      const newItem = {
+        id: itemId,
+        title: formData.title,
+        place: formData.place || null,
+        additional: formData.additional || null,
+        startDate: format(formData.startDate, "yyyy-MM-dd HH:mm"),
+        endDate: format(formData.endDate, "yyyy-MM-dd HH:mm"),
+        color: null,
+      };
+      addItem(newItem);
+    } else {
+      const editedItem = {
+        ...initialData,
+        ...formData,
+        id: initialData && initialData.id || "",
+        startDate: format(new Date(formData.startDate), "yyyy-MM-dd HH:mm"),
+        endDate: format(new Date(formData.endDate), "yyyy-MM-dd HH:mm"),
+        color: null,
+      };
+      console.log(editedItem);
+      updateItem(editedItem);
+    }
+  };
+
+  const handleChange = (data: any) => {
+    setFormData({
+      ...formData,
+      [data.target.name]: data.target.value,
+    });
   };
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleOnSubmit}>
         <DialogTitle>{modalTitleText}</DialogTitle>
         <DialogContent>
-          <TextInput
+          <TextField
             name="title"
             label="Title"
-            control={control}
             type="text"
             margin="dense"
             fullWidth
             variant="standard"
-            isRequired
-            autoFocus
+            onChange={handleChange}
+            value={formData.title}
+            required
           />
-          {errors.title && errors.title.type === "required" && (
-            <p>Title is required</p>
-          )}
-          <TextInput
+          <TextField
             name="place"
             label="Place"
-            control={control}
             type="text"
             margin="dense"
             fullWidth
             variant="standard"
-            autoFocus
+            onChange={handleChange}
+            value={formData.place}
           />
-          <TextInput
+          <TextField
             name="additional"
             label="Additional description"
-            control={control}
             type="text"
             margin="dense"
             fullWidth
             variant="standard"
-            autoFocus
+            onChange={handleChange}
+            value={formData.additional}
           />
-          <DateTimePickerInput
-            name="startDate"
+          <DateTimePicker
+            renderInput={(innerProps) => <TextField {...innerProps} />}
             label="Start Date"
-            control={control}
+            value={formData.startDate}
+            onChange={(data) =>
+              setFormData({
+                ...formData,
+                startDate: data as Date,
+              })
+            }
             ampm={false}
-            isRequired
           />
-          {errors.startDate && errors.startDate.type === "required" && (
-            <p>Start date is required</p>
-          )}
-          <DateTimePickerInput
-            name="endDate"
+          <DateTimePicker
+            renderInput={(innerProps) => <TextField {...innerProps} />}
             label="End Date"
-            control={control}
+            value={formData.endDate}
+            onChange={(data) =>
+              setFormData({
+                ...formData,
+                endDate: data as Date,
+              })
+            }
             ampm={false}
-            isRequired
           />
-          {errors.endDate && errors.endDate.type === "required" && (
-            <p>End date is required</p>
-          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
