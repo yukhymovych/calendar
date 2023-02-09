@@ -9,7 +9,7 @@ export const addItem = (item: EventItem) => {
   });
 };
 
-export const getItems = () => {
+export const useGetItems = () => {
   const [items, setItems] = useState<EventItem[]>([]);
 
   useEffect(() => {

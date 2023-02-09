@@ -37,6 +37,7 @@ export const EventModal: FC<EventModalProps> = ({
     startDate: staticDatePickerValue,
     endDate: addHours(staticDatePickerValue, 1),
   };
+
   const [formData, setFormData] = useState(formDefaultValue);
 
   const setDefaultData = () => {

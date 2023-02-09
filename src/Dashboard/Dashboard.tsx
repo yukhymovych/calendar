@@ -6,7 +6,7 @@ import Statistic from "./Statistic/Statistic";
 import EventListColumn from "./EventListColumn/EventListColumn";
 import Reminder from "./Reminder/Reminder";
 import SidebarDatepicker from "./SidebarDatepicker/SidebarDatepicker";
-import { getItems } from "../firebase/crud";
+import { useGetItems } from "../firebase/crud";
 
 import "./Dashboard.css";
 
@@ -38,7 +38,7 @@ const reminderMocks = [
 ];
 
 const Dashboard: FC = () => {
-  const data = getItems();
+  const data = useGetItems();
 
   // useEffect(() => {
   //   console.log(data);
