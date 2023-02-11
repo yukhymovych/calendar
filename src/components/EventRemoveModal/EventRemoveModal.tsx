@@ -9,12 +9,14 @@ import { removeItem } from "../../firebase/crud";
 interface EventRemoveModalProps {
   open: boolean;
   setOpen: (value: boolean) => void;
+  callback?: () => void;
   eventId: string;
 }
 
 export const EventRemoveModal: FC<EventRemoveModalProps> = ({
   open = false,
   setOpen,
+  callback,
   eventId,
 }) => {
   const handleClose = () => {
@@ -22,13 +24,16 @@ export const EventRemoveModal: FC<EventRemoveModalProps> = ({
   };
 
   const handleSubmit = () => {
+    if (callback) {
+      callback();
+    }
     removeItem(eventId);
     setOpen(false);
   };
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>Delete Event</DialogTitle>
+      <DialogTitle>Remove Event</DialogTitle>
       <DialogContent>Are you sure you want to remove this event?</DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>No</Button>

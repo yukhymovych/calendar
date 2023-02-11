@@ -10,6 +10,7 @@ import { uid } from "uid";
 import { addItem, updateItem } from "../../firebase/crud";
 import { format, addHours } from "date-fns";
 import { EventModalType, EventItem } from "../../types";
+import { EventRemoveModal } from "../EventRemoveModal/EventRemoveModal";
 
 interface EventModalProps {
   staticDatePickerValue?: Date;
@@ -17,6 +18,7 @@ interface EventModalProps {
   setOpen: (value: boolean) => void;
   type: EventModalType;
   initialData?: EventItem;
+  removeButton?: boolean;
 }
 
 export const EventModal: FC<EventModalProps> = ({
@@ -25,7 +27,9 @@ export const EventModal: FC<EventModalProps> = ({
   setOpen,
   type = EventModalType.Create,
   initialData,
+  removeButton = false,
 }) => {
+  const [openRemoveModal, setOpenRemoveModal] = useState(false);
   const modalTitleText =
     type === EventModalType.Create ? "Create New Event" : "Edit Event";
   const modalSubmitButtonText =
@@ -80,12 +84,11 @@ export const EventModal: FC<EventModalProps> = ({
       const editedItem = {
         ...initialData,
         ...formData,
-        id: initialData && initialData.id || "",
+        id: initialData?.id || "",
         startDate: format(new Date(formData.startDate), "yyyy-MM-dd HH:mm"),
         endDate: format(new Date(formData.endDate), "yyyy-MM-dd HH:mm"),
         color: null,
       };
-      console.log(editedItem);
       updateItem(editedItem);
     }
   };
@@ -95,6 +98,10 @@ export const EventModal: FC<EventModalProps> = ({
       ...formData,
       [data.target.name]: data.target.value,
     });
+  };
+
+  const handleRemove = () => {
+    setOpenRemoveModal(true);
   };
 
   return (
@@ -160,11 +167,20 @@ export const EventModal: FC<EventModalProps> = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
+          {removeButton && <Button onClick={handleRemove}>Remove event</Button>}
           <Button onClick={handleSubmitButton} type="submit">
             {modalSubmitButtonText}
           </Button>
         </DialogActions>
       </form>
+      {removeButton && (
+        <EventRemoveModal
+          open={openRemoveModal}
+          setOpen={setOpenRemoveModal}
+          eventId={initialData?.id || ""}
+          callback={() => setOpen(false)}
+        />
+      )}
     </Dialog>
   );
 };

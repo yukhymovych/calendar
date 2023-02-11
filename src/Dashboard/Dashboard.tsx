@@ -40,10 +40,6 @@ const reminderMocks = [
 const Dashboard: FC = () => {
   const data = useGetItems();
 
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
-
   const eventListTodays = data.filter((item) =>
     isToday(new Date(item.startDate))
   );
