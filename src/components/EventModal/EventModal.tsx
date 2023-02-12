@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useMemo } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -13,7 +13,7 @@ import { EventModalType, EventItem } from "../../types";
 import { EventRemoveModal } from "../EventRemoveModal/EventRemoveModal";
 
 interface EventModalProps {
-  staticDatePickerValue?: Date;
+  defaultStartDate?: Date;
   open: boolean;
   setOpen: (value: boolean) => void;
   type: EventModalType;
@@ -22,7 +22,7 @@ interface EventModalProps {
 }
 
 export const EventModal: FC<EventModalProps> = ({
-  staticDatePickerValue = new Date(),
+  defaultStartDate = new Date(),
   open = false,
   setOpen,
   type = EventModalType.Create,
@@ -34,13 +34,15 @@ export const EventModal: FC<EventModalProps> = ({
     type === EventModalType.Create ? "Create New Event" : "Edit Event";
   const modalSubmitButtonText =
     type === EventModalType.Create ? "Create" : "Save";
-  const formDefaultValue = {
-    title: "",
-    place: "",
-    additional: "",
-    startDate: staticDatePickerValue,
-    endDate: addHours(staticDatePickerValue, 1),
-  };
+  const formDefaultValue = useMemo(() => {
+    return {
+      title: "",
+      place: "",
+      additional: "",
+      startDate: defaultStartDate,
+      endDate: addHours(defaultStartDate, 1),
+    };
+  }, [defaultStartDate]);
 
   const [formData, setFormData] = useState(formDefaultValue);
 
@@ -54,8 +56,17 @@ export const EventModal: FC<EventModalProps> = ({
   };
 
   useEffect(() => {
-    setDefaultData();
+    if (initialData) {
+      const { id, color, ...data } = initialData;
+      setFormData(data as any);
+    }
   }, [initialData]);
+
+  useEffect(() => {
+    if (!initialData && type === EventModalType.Create) {
+      setFormData(formDefaultValue);
+    }
+  }, [type, formDefaultValue, initialData]);
 
   const handleClose = () => {
     setOpen(false);

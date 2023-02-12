@@ -6,7 +6,7 @@ import { EventModalType } from "../../types";
 import "./SidebarDatepicker.css";
 
 const UserInfo: FC = () => {
-  const [staticDatePickerValue, setStaticDatepickerValue] = useState<Date>(
+  const [defaultStartDate, setDefaultStartDate] = useState<Date>(
     new Date()
   );
   const [open, setOpen] = useState(false);
@@ -21,9 +21,9 @@ const UserInfo: FC = () => {
         <StaticDatePicker
           orientation="portrait"
           openTo="day"
-          value={staticDatePickerValue}
+          value={defaultStartDate}
           onChange={(newValue) => {
-            setStaticDatepickerValue(newValue as Date);
+            setDefaultStartDate(newValue as Date);
           }}
           renderInput={(params) => <TextField {...params} />}
         />
@@ -34,7 +34,7 @@ const UserInfo: FC = () => {
       <EventModal
         open={open}
         setOpen={setOpen}
-        staticDatePickerValue={staticDatePickerValue}
+        defaultStartDate={defaultStartDate}
         type={EventModalType.Create}
       />
     </>

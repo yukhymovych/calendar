@@ -9,13 +9,7 @@ import SidebarDatepicker from "./SidebarDatepicker/SidebarDatepicker";
 import { useGetItems } from "../firebase/crud";
 
 import "./Dashboard.css";
-
-const userInfoMocks = {
-  fullDate: "Saturday, October 14, 07:00",
-  name: "Anatolii",
-  today: 1,
-  upcoming: 7,
-};
+import { format } from "date-fns";
 
 const statisticMocks = {
   scheduled: 24,
@@ -47,11 +41,17 @@ const Dashboard: FC = () => {
     (item) =>
       !isToday(new Date(item.startDate)) && isFuture(new Date(item.startDate))
   );
+  const userInfo = {
+    fullDate: format(new Date(), "cccc, MMMM d, H:mm"),
+    name: "Anatolii",
+    today: eventListTodays.length,
+    upcoming: eventListUpcoming.length,
+  };
 
   return (
     <div className="content">
       <div className="left-sidebar">
-        <UserInfo data={userInfoMocks} />
+        <UserInfo data={userInfo} />
         <Statistic data={statisticMocks} />
       </div>
 

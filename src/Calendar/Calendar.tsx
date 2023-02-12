@@ -15,6 +15,8 @@ const Calendar: FC = () => {
   const [eventForEdit, setEventForEdit] = useState<EventItem | undefined>(
     undefined
   );
+  const [eventModalType, setEventModalType] = useState(EventModalType.Edit);
+  const [createStartDate, setCreateStartDate] = useState(new Date());
 
   const rawData = useGetItems();
 
@@ -28,6 +30,7 @@ const Calendar: FC = () => {
   });
 
   const handleEventClick = (data: any) => {
+    setEventModalType(EventModalType.Edit);
     const event =
       rawData.find((item: EventItem) => item.id === data.event.id) || undefined;
     setEventForEdit(event);
@@ -49,8 +52,10 @@ const Calendar: FC = () => {
     updateItem(editedEvent);
   };
 
-  const handleDateClick = (data: any) => {
-    console.log("date click", data);
+  const handleDateCellClick = (data: any) => {
+    setCreateStartDate(data.date);
+    setEventModalType(EventModalType.Create);
+    setOpenEditModal(true);
   };
 
   return (
@@ -58,7 +63,7 @@ const Calendar: FC = () => {
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
         initialView="dayGridMonth" //dayGridMonth, timeGridWeek, listWeek, dayGridWeek
-        dateClick={handleDateClick}
+        dateClick={handleDateCellClick}
         eventClick={handleEventClick}
         eventDrop={handleEventDrop}
         editable={true}
@@ -74,9 +79,14 @@ const Calendar: FC = () => {
       <EventModal
         open={openEditModal}
         setOpen={setOpenEditModal}
-        type={EventModalType.Edit}
-        initialData={eventForEdit}
-        removeButton
+        type={eventModalType}
+        initialData={
+          eventModalType === EventModalType.Edit ? eventForEdit : undefined
+        }
+        defaultStartDate={
+          eventModalType === EventModalType.Create ? createStartDate : undefined
+        }
+        removeButton={eventModalType === EventModalType.Edit}
       />
     </>
   );
