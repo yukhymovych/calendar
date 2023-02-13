@@ -5,12 +5,14 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
+import Grid from "@mui/material/Grid";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { uid } from "uid";
 import { addItem, updateItem } from "../../firebase/crud";
 import { format, addHours } from "date-fns";
 import { EventModalType, EventItem } from "../../types";
 import { EventRemoveModal } from "../EventRemoveModal/EventRemoveModal";
+import { SelectColor } from "../SelectColor/SelectColor";
 
 interface EventModalProps {
   defaultStartDate?: Date;
@@ -41,6 +43,7 @@ export const EventModal: FC<EventModalProps> = ({
       additional: "",
       startDate: defaultStartDate,
       endDate: addHours(defaultStartDate, 1),
+      color: null,
     };
   }, [defaultStartDate]);
 
@@ -88,7 +91,7 @@ export const EventModal: FC<EventModalProps> = ({
         additional: formData.additional || null,
         startDate: format(formData.startDate, "yyyy-MM-dd HH:mm"),
         endDate: format(formData.endDate, "yyyy-MM-dd HH:mm"),
-        color: null,
+        color: formData.color,
       };
       addItem(newItem);
     } else {
@@ -98,7 +101,6 @@ export const EventModal: FC<EventModalProps> = ({
         id: initialData?.id || "",
         startDate: format(new Date(formData.startDate), "yyyy-MM-dd HH:mm"),
         endDate: format(new Date(formData.endDate), "yyyy-MM-dd HH:mm"),
-        color: null,
       };
       updateItem(editedItem);
     }
@@ -151,30 +153,45 @@ export const EventModal: FC<EventModalProps> = ({
             onChange={handleChange}
             value={formData.additional}
           />
-          <DateTimePicker
-            renderInput={(innerProps) => <TextField {...innerProps} />}
-            label="Start Date"
-            value={formData.startDate}
+          <SelectColor
+            defaultValue={initialData?.color || ""}
             onChange={(data) =>
               setFormData({
                 ...formData,
-                startDate: data as Date,
+                color: data.target.value,
               })
             }
-            ampm={false}
           />
-          <DateTimePicker
-            renderInput={(innerProps) => <TextField {...innerProps} />}
-            label="End Date"
-            value={formData.endDate}
-            onChange={(data) =>
-              setFormData({
-                ...formData,
-                endDate: data as Date,
-              })
-            }
-            ampm={false}
-          />
+          <Grid container mt="30px" justifyContent="space-between">
+            <Grid>
+              <DateTimePicker
+                renderInput={(innerProps) => <TextField {...innerProps} />}
+                label="Start Date"
+                value={formData.startDate}
+                onChange={(data) =>
+                  setFormData({
+                    ...formData,
+                    startDate: data as Date,
+                  })
+                }
+                ampm={false}
+              />
+            </Grid>
+            <Grid>
+              <DateTimePicker
+                renderInput={(innerProps) => <TextField {...innerProps} />}
+                label="End Date"
+                value={formData.endDate}
+                onChange={(data) =>
+                  setFormData({
+                    ...formData,
+                    endDate: data as Date,
+                  })
+                }
+                ampm={false}
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>

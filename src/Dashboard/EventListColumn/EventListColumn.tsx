@@ -8,6 +8,9 @@ import Grid from "@mui/material/Grid";
 import { format, formatDistanceToNowStrict, isPast } from "date-fns";
 import { EventModal, EventRemoveModal } from "../../components";
 import { EventModalType, EventItem } from "../../types";
+import { TransitionGroup } from "react-transition-group";
+import Collapse from "@mui/material/Collapse";
+import { colorOptions } from "../../components/SelectColor/colors";
 import "./EventListColumn.css";
 
 interface EventListColumnProps {
@@ -59,62 +62,73 @@ const EventListColumn: FC<EventListColumnProps> = ({
       <div className="event-list__top">
         <h2 className="h2">{title}</h2>
         {showSeeAllButton && (
-          <a
-            className="link active"
-            href="#"
-            onClick={() => setShowAll(!showAll)}
-          >
+          <span className="link active" onClick={() => setShowAll(!showAll)}>
             {showAll ? "Collapse" : "See All"}
-          </a>
+          </span>
         )}
       </div>
-      {data.slice(0, showAll ? data.length : 4).map((item) => {
-        const startEndTimePeriod =
-          format(new Date(item.startDate), "HH:mm") +
-          "-" +
-          format(new Date(item.endDate), "HH:mm");
+      <TransitionGroup>
+        {data.slice(0, showAll ? data.length : 4).map((event) => {
+          const startEndTimePeriod =
+            format(new Date(event.startDate), "HH:mm") +
+            "-" +
+            format(new Date(event.endDate), "HH:mm");
+          const colorPalette = colorOptions.find(
+            (color) => color.value === event.color
+          );
 
-        return (
-          <div className="event-list__item">
-            <Grid container justifyContent="space-between">
-              <h2 className="h3">{item.title}</h2>
-              <div className="event-list__button-wrapper">
+          return (
+            <Collapse key={event.id}>
+              <div className="event-list__item">
+                <Grid container justifyContent="space-between">
+                  <h2 className="h3" style={{ color: colorPalette?.value }}>
+                    {event.title}
+                  </h2>
+                  <div className="event-list__button-wrapper">
+                    <div
+                      className="event-list__item-button"
+                      onClick={() => handleEdit(event)}
+                    >
+                      <EditIcon fontSize="small" />
+                    </div>
+                    <div
+                      className="event-list__item-button"
+                      onClick={() => handleRemove(event.id)}
+                    >
+                      <DeleteIcon fontSize="small" />
+                    </div>
+                  </div>
+                </Grid>
+                <p className="p">
+                  <AccessTimeIcon fontSize="small" />
+                  {startEndTimePeriod}
+                </p>
+                {event.place && (
+                  <p className="p">
+                    <PlaceIcon fontSize="small" />
+                    {event.place}
+                  </p>
+                )}
+                {event.additional && (
+                  <p className="p">
+                    <ApartmentIcon fontSize="small" />
+                    {event.additional}
+                  </p>
+                )}
                 <div
-                  className="event-list__item-button"
-                  onClick={() => handleEdit(item)}
+                  className="event-list__item-time"
+                  style={{
+                    color: colorPalette?.value,
+                    backgroundColor: colorPalette?.secondary,
+                  }}
                 >
-                  <EditIcon fontSize="small" />
-                </div>
-                <div
-                  className="event-list__item-button"
-                  onClick={() => handleRemove(item.id)}
-                >
-                  <DeleteIcon fontSize="small" />
+                  {getTodayStartTime(event.startDate)}
                 </div>
               </div>
-            </Grid>
-            <p className="p">
-              <AccessTimeIcon fontSize="small" />
-              {startEndTimePeriod}
-            </p>
-            {item.place && (
-              <p className="p">
-                <PlaceIcon fontSize="small" />
-                {item.place}
-              </p>
-            )}
-            {item.additional && (
-              <p className="p">
-                <ApartmentIcon fontSize="small" />
-                {item.additional}
-              </p>
-            )}
-            <div className="event-list__item-time">
-              {getTodayStartTime(item.startDate)}
-            </div>
-          </div>
-        );
-      })}
+            </Collapse>
+          );
+        })}
+      </TransitionGroup>
       <EventModal
         open={openEditModal}
         setOpen={setOpenEditModal}

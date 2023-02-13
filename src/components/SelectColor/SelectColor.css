@@ -1,0 +1,10 @@
+.color-selector-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-box {
+  height: 15px;
+  width: 15px;
+}

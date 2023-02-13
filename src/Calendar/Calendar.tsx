@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useRef } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -17,6 +17,7 @@ const Calendar: FC = () => {
   );
   const [eventModalType, setEventModalType] = useState(EventModalType.Edit);
   const [createStartDate, setCreateStartDate] = useState(new Date());
+  const calendarRef = useRef<FullCalendar | null>(null);
 
   const rawData = useGetItems();
 
@@ -26,6 +27,7 @@ const Calendar: FC = () => {
       title: item.title,
       start: item.startDate,
       end: item.endDate,
+      color: item.color || "",
     };
   });
 
@@ -61,7 +63,12 @@ const Calendar: FC = () => {
   return (
     <>
       <FullCalendar
+        ref={calendarRef}
         plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
+        headerToolbar={{
+          left: "title",
+          right: "dayGridMonth,listWeek,dayGridWeek,today,prev,next",
+        }}
         initialView="dayGridMonth" //dayGridMonth, timeGridWeek, listWeek, dayGridWeek
         dateClick={handleDateCellClick}
         eventClick={handleEventClick}

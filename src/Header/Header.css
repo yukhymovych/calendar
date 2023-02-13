@@ -16,6 +16,7 @@
   gap: 50px;
 }
 .link {
+  cursor: pointer;
   color: var(--main-gray);
   font-size: 16px;
   font-weight: 700;
