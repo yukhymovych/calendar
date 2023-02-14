@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Header.css";
 
-const Header: FC = () => {
+export const Header: FC = () => {
   const { pathname } = useLocation();
   const isActiveDashboard = pathname === "/";
   const isActiveCalendar = pathname === "/calendar";
@@ -27,5 +27,3 @@ const Header: FC = () => {
     </div>
   );
 };
-
-export default Header;
