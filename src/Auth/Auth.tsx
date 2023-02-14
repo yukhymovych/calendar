@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
@@ -9,31 +9,18 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebase/config";
+import { useAuthContext } from "../Context/AuthProvider";
 
 const Auth = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState<any>([]);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  useEffect(() => {
-    auth.onAuthStateChanged((user) => {
-      setUser(user);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (user?.email) {
-      setIsLoggedIn(true);
-    }
-  }, [user]);
+  const { user, isLoggedIn } = useAuthContext();
 
   const handleLogin = async () => {
     await signInWithEmailAndPassword(auth, login, password)
       .then(() => {
         setLogin("");
         setPassword("");
-        setIsLoggedIn(true);
       })
       .catch((error) => {
         console.log("Login error: ", error);
@@ -42,7 +29,6 @@ const Auth = () => {
 
   const handleLogout = async () => {
     signOut(auth).catch((error) => console.log("Log out error: ", error));
-    setIsLoggedIn(false);
   };
 
   const handleRegister = async () => {
@@ -50,7 +36,6 @@ const Auth = () => {
       .then(() => {
         setLogin("");
         setPassword("");
-        setIsLoggedIn(true);
       })
       .catch((error) => {
         console.log("Register error: ", error);
@@ -60,7 +45,7 @@ const Auth = () => {
   return (
     <Grid container sx={{ justifyContent: "center" }}>
       <Box sx={{ width: 300, textAlign: "center" }}>
-        <h2 className="h2">{isLoggedIn ? user.email : "Authentification"}</h2>
+        <h2 className="h2">{isLoggedIn ? `You've been logged in via ${user?.email}` : "Authentification"}</h2>
         {!isLoggedIn && (
           <>
             <TextField

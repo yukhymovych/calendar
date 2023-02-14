@@ -13,6 +13,7 @@ import { format, addHours } from "date-fns";
 import { EventModalType, EventItem } from "../../types";
 import { EventRemoveModal } from "../EventRemoveModal/EventRemoveModal";
 import { SelectColor } from "../SelectColor/SelectColor";
+import { useAuthContext } from "../../Context/AuthProvider";
 
 interface EventModalProps {
   defaultStartDate?: Date;
@@ -31,6 +32,7 @@ export const EventModal: FC<EventModalProps> = ({
   initialData,
   removeButton = false,
 }) => {
+  const { user } = useAuthContext();
   const [openRemoveModal, setOpenRemoveModal] = useState(false);
   const modalTitleText =
     type === EventModalType.Create ? "Create New Event" : "Edit Event";
@@ -93,7 +95,7 @@ export const EventModal: FC<EventModalProps> = ({
         endDate: format(formData.endDate, "yyyy-MM-dd HH:mm"),
         color: formData.color,
       };
-      addItem(newItem);
+      addItem(newItem, user?.uid);
     } else {
       const editedItem = {
         ...initialData,
@@ -102,7 +104,7 @@ export const EventModal: FC<EventModalProps> = ({
         startDate: format(new Date(formData.startDate), "yyyy-MM-dd HH:mm"),
         endDate: format(new Date(formData.endDate), "yyyy-MM-dd HH:mm"),
       };
-      updateItem(editedItem);
+      updateItem(editedItem, user?.uid);
     }
   };
 

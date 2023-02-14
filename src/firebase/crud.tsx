@@ -2,24 +2,26 @@ import { useState, useEffect } from "react";
 import { firebaseDB } from "./config";
 import { set, ref, onValue, remove, update } from "@firebase/database";
 import { EventItem } from "../types";
+import { useAuthContext } from "../Context/AuthProvider";
 
-export const addItem = (item: EventItem) => {
-  set(ref(firebaseDB, `/events/${item.id}`), {
+export const addItem = (item: EventItem, userId: string) => {
+  set(ref(firebaseDB, `/${userId}/events/${item.id}`), {
     ...item,
   });
 };
 
 export const useGetItems = () => {
+  const { user } = useAuthContext();
   const [items, setItems] = useState<EventItem[]>([]);
-
+  
   useEffect(() => {
-    onValue(ref(firebaseDB, "/events/"), (snapshot) => {
+    onValue(ref(firebaseDB, `/${user?.uid}/events/`), (snapshot) => {
       const data = snapshot.val();
       if (data !== null) {
         setItems(data);
       }
     });
-  }, []);
+  }, [user?.uid]);
 
   return Object.values(items || []).sort(
     (a: any, b: any) =>
@@ -27,12 +29,12 @@ export const useGetItems = () => {
   );
 };
 
-export const removeItem = (id: string) => {
-  remove(ref(firebaseDB, `/events/${id}`));
+export const removeItem = (id: string, userId: string) => {
+  remove(ref(firebaseDB, `/${userId}/events/${id}`));
 };
 
-export const updateItem = (item: EventItem) => {
-  update(ref(firebaseDB, `/events/${item.id}`), {
+export const updateItem = (item: EventItem, userId: string) => {
+  update(ref(firebaseDB, `/${userId}/events/${item.id}`), {
     ...item,
   });
 };

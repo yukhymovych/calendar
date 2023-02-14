@@ -5,6 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { removeItem } from "../../firebase/crud";
+import { useAuthContext } from "../../Context/AuthProvider";
 
 interface EventRemoveModalProps {
   open: boolean;
@@ -19,6 +20,8 @@ export const EventRemoveModal: FC<EventRemoveModalProps> = ({
   callback,
   eventId,
 }) => {
+  const { user } = useAuthContext();
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -27,7 +30,7 @@ export const EventRemoveModal: FC<EventRemoveModalProps> = ({
     if (callback) {
       callback();
     }
-    removeItem(eventId);
+    removeItem(eventId, user?.uid);
     setOpen(false);
   };
 

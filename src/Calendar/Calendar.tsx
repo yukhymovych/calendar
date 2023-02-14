@@ -9,8 +9,10 @@ import { EventItem, EventModalType } from "../types";
 import { EventModal } from "../components";
 import "./Calendar.css";
 import { format } from "date-fns";
+import { useAuthContext } from "../Context/AuthProvider";
 
 const Calendar: FC = () => {
+  const { user } = useAuthContext();
   const [openEditModal, setOpenEditModal] = useState(false);
   const [eventForEdit, setEventForEdit] = useState<EventItem | undefined>(
     undefined
@@ -51,7 +53,7 @@ const Calendar: FC = () => {
       endDate: format(data.event.end, "yyyy-MM-dd HH:mm"),
       color: event?.color || null,
     };
-    updateItem(editedEvent);
+    updateItem(editedEvent, user?.uid);
   };
 
   const handleDateCellClick = (data: any) => {
