@@ -1,12 +1,10 @@
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
-
-import "./UserInfo.css";
+import { Link } from "react-router-dom";import "./UserInfo.css";
 
 interface UserInfoProps {
   data: {
     fullDate: string;
-    name: string;
+    name: string | null;
     today: number;
     upcoming: number;
   };
@@ -21,7 +19,7 @@ const UserInfo: FC<UserInfoProps> = ({ data }) => {
         <p className="p big-p">{fullDate}</p>
       </div>
       <div className="user-info__greeting">
-        <h2 className="h2">Hi, {name}</h2>
+        <h2 className="h2">{name ? `Hi, ${name}!` : "Hi there!"}</h2>
       </div>
       <div className="user-info__planned">
         <p className="p">You have:</p>

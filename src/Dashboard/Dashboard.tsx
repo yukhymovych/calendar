@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from "react";
 import { isToday, isFuture } from "date-fns";
-
+import { useAuthContext } from "../Context/AuthProvider";
 import UserInfo from "./UserInfo/UserInfo";
 import Statistic from "./Statistic/Statistic";
 import EventListColumn from "./EventListColumn/EventListColumn";
@@ -33,6 +33,7 @@ const reminderMocks = [
 
 const Dashboard: FC = () => {
   const data = useGetItems();
+  const { user } = useAuthContext();
 
   const eventListTodays = data.filter((item) =>
     isToday(new Date(item.startDate))
@@ -43,7 +44,7 @@ const Dashboard: FC = () => {
   );
   const userInfo = {
     fullDate: format(new Date(), "cccc, MMMM d, H:mm"),
-    name: "Anatolii",
+    name: user?.displayName || null,
     today: eventListTodays.length,
     upcoming: eventListUpcoming.length,
   };
