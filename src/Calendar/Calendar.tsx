@@ -8,7 +8,7 @@ import { updateItem, useGetItems } from "../firebase/crud";
 import { EventItem, EventModalType } from "../types";
 import { EventModal } from "../components";
 import "./Calendar.css";
-import { format } from "date-fns";
+import { format, addHours } from "date-fns";
 import { useAuthContext } from "../Context/AuthProvider";
 
 const Calendar: FC = () => {
@@ -45,16 +45,21 @@ const Calendar: FC = () => {
   const handleEventDrop = (data: any) => {
     const event =
       rawData.find((item: EventItem) => item.id === data.event.id) || undefined;
+    console.log(data.event.start, data.event.end);
     const editedEvent = {
       id: event?.id || "",
       title: event?.title || "",
       place: event?.place || null,
       additional: event?.additional || null,
       startDate: format(data.event.start, "yyyy-MM-dd HH:mm"),
-      endDate: format(data.event.end, "yyyy-MM-dd HH:mm"),
+      endDate: format(
+        data.event.end || addHours(data.event.start, 1),
+        "yyyy-MM-dd HH:mm"
+      ),
       color: event?.color || null,
       isAllDayEvent: event?.isAllDayEvent || false,
     };
+    console.log(editedEvent);
     updateItem(editedEvent, user?.uid);
   };
 

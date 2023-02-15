@@ -5,7 +5,13 @@ import ApartmentIcon from "@mui/icons-material/Apartment";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import Grid from "@mui/material/Grid";
-import { format, formatDistanceToNowStrict, isPast } from "date-fns";
+import {
+  differenceInCalendarDays,
+  eachDayOfInterval,
+  format,
+  formatDistanceToNowStrict,
+  isPast,
+} from "date-fns";
 import { EventModal, EventRemoveModal } from "../../components";
 import { EventModalType, EventItem } from "../../types";
 import { TransitionGroup } from "react-transition-group";
@@ -48,6 +54,24 @@ const EventListColumn: FC<EventListColumnProps> = ({
     return today ? todayTime : format(new Date(startDate), "MMMM d");
   };
 
+  const getTimeRange = (event: EventItem, daysAmountInRange: number) => {
+    if (event.isAllDayEvent) return "All day";
+    if (daysAmountInRange > 1) {
+      return (
+        format(new Date(event.startDate), "MMM.dd, HH:mm") +
+        " to " +
+        format(new Date(event.endDate), "MMM.dd, HH:mm")
+      );
+    }
+
+    const startEndTimePeriod =
+      format(new Date(event.startDate), "HH:mm") +
+      "-" +
+      format(new Date(event.endDate), "HH:mm");
+
+    return startEndTimePeriod;
+  };
+
   const handleEdit = (item: EventItem) => {
     setInitialEventData(item);
     setOpenEditModal(true);
@@ -69,11 +93,13 @@ const EventListColumn: FC<EventListColumnProps> = ({
         )}
       </div>
       <TransitionGroup>
-        {data.slice(0, showAll ? data.length : 4).map((event) => {
-          const startEndTimePeriod =
-            format(new Date(event.startDate), "HH:mm") +
-            "-" +
-            format(new Date(event.endDate), "HH:mm");
+        {data.slice(0, showAll ? data.length : 4).map((event: EventItem) => {
+          const daysAmountInRange = eachDayOfInterval({
+            start: new Date(event.startDate),
+            end: new Date(event.endDate),
+          }).length;
+          const dayOfRange =
+            differenceInCalendarDays(new Date(), new Date(event.startDate)) + 1;
           const colorPalette = colorOptions.find(
             (color) => color.value === event.color
           );
@@ -83,7 +109,10 @@ const EventListColumn: FC<EventListColumnProps> = ({
               <div className="event-list__item">
                 <Grid container justifyContent="space-between">
                   <h2 className="h3" style={{ color: colorPalette?.value }}>
-                    {event.title}
+                    {event.title}{" "}
+                    {today &&
+                      daysAmountInRange > 1 &&
+                      `(${dayOfRange} of ${daysAmountInRange} days )`}
                   </h2>
                   <div className="event-list__button-wrapper">
                     <div
@@ -102,7 +131,7 @@ const EventListColumn: FC<EventListColumnProps> = ({
                 </Grid>
                 <p className="p">
                   <AccessTimeIcon fontSize="small" />
-                  {event.isAllDayEvent ? "All day" : startEndTimePeriod}
+                  {getTimeRange(event, daysAmountInRange)}
                 </p>
                 {event.place && (
                   <p className="p">

@@ -1,5 +1,12 @@
-import React, { FC, useEffect } from "react";
-import { isToday, isFuture } from "date-fns";
+import React, { FC } from "react";
+import {
+  isToday,
+  isFuture,
+  format,
+  isThisWeek,
+  isWithinInterval,
+  isPast,
+} from "date-fns";
 import { useAuthContext } from "../Context/AuthProvider";
 import UserInfo from "./UserInfo/UserInfo";
 import Statistic from "./Statistic/Statistic";
@@ -9,14 +16,13 @@ import SidebarDatepicker from "./SidebarDatepicker/SidebarDatepicker";
 import { useGetItems } from "../firebase/crud";
 
 import "./Dashboard.css";
-import { format } from "date-fns";
 
-const statisticMocks = {
-  scheduled: 24,
-  rescheduled: 41,
-  rejected: 2,
-  completed: 87,
-};
+// const statisticMocks = {
+//   scheduled: 24,
+//   rescheduled: 41,
+//   rejected: 2,
+//   completed: 87,
+// };
 
 const reminderMocks = [
   {
@@ -35,25 +41,36 @@ const Dashboard: FC = () => {
   const data = useGetItems();
   const { user } = useAuthContext();
 
-  const eventListTodays = data.filter((item) =>
-    isToday(new Date(item.startDate))
-  );
-  const eventListUpcoming = data.filter(
+  const eventListTodays = data.filter(
     (item) =>
-      !isToday(new Date(item.startDate)) && isFuture(new Date(item.startDate))
+      isToday(new Date(item.startDate)) ||
+      isToday(new Date(item.endDate)) ||
+      isWithinInterval(new Date(), {
+        start: new Date(item.startDate),
+        end: new Date(item.endDate),
+      })
+  );
+  const eventListThisWeek = data.filter(
+    (item) =>
+      (!isToday(new Date(item.startDate)) &&
+        isFuture(new Date(item.startDate)) &&
+        isThisWeek(new Date(item.startDate), { weekStartsOn: 1 })) ||
+      (isPast(new Date(item.startDate)) &&
+        isFuture(new Date(item.endDate)) &&
+        !isToday(new Date(item.endDate)))
   );
   const userInfo = {
     fullDate: format(new Date(), "cccc, MMMM d, H:mm"),
     name: user?.displayName || null,
     today: eventListTodays.length,
-    upcoming: eventListUpcoming.length,
+    upcoming: eventListThisWeek.length,
   };
 
   return (
     <div className="content">
       <div className="left-sidebar">
         <UserInfo data={userInfo} />
-        <Statistic data={statisticMocks} />
+        {/* <Statistic data={statisticMocks} /> */}
       </div>
 
       <div className="event-list">
@@ -64,8 +81,8 @@ const Dashboard: FC = () => {
             today
           />
         )}
-        {eventListUpcoming.length !== 0 && (
-          <EventListColumn title="Upcoming" data={eventListUpcoming} />
+        {eventListThisWeek.length !== 0 && (
+          <EventListColumn title="This week" data={eventListThisWeek} />
         )}
       </div>
 

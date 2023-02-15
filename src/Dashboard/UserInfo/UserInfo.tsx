@@ -29,7 +29,7 @@ const UserInfo: FC<UserInfoProps> = ({ data }) => {
         </p>
         <p className="p planned__text">
           {upcoming} event{upcoming > 1 && "s"}{" "}
-          <span className="upcoming">in next week</span>
+          <span className="upcoming">this week</span>
         </p>
       </div>
       <Link to="/calendar">
