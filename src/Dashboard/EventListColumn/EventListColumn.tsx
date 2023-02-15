@@ -37,6 +37,7 @@ const EventListColumn: FC<EventListColumnProps> = ({
     place: "",
     additional: "",
     color: "",
+    isAllDayEvent: false,
   });
 
   const getTodayStartTime = (startDate: string | Date) => {
@@ -101,7 +102,7 @@ const EventListColumn: FC<EventListColumnProps> = ({
                 </Grid>
                 <p className="p">
                   <AccessTimeIcon fontSize="small" />
-                  {startEndTimePeriod}
+                  {event.isAllDayEvent ? "All day" : startEndTimePeriod}
                 </p>
                 {event.place && (
                   <p className="p">
@@ -115,15 +116,17 @@ const EventListColumn: FC<EventListColumnProps> = ({
                     {event.additional}
                   </p>
                 )}
-                <div
-                  className="event-list__item-time"
-                  style={{
-                    color: colorPalette?.value,
-                    backgroundColor: colorPalette?.secondary,
-                  }}
-                >
-                  {getTodayStartTime(event.startDate)}
-                </div>
+                {!event.isAllDayEvent && (
+                  <div
+                    className="event-list__item-time"
+                    style={{
+                      color: colorPalette?.value,
+                      backgroundColor: colorPalette?.secondary,
+                    }}
+                  >
+                    {getTodayStartTime(event.startDate)}
+                  </div>
+                )}
               </div>
             </Collapse>
           );

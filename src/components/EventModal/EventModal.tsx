@@ -14,6 +14,8 @@ import { EventModalType, EventItem } from "../../types";
 import { EventRemoveModal } from "../EventRemoveModal/EventRemoveModal";
 import { SelectColor } from "../SelectColor/SelectColor";
 import { useAuthContext } from "../../Context/AuthProvider";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 
 interface EventModalProps {
   defaultStartDate?: Date;
@@ -46,6 +48,7 @@ export const EventModal: FC<EventModalProps> = ({
       startDate: defaultStartDate,
       endDate: addHours(defaultStartDate, 1),
       color: null,
+      isAllDayEvent: false,
     };
   }, [defaultStartDate]);
 
@@ -94,6 +97,7 @@ export const EventModal: FC<EventModalProps> = ({
         startDate: format(formData.startDate, "yyyy-MM-dd HH:mm"),
         endDate: format(formData.endDate, "yyyy-MM-dd HH:mm"),
         color: formData.color,
+        isAllDayEvent: formData.isAllDayEvent,
       };
       addItem(newItem, user?.uid);
     } else {
@@ -103,6 +107,7 @@ export const EventModal: FC<EventModalProps> = ({
         id: initialData?.id || "",
         startDate: format(new Date(formData.startDate), "yyyy-MM-dd HH:mm"),
         endDate: format(new Date(formData.endDate), "yyyy-MM-dd HH:mm"),
+        isAllDayEvent: formData.isAllDayEvent,
       };
       updateItem(editedItem, user?.uid);
     }
@@ -155,45 +160,67 @@ export const EventModal: FC<EventModalProps> = ({
             onChange={handleChange}
             value={formData.additional}
           />
-          <SelectColor
-            defaultValue={initialData?.color || ""}
-            onChange={(data) =>
-              setFormData({
-                ...formData,
-                color: data.target.value,
-              })
-            }
-          />
-          <Grid container mt="30px" justifyContent="space-between">
+          <Grid container justifyContent="space-between">
             <Grid>
-              <DateTimePicker
-                renderInput={(innerProps) => <TextField {...innerProps} />}
-                label="Start Date"
-                value={formData.startDate}
+              <SelectColor
+                defaultValue={initialData?.color || ""}
                 onChange={(data) =>
                   setFormData({
                     ...formData,
-                    startDate: data as Date,
+                    color: data.target.value,
                   })
                 }
-                ampm={false}
               />
             </Grid>
-            <Grid>
-              <DateTimePicker
-                renderInput={(innerProps) => <TextField {...innerProps} />}
-                label="End Date"
-                value={formData.endDate}
-                onChange={(data) =>
-                  setFormData({
-                    ...formData,
-                    endDate: data as Date,
-                  })
+            <Grid sx={{ marginTop: "30px" }}>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={formData.isAllDayEvent}
+                    onChange={(data) =>
+                      setFormData({
+                        ...formData,
+                        isAllDayEvent: data.target.checked,
+                      })
+                    }
+                  />
                 }
-                ampm={false}
+                label="All day event"
               />
             </Grid>
           </Grid>
+          {!formData.isAllDayEvent && (
+            <Grid container mt="30px" justifyContent="space-between">
+              <Grid>
+                <DateTimePicker
+                  renderInput={(innerProps) => <TextField {...innerProps} />}
+                  label="Start Date"
+                  value={formData.startDate}
+                  onChange={(data) =>
+                    setFormData({
+                      ...formData,
+                      startDate: data as Date,
+                    })
+                  }
+                  ampm={false}
+                />
+              </Grid>
+              <Grid>
+                <DateTimePicker
+                  renderInput={(innerProps) => <TextField {...innerProps} />}
+                  label="End Date"
+                  value={formData.endDate}
+                  onChange={(data) =>
+                    setFormData({
+                      ...formData,
+                      endDate: data as Date,
+                    })
+                  }
+                  ampm={false}
+                />
+              </Grid>
+            </Grid>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>

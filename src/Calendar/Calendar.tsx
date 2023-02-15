@@ -30,6 +30,7 @@ const Calendar: FC = () => {
       start: item.startDate,
       end: item.endDate,
       color: item.color || "",
+      allDay: item.isAllDayEvent,
     };
   });
 
@@ -52,6 +53,7 @@ const Calendar: FC = () => {
       startDate: format(data.event.start, "yyyy-MM-dd HH:mm"),
       endDate: format(data.event.end, "yyyy-MM-dd HH:mm"),
       color: event?.color || null,
+      isAllDayEvent: event?.isAllDayEvent || false,
     };
     updateItem(editedEvent, user?.uid);
   };

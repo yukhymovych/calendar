@@ -6,6 +6,7 @@ export type EventItem = {
   place?: string | null;
   additional?: string | null;
   color: string | null;
+  isAllDayEvent: boolean;
 };
 
 export enum EventModalType {

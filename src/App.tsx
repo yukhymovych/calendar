@@ -17,8 +17,11 @@ const App = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && location.pathname !== "/login") {
       navigate("/login");
+    }
+    if (isLoggedIn && location.pathname === "/login") {
+      navigate("/");
     }
   }, [isLoggedIn, location.pathname, navigate]);
 
