@@ -11,8 +11,9 @@ import {
   format,
   formatDistanceToNowStrict,
   isPast,
+  isToday,
 } from "date-fns";
-import { EventModal, EventRemoveModal } from "../../components";
+import { EventModal, ItemRemoveModal } from "../../components";
 import { EventModalType, EventItem } from "../../types";
 import { TransitionGroup } from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
@@ -57,6 +58,13 @@ const EventListColumn: FC<EventListColumnProps> = ({
   const getTimeRange = (event: EventItem, daysAmountInRange: number) => {
     if (event.isAllDayEvent) return "All day";
     if (daysAmountInRange > 1) {
+      if (today) {
+        if (isToday(new Date(event.startDate)))
+          return "from " + format(new Date(event.startDate), "HH:mm");
+        if (isToday(new Date(event.endDate)))
+          return "to " + format(new Date(event.endDate), "HH:mm");
+        return "All day";
+      }
       return (
         format(new Date(event.startDate), "MMM.dd, HH:mm") +
         " to " +
@@ -167,10 +175,11 @@ const EventListColumn: FC<EventListColumnProps> = ({
         type={EventModalType.Edit}
         initialData={initialEventData}
       />
-      <EventRemoveModal
+      <ItemRemoveModal
         open={openRemoveModal}
         setOpen={setOpenRemoveModal}
         eventId={removeEventId}
+        itemName="event"
       />
     </div>
   );

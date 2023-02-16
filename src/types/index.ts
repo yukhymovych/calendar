@@ -13,3 +13,14 @@ export enum EventModalType {
   Create = "create",
   Edit = "edit"
 };
+
+export type ShortTodo = {
+  id: string;
+  title: string;
+  completed: boolean;
+};
+
+export enum ItemType {
+  Event = "event",
+  Todo = "todo",
+};

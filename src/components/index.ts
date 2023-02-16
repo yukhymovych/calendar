@@ -1,4 +1,5 @@
 export { EventModal } from "./EventModal/EventModal";
-export { EventRemoveModal } from "./EventRemoveModal/EventRemoveModal";
+export { ItemRemoveModal } from "./ItemRemoveModal/ItemRemoveModal"
 export { SelectColor } from "./SelectColor/SelectColor";
 export { Header } from "./Header/Header";
+export { AddShortTodoModal } from "./AddShortTodoModal/AddShortTodoModal";

@@ -9,11 +9,11 @@ import {
 } from "date-fns";
 import { useAuthContext } from "../Context/AuthProvider";
 import UserInfo from "./UserInfo/UserInfo";
-import Statistic from "./Statistic/Statistic";
+// import Statistic from "./Statistic/Statistic";
 import EventListColumn from "./EventListColumn/EventListColumn";
-import Reminder from "./Reminder/Reminder";
+import Reminder from "./ShortTodos/ShortTodos";
 import SidebarDatepicker from "./SidebarDatepicker/SidebarDatepicker";
-import { useGetItems } from "../firebase/crud";
+import { useGetItems, useGetShortTodos } from "../firebase/crud";
 
 import "./Dashboard.css";
 
@@ -24,24 +24,13 @@ import "./Dashboard.css";
 //   completed: 87,
 // };
 
-const reminderMocks = [
-  {
-    title: "Call to Maria",
-    time: "13:00",
-    completed: true,
-  },
-  {
-    title: "Find september archive",
-    time: "14:00",
-    completed: false,
-  },
-];
-
 const Dashboard: FC = () => {
-  const data = useGetItems();
+  const events = useGetItems();
+  const shortTodos = useGetShortTodos();
   const { user } = useAuthContext();
+  // console.log(shortTodos)
 
-  const eventListTodays = data.filter(
+  const eventListTodays = events.filter(
     (item) =>
       isToday(new Date(item.startDate)) ||
       isToday(new Date(item.endDate)) ||
@@ -50,7 +39,7 @@ const Dashboard: FC = () => {
         end: new Date(item.endDate),
       })
   );
-  const eventListThisWeek = data.filter(
+  const eventListThisWeek = events.filter(
     (item) =>
       (!isToday(new Date(item.startDate)) &&
         isFuture(new Date(item.startDate)) &&
@@ -66,6 +55,10 @@ const Dashboard: FC = () => {
     upcoming: eventListThisWeek.length,
   };
 
+  const showTodaysEvents = eventListTodays.length !== 0;
+  const showThisWeekEvents = eventListThisWeek.length !== 0;
+  const showEvents = showTodaysEvents || showThisWeekEvents;
+
   return (
     <div className="content">
       <div className="left-sidebar">
@@ -74,21 +67,30 @@ const Dashboard: FC = () => {
       </div>
 
       <div className="event-list">
-        {eventListTodays.length !== 0 && (
-          <EventListColumn
-            title="Today's Events"
-            data={eventListTodays}
-            today
-          />
-        )}
-        {eventListThisWeek.length !== 0 && (
-          <EventListColumn title="This week" data={eventListThisWeek} />
+        {showEvents ? (
+          <>
+            {showTodaysEvents && (
+              <EventListColumn
+                title="Today's Events"
+                data={eventListTodays}
+                today
+              />
+            )}
+            {showThisWeekEvents && (
+              <EventListColumn title="This week" data={eventListThisWeek} />
+            )}
+          </>
+        ) : (
+          <h2 className="h3">
+            You don't have any events yet. After you add them you will see it
+            here
+          </h2>
         )}
       </div>
 
       <div className="right-sidebar">
         <SidebarDatepicker />
-        <Reminder data={reminderMocks} />
+        <Reminder data={shortTodos} />
       </div>
     </div>
   );

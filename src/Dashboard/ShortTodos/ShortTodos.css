@@ -1,21 +1,29 @@
-.right-sidebar__reminder {
+.right-sidebar__short-todo {
   background-color: var(--gray-light);
   border-radius: 10px;
   border: 1px solid var(--border-gray);
   padding: 30px;
   margin-top: 30px;
 }
-.reminder__top {
+.short-todo__top {
   display: flex;
   justify-content: space-between;
+  margin-bottom: 10px;
 }
-.reminder__top .h3 {
+.short-todo__top .h3 {
   margin-bottom: 0;
 }
-.reminder__item {
+.short-todo__item {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border-gray);
-  margin: 10px 0;
+  margin: 4px 0;
+}
+.short-todo__add-button {
+  cursor: pointer;
+  transition: 0.2s;
+}
+.short-todo__add-button:hover {
+  opacity: 0.5
 }

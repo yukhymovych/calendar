@@ -59,7 +59,6 @@ const Calendar: FC = () => {
       color: event?.color || null,
       isAllDayEvent: event?.isAllDayEvent || false,
     };
-    console.log(editedEvent);
     updateItem(editedEvent, user?.uid);
   };
 

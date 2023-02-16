@@ -9,9 +9,9 @@ import Grid from "@mui/material/Grid";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { uid } from "uid";
 import { addItem, updateItem } from "../../firebase/crud";
-import { format, addHours } from "date-fns";
+import { format, addHours, set } from "date-fns";
 import { EventModalType, EventItem } from "../../types";
-import { EventRemoveModal } from "../EventRemoveModal/EventRemoveModal";
+import { ItemRemoveModal } from "../ItemRemoveModal/ItemRemoveModal";
 import { SelectColor } from "../SelectColor/SelectColor";
 import { useAuthContext } from "../../Context/AuthProvider";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -180,6 +180,14 @@ export const EventModal: FC<EventModalProps> = ({
                     onChange={(data) =>
                       setFormData({
                         ...formData,
+                        startDate: set(new Date(formData.startDate), {
+                          hours: 0,
+                          minutes: 1,
+                        }),
+                        endDate: set(new Date(formData.endDate), {
+                          hours: 23,
+                          minutes: 59,
+                        }),
                         isAllDayEvent: data.target.checked,
                       })
                     }
@@ -231,11 +239,12 @@ export const EventModal: FC<EventModalProps> = ({
         </DialogActions>
       </form>
       {removeButton && (
-        <EventRemoveModal
+        <ItemRemoveModal
           open={openRemoveModal}
           setOpen={setOpenRemoveModal}
           eventId={initialData?.id || ""}
           callback={() => setOpen(false)}
+          itemName="event"
         />
       )}
     </Dialog>
