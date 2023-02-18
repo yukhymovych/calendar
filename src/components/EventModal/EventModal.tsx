@@ -11,11 +11,10 @@ import { uid } from "uid";
 import { addItem, updateItem } from "../../firebase/crud";
 import { format, addHours, set } from "date-fns";
 import { EventModalType, EventItem } from "../../types";
-import { ItemRemoveModal } from "../ItemRemoveModal/ItemRemoveModal";
-import { SelectColor } from "../SelectColor/SelectColor";
 import { useAuthContext } from "../../Context/AuthProvider";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import { RecurrenceSelect, SelectColor, ItemRemoveModal } from "../../components";
 
 interface EventModalProps {
   defaultStartDate?: Date;
@@ -25,6 +24,29 @@ interface EventModalProps {
   initialData?: EventItem;
   removeButton?: boolean;
 }
+
+const recurrenceOptions = [
+  {
+    name: "Daily",
+    value: "daily",
+  },
+  {
+    name: "Weekly",
+    value: "weekly",
+  },
+  {
+    name: "Monthly",
+    value: "monthly",
+  },
+  {
+    name: "Yearly",
+    value: "yearly",
+  },
+  {
+    name: "Сertain days",
+    value: "certainDays",
+  },
+];
 
 export const EventModal: FC<EventModalProps> = ({
   defaultStartDate = new Date(),
@@ -49,6 +71,7 @@ export const EventModal: FC<EventModalProps> = ({
       endDate: addHours(defaultStartDate, 1),
       color: null,
       isAllDayEvent: false,
+      recurrence: "noRecurrence",
     };
   }, [defaultStartDate]);
 
@@ -98,6 +121,7 @@ export const EventModal: FC<EventModalProps> = ({
         endDate: format(formData.endDate, "yyyy-MM-dd HH:mm"),
         color: formData.color,
         isAllDayEvent: formData.isAllDayEvent,
+        recurrence: formData.recurrence,
       };
       addItem(newItem, user?.uid);
     } else {
@@ -108,6 +132,7 @@ export const EventModal: FC<EventModalProps> = ({
         startDate: format(new Date(formData.startDate), "yyyy-MM-dd HH:mm"),
         endDate: format(new Date(formData.endDate), "yyyy-MM-dd HH:mm"),
         isAllDayEvent: formData.isAllDayEvent,
+        recurrence: formData.recurrence,
       };
       updateItem(editedItem, user?.uid);
     }
@@ -194,6 +219,21 @@ export const EventModal: FC<EventModalProps> = ({
                   />
                 }
                 label="All day event"
+              />
+            </Grid>
+          </Grid>
+          <Grid container justifyContent="space-between">
+            <Grid>
+              <RecurrenceSelect
+                label="Recurrence"
+                defaultValue={formData?.recurrence || "noRecurrence"}
+                options={recurrenceOptions}
+                onChange={(data: any) =>
+                  setFormData({
+                    ...formData,
+                    recurrence: data.target.value,
+                  })
+                }
               />
             </Grid>
           </Grid>

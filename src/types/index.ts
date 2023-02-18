@@ -7,11 +7,7 @@ export type EventItem = {
   additional?: string | null;
   color: string | null;
   isAllDayEvent: boolean;
-};
-
-export enum EventModalType {
-  Create = "create",
-  Edit = "edit"
+  recurrence: string;
 };
 
 export type ShortTodo = {
@@ -20,7 +16,21 @@ export type ShortTodo = {
   completed: boolean;
 };
 
+export enum EventModalType {
+  Create = "create",
+  Edit = "edit",
+}
+
 export enum ItemType {
   Event = "event",
   Todo = "todo",
-};
+}
+
+export enum RecurrenceType {
+  NoRecurrence = "noRecurrence",
+  Daily = "daily",
+  Weekly = "weekly",
+  Monthly = "monthly",
+  Yearly = "yearly",
+  СertainDays = "certainDays",
+}

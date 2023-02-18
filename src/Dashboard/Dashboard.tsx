@@ -6,6 +6,9 @@ import {
   isThisWeek,
   isWithinInterval,
   isPast,
+  getDay,
+  getDaysInMonth,
+  getMonth,
 } from "date-fns";
 import { useAuthContext } from "../Context/AuthProvider";
 import UserInfo from "./UserInfo/UserInfo";
@@ -16,6 +19,7 @@ import SidebarDatepicker from "./SidebarDatepicker/SidebarDatepicker";
 import { useGetItems, useGetShortTodos } from "../firebase/crud";
 
 import "./Dashboard.css";
+import { RecurrenceType } from "../types";
 
 // const statisticMocks = {
 //   scheduled: 24,
@@ -37,7 +41,15 @@ const Dashboard: FC = () => {
       isWithinInterval(new Date(), {
         start: new Date(item.startDate),
         end: new Date(item.endDate),
-      })
+      }) ||
+      (item.recurrence === RecurrenceType.Daily &&
+        isPast(new Date(item.startDate))) ||
+      (item.recurrence === RecurrenceType.Weekly &&
+        isPast(new Date(item.startDate)) &&
+        getDay(new Date(item.startDate)) === getDay(new Date())) ||
+      (item.recurrence === RecurrenceType.Monthly &&
+        isPast(new Date(item.startDate)) &&
+        new Date(item.startDate).getDate() === new Date().getDate())
   );
   const eventListThisWeek = events.filter(
     (item) =>
@@ -46,7 +58,9 @@ const Dashboard: FC = () => {
         isThisWeek(new Date(item.startDate), { weekStartsOn: 1 })) ||
       (isPast(new Date(item.startDate)) &&
         isFuture(new Date(item.endDate)) &&
-        !isToday(new Date(item.endDate)))
+        !isToday(new Date(item.endDate))) ||
+      (item.recurrence === RecurrenceType.Daily &&
+        isPast(new Date(item.startDate)))
   );
   const userInfo = {
     fullDate: format(new Date(), "cccc, MMMM d, H:mm"),

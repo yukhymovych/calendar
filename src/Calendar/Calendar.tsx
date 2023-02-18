@@ -4,8 +4,9 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin from "@fullcalendar/interaction";
+import rrulePlugin from "@fullcalendar/rrule";
 import { updateItem, useGetItems } from "../firebase/crud";
-import { EventItem, EventModalType } from "../types";
+import { EventItem, EventModalType, RecurrenceType } from "../types";
 import { EventModal } from "../components";
 import "./Calendar.css";
 import { format, addHours } from "date-fns";
@@ -24,7 +25,7 @@ const Calendar: FC = () => {
   const rawData = useGetItems();
 
   const formattedData = rawData.map((item: EventItem) => {
-    return {
+    let newItem = {
       id: item.id,
       title: item.title,
       start: item.startDate,
@@ -32,6 +33,15 @@ const Calendar: FC = () => {
       color: item.color || "",
       allDay: item.isAllDayEvent,
     };
+    if (item.recurrence !== RecurrenceType.NoRecurrence) {
+      Object.assign(newItem, {
+        rrule: {
+          freq: item.recurrence,
+          dtstart: item.startDate,
+        },
+      });
+    }
+    return newItem;
   });
 
   const handleEventClick = (data: any) => {
@@ -44,8 +54,7 @@ const Calendar: FC = () => {
 
   const handleEventDrop = (data: any) => {
     const event =
-      rawData.find((item: EventItem) => item.id === data.event.id) || undefined;
-    console.log(data.event.start, data.event.end);
+      rawData.find((item: EventItem) => item.id === data.event.id);
     const editedEvent = {
       id: event?.id || "",
       title: event?.title || "",
@@ -58,6 +67,7 @@ const Calendar: FC = () => {
       ),
       color: event?.color || null,
       isAllDayEvent: event?.isAllDayEvent || false,
+      recurrence: event?.recurrence || "noRecurrence",
     };
     updateItem(editedEvent, user?.uid);
   };
@@ -72,7 +82,13 @@ const Calendar: FC = () => {
     <>
       <FullCalendar
         ref={calendarRef}
-        plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
+        plugins={[
+          dayGridPlugin,
+          timeGridPlugin,
+          listPlugin,
+          interactionPlugin,
+          rrulePlugin,
+        ]}
         headerToolbar={{
           left: "title",
           right: "dayGridMonth,listWeek,dayGridWeek,today,prev,next",
@@ -89,6 +105,7 @@ const Calendar: FC = () => {
           meridiem: false,
         }}
         displayEventEnd
+        firstDay={1}
         events={formattedData}
       />
       <EventModal

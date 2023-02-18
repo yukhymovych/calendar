@@ -5,11 +5,12 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@fullcalendar/core": "^6.1.1",
+    "@fullcalendar/core": "^6.1.4",
     "@fullcalendar/daygrid": "^6.1.1",
     "@fullcalendar/interaction": "^6.1.1",
     "@fullcalendar/list": "^6.1.1",
     "@fullcalendar/react": "^6.1.2",
+    "@fullcalendar/rrule": "^6.1.4",
     "@fullcalendar/timegrid": "^6.1.1",
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.6",
@@ -24,6 +25,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.0",
     "react-scripts": "5.0.1",
+    "rrule": "^2.7.2",
     "uid": "^2.0.1",
     "web-vitals": "^2.1.4"
   },
