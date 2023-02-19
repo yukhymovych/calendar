@@ -8,6 +8,7 @@ export type EventItem = {
   color: string | null;
   isAllDayEvent: boolean;
   recurrence: string;
+  recurrenceDays?: string[];
 };
 
 export type ShortTodo = {
@@ -32,5 +33,5 @@ export enum RecurrenceType {
   Weekly = "weekly",
   Monthly = "monthly",
   Yearly = "yearly",
-  СertainDays = "certainDays",
+  CertainDays = "certainDays",
 }

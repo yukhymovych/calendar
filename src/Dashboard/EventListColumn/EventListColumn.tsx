@@ -46,6 +46,7 @@ const EventListColumn: FC<EventListColumnProps> = ({
     color: "",
     isAllDayEvent: false,
     recurrence: "noRecurrence",
+    recurrenceDays: [],
   });
 
   const getTodayStartTime = (startDate: string | Date) => {

@@ -11,6 +11,17 @@ import { EventModal } from "../components";
 import "./Calendar.css";
 import { format, addHours } from "date-fns";
 import { useAuthContext } from "../Context/AuthProvider";
+import { RRule } from "rrule";
+
+const dayMap: Record<string, number> = {
+  Monday: 0,
+  Tuesday: 1,
+  Wednesday: 2,
+  Thursday: 3,
+  Friday: 4,
+  Saturday: 5,
+  Sunday: 6,
+};
 
 const Calendar: FC = () => {
   const { user } = useAuthContext();
@@ -34,12 +45,26 @@ const Calendar: FC = () => {
       allDay: item.isAllDayEvent,
     };
     if (item.recurrence !== RecurrenceType.NoRecurrence) {
-      Object.assign(newItem, {
-        rrule: {
-          freq: item.recurrence,
-          dtstart: item.startDate,
-        },
-      });
+      if (
+        item.recurrence === RecurrenceType.CertainDays &&
+        item?.recurrenceDays
+      ) {
+        Object.assign(newItem, {
+          rrule: {
+            freq: RRule.WEEKLY,
+            dtstart: item.startDate,
+            byweekday: item.recurrenceDays.map((day: string) => dayMap[day]),
+          },
+        });
+      }
+      if (item.recurrence !== RecurrenceType.CertainDays) {
+        Object.assign(newItem, {
+          rrule: {
+            freq: item.recurrence,
+            dtstart: item.startDate,
+          },
+        });
+      }
     }
     return newItem;
   });
@@ -53,8 +78,7 @@ const Calendar: FC = () => {
   };
 
   const handleEventDrop = (data: any) => {
-    const event =
-      rawData.find((item: EventItem) => item.id === data.event.id);
+    const event = rawData.find((item: EventItem) => item.id === data.event.id);
     const editedEvent = {
       id: event?.id || "",
       title: event?.title || "",
@@ -68,6 +92,7 @@ const Calendar: FC = () => {
       color: event?.color || null,
       isAllDayEvent: event?.isAllDayEvent || false,
       recurrence: event?.recurrence || "noRecurrence",
+      recurrenceDays: event?.recurrenceDays || [],
     };
     updateItem(editedEvent, user?.uid);
   };

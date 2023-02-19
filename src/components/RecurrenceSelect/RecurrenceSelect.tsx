@@ -10,17 +10,36 @@ type SelectOption = {
 }
 
 interface RecurrenceSelectProps {
-  label: string;
   defaultValue: string;
   onChange: (data: any) => void;
-  options: SelectOption[];
 }
 
+const recurrenceOptions = [
+  {
+    name: "Daily",
+    value: "daily",
+  },
+  {
+    name: "Weekly",
+    value: "weekly",
+  },
+  {
+    name: "Monthly",
+    value: "monthly",
+  },
+  {
+    name: "Yearly",
+    value: "yearly",
+  },
+  {
+    name: "Сertain days",
+    value: "certainDays",
+  },
+];
+
 export const RecurrenceSelect: FC<RecurrenceSelectProps> = ({
-  label,
   defaultValue,
   onChange,
-  options,
 }) => {
   const [value, setValue] = useState<string>(defaultValue);
 
@@ -31,18 +50,18 @@ export const RecurrenceSelect: FC<RecurrenceSelectProps> = ({
 
   return (
     <FormControl sx={{ mt: "30px", minWidth: 200 }} size="small">
-      <InputLabel id="select">{label}</InputLabel>
+      <InputLabel id="recurrence-select">Recurrence</InputLabel>
       <Select
-        labelId="select"
-        id="select"
+        labelId="recurrence-select"
+        id="recurrence-select"
         value={value}
-        label="Color"
+        label="Recurrence"
         onChange={handleChange}
       >
         <MenuItem value="noRecurrence">
           <em>No recurrence</em>
         </MenuItem>
-        {options.map((item: SelectOption) => {
+        {recurrenceOptions.map((item: SelectOption) => {
           return <MenuItem value={item.value}>{item.name}</MenuItem>;
         })}
       </Select>

@@ -10,11 +10,16 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { uid } from "uid";
 import { addItem, updateItem } from "../../firebase/crud";
 import { format, addHours, set } from "date-fns";
-import { EventModalType, EventItem } from "../../types";
+import { EventModalType, EventItem, RecurrenceType } from "../../types";
 import { useAuthContext } from "../../Context/AuthProvider";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { RecurrenceSelect, SelectColor, ItemRemoveModal } from "../../components";
+import {
+  RecurrenceSelect,
+  SelectColor,
+  ItemRemoveModal,
+  RecurrenceDaySelect,
+} from "../../components";
 
 interface EventModalProps {
   defaultStartDate?: Date;
@@ -24,29 +29,6 @@ interface EventModalProps {
   initialData?: EventItem;
   removeButton?: boolean;
 }
-
-const recurrenceOptions = [
-  {
-    name: "Daily",
-    value: "daily",
-  },
-  {
-    name: "Weekly",
-    value: "weekly",
-  },
-  {
-    name: "Monthly",
-    value: "monthly",
-  },
-  {
-    name: "Yearly",
-    value: "yearly",
-  },
-  {
-    name: "Сertain days",
-    value: "certainDays",
-  },
-];
 
 export const EventModal: FC<EventModalProps> = ({
   defaultStartDate = new Date(),
@@ -72,6 +54,7 @@ export const EventModal: FC<EventModalProps> = ({
       color: null,
       isAllDayEvent: false,
       recurrence: "noRecurrence",
+      recurrenceDays: [],
     };
   }, [defaultStartDate]);
 
@@ -122,6 +105,7 @@ export const EventModal: FC<EventModalProps> = ({
         color: formData.color,
         isAllDayEvent: formData.isAllDayEvent,
         recurrence: formData.recurrence,
+        recurrenceDays: formData?.recurrenceDays || [],
       };
       addItem(newItem, user?.uid);
     } else {
@@ -133,6 +117,7 @@ export const EventModal: FC<EventModalProps> = ({
         endDate: format(new Date(formData.endDate), "yyyy-MM-dd HH:mm"),
         isAllDayEvent: formData.isAllDayEvent,
         recurrence: formData.recurrence,
+        recurrenceDays: formData?.recurrenceDays || [],
       };
       updateItem(editedItem, user?.uid);
     }
@@ -225,9 +210,7 @@ export const EventModal: FC<EventModalProps> = ({
           <Grid container justifyContent="space-between">
             <Grid>
               <RecurrenceSelect
-                label="Recurrence"
                 defaultValue={formData?.recurrence || "noRecurrence"}
-                options={recurrenceOptions}
                 onChange={(data: any) =>
                   setFormData({
                     ...formData,
@@ -236,6 +219,19 @@ export const EventModal: FC<EventModalProps> = ({
                 }
               />
             </Grid>
+            {formData.recurrence === RecurrenceType.CertainDays && (
+              <Grid>
+                <RecurrenceDaySelect
+                  defaultValue={formData?.recurrenceDays}
+                  onChange={(data: any) =>
+                    setFormData({
+                      ...formData,
+                      recurrenceDays: data,
+                    })
+                  }
+                />
+              </Grid>
+            )}
           </Grid>
           {!formData.isAllDayEvent && (
             <Grid container mt="30px" justifyContent="space-between">
