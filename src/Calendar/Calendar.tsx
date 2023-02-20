@@ -130,7 +130,6 @@ const Calendar: FC = () => {
           meridiem: false,
         }}
         displayEventEnd
-        firstDay={1}
         events={formattedData}
       />
       <EventModal
