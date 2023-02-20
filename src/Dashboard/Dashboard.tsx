@@ -3,39 +3,31 @@ import {
   isToday,
   isFuture,
   format,
-  isThisWeek,
   isWithinInterval,
   isPast,
   getDay,
   startOfTomorrow,
   addDays,
+  addMonths,
+  set,
+  startOfDay,
 } from "date-fns";
 import { useAuthContext } from "../Context/AuthProvider";
 import UserInfo from "./UserInfo/UserInfo";
-// import Statistic from "./Statistic/Statistic";
 import EventListColumn from "./EventListColumn/EventListColumn";
 import Reminder from "./ShortTodos/ShortTodos";
 import SidebarDatepicker from "./SidebarDatepicker/SidebarDatepicker";
 import { useGetItems, useGetShortTodos } from "../firebase/crud";
-
 import "./Dashboard.css";
 import { EventItem, RecurrenceType } from "../types";
 
-// const statisticMocks = {
-//   scheduled: 24,
-//   rescheduled: 41,
-//   rejected: 2,
-//   completed: 87,
-// };
-
 const filterEventsForToday = (events: EventItem[]) => {
-  const today = new Date();
-  let start;
-  let end;
+  const today = startOfDay(new Date());
+  let start, end;
 
   return events.filter(({ startDate, endDate, recurrence, recurrenceDays }) => {
-    start = new Date(startDate);
-    end = new Date(endDate);
+    start = startOfDay(new Date(startDate));
+    end = startOfDay(new Date(endDate));
     if (recurrence === RecurrenceType.NoRecurrence) {
       return (
         isToday(start) ||
@@ -71,37 +63,89 @@ const filterEventsForToday = (events: EventItem[]) => {
   });
 };
 
+// show events for next 7 days
 const filterEventsUpcoming = (events: EventItem[]) => {
-  const today = new Date();
-  const tomorrow = startOfTomorrow();
+  const today = startOfDay(new Date());
+  const firstUpcomingDay = startOfTomorrow();
   const lastUpcomingDay = addDays(today, 6);
-  let start;
-  let end;
+  let start, end, recurrenceTempDay;
 
-  return events.filter(({ startDate, endDate, recurrence, recurrenceDays }) => {
-    start = new Date(startDate);
-    end = new Date(endDate);
+  return events.filter(({ startDate, endDate, recurrence }) => {
+    start = startOfDay(new Date(startDate));
+    end = startOfDay(new Date(endDate));
     if (recurrence === RecurrenceType.NoRecurrence) {
       return (
         (!isToday(start) &&
           isFuture(start) &&
           isWithinInterval(start, {
-            start: tomorrow,
+            start: firstUpcomingDay,
             end: lastUpcomingDay,
           })) ||
         (isPast(start) && isFuture(end) && !isToday(end))
       );
     }
     if (recurrence === RecurrenceType.Daily) {
+      if (
+        isWithinInterval(start, {
+          start: firstUpcomingDay,
+          end: lastUpcomingDay,
+        })
+      ) {
+        return true;
+      }
       return isPast(start);
     }
     if (recurrence === RecurrenceType.Weekly) {
+      recurrenceTempDay = start;
+      while (recurrenceTempDay <= lastUpcomingDay) {
+        if (
+          isWithinInterval(recurrenceTempDay, {
+            start: firstUpcomingDay,
+            end: lastUpcomingDay,
+          })
+        ) {
+          return true;
+        }
+        recurrenceTempDay = addDays(recurrenceTempDay, 7);
+      }
     }
     if (recurrence === RecurrenceType.Monthly) {
+      recurrenceTempDay = today;
+      recurrenceTempDay.setDate(start.getDate());
+      if (today >= start) {
+        addMonths(recurrenceTempDay, 1);
+      }
+      if (
+        isWithinInterval(recurrenceTempDay, {
+          start: firstUpcomingDay,
+          end: lastUpcomingDay,
+        })
+      ) {
+        return true;
+      }
     }
     if (recurrence === RecurrenceType.Yearly) {
+      let recurrenceTempDay = set(start, { year: today.getFullYear() });
+
+      if (
+        isWithinInterval(recurrenceTempDay, {
+          start: firstUpcomingDay,
+          end: lastUpcomingDay,
+        })
+      ) {
+        return true;
+      }
     }
     if (recurrence === RecurrenceType.CertainDays) {
+      if (
+        isWithinInterval(start, {
+          start: firstUpcomingDay,
+          end: lastUpcomingDay,
+        }) ||
+        isPast(start)
+      ) {
+        return true;
+      }
     }
     return false;
   });
@@ -111,7 +155,6 @@ const Dashboard: FC = () => {
   const events = useGetItems();
   const shortTodos = useGetShortTodos();
   const { user } = useAuthContext();
-  // console.log(shortTodos)
   const eventListTodays = filterEventsForToday(events);
   const eventListUpcoming = filterEventsUpcoming(events);
 
@@ -130,7 +173,6 @@ const Dashboard: FC = () => {
     <div className="content">
       <div className="left-sidebar">
         <UserInfo data={userInfo} />
-        {/* <Statistic data={statisticMocks} /> */}
       </div>
 
       <div className="event-list">
@@ -144,7 +186,7 @@ const Dashboard: FC = () => {
               />
             )}
             {showThisWeekEvents && (
-              <EventListColumn title="This week" data={eventListUpcoming} />
+              <EventListColumn title="Upcoming Events" data={eventListUpcoming} />
             )}
           </>
         ) : (

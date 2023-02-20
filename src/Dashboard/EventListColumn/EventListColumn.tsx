@@ -12,9 +12,10 @@ import {
   formatDistanceToNowStrict,
   isPast,
   isToday,
+  set,
 } from "date-fns";
 import { EventModal, ItemRemoveModal } from "../../components";
-import { EventModalType, EventItem } from "../../types";
+import { EventModalType, EventItem, RecurrenceType } from "../../types";
 import { TransitionGroup } from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
 import { colorOptions } from "../../components/SelectColor/colors";
@@ -49,12 +50,24 @@ const EventListColumn: FC<EventListColumnProps> = ({
     recurrenceDays: [],
   });
 
-  const getTodayStartTime = (startDate: string | Date) => {
+  const getTodayStartTime = (startDate: string | Date, recurrence: string) => {
+    const todayDate = new Date();
     const isPastTime = isPast(new Date(startDate));
-    const todayTime = isPastTime
-      ? formatDistanceToNowStrict(new Date(startDate)) + " ago"
+    const todayRelativeTime = isPastTime
+      ? formatDistanceToNowStrict(
+          set(new Date(startDate), {
+            year: todayDate.getFullYear(),
+            month: todayDate.getMonth(),
+            date: todayDate.getDate(),
+          })
+        ) + " ago"
       : "in " + formatDistanceToNowStrict(new Date(startDate));
-    return today ? todayTime : format(new Date(startDate), "MMMM d");
+    if (!today && recurrence !== RecurrenceType.NoRecurrence) {
+      if (recurrence === RecurrenceType.CertainDays) return "Weekly";
+      return recurrence.charAt(0).toUpperCase() + recurrence.slice(1);
+    }
+    console.log(today)
+    return today ? todayRelativeTime : format(new Date(startDate), "MMMM d");
   };
 
   const getTimeRange = (event: EventItem, daysAmountInRange: number) => {
@@ -163,7 +176,7 @@ const EventListColumn: FC<EventListColumnProps> = ({
                       backgroundColor: colorPalette?.secondary,
                     }}
                   >
-                    {getTodayStartTime(event.startDate)}
+                    {getTodayStartTime(event.startDate, event.recurrence)}
                   </div>
                 )}
               </div>

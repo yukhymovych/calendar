@@ -244,6 +244,7 @@ export const EventModal: FC<EventModalProps> = ({
                     setFormData({
                       ...formData,
                       startDate: data as Date,
+                      endDate: addHours(data as Date, 1),
                     })
                   }
                   ampm={false}
