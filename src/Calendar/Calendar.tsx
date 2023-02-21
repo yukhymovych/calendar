@@ -89,14 +89,14 @@ const Calendar: FC = () => {
     const editedEvent = {
       id: event?.id || "",
       title: event?.title || "",
-      place: event?.place || null,
-      additional: event?.additional || null,
+      place: event?.place || "",
+      additional: event?.additional || "",
       startDate: format(data.event.start || new Date(), "yyyy-MM-dd HH:mm"),
       endDate: format(
         data.event.end || addHours(data.event.start || new Date(), 1),
         "yyyy-MM-dd HH:mm"
       ),
-      color: event?.color || null,
+      color: event?.color || "none",
       isAllDayEvent: event?.isAllDayEvent || false,
       recurrence: event?.recurrence || "noRecurrence",
       recurrenceDays: event?.recurrenceDays || [],

@@ -3,9 +3,9 @@ export type EventItem = {
   title: string;
   startDate: string | Date;
   endDate: string | Date;
-  place?: string | null;
-  additional?: string | null;
-  color: string | null;
+  place?: string;
+  additional?: string;
+  color: string;
   isAllDayEvent: boolean;
   recurrence: string;
   recurrenceDays?: string[];

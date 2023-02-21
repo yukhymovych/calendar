@@ -69,7 +69,7 @@ const filterEventsUpcoming = (events: EventItem[]) => {
   const lastUpcomingDay = addDays(today, 6);
   let start, end, recurrenceTempDay;
 
-  return events.filter(({ startDate, endDate, recurrence }) => {
+  return events.filter(({ startDate, endDate, recurrence, recurrenceDays }) => {
     start = startOfDay(new Date(startDate));
     end = startOfDay(new Date(endDate));
     if (recurrence === RecurrenceType.NoRecurrence) {
@@ -135,7 +135,7 @@ const filterEventsUpcoming = (events: EventItem[]) => {
         return true;
       }
     }
-    if (recurrence === RecurrenceType.CertainDays) {
+    if (recurrence === RecurrenceType.CertainDays && recurrenceDays) {
       if (
         isWithinInterval(start, {
           start: firstUpcomingDay,

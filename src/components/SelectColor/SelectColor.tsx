@@ -32,7 +32,7 @@ export const SelectColor: FC<SelectColorProps> = ({
         label="Color"
         onChange={handleChange}
       >
-        <MenuItem value="null">
+        <MenuItem value="none">
           <em>None</em>
         </MenuItem>
         {colorOptions.map((item) => {

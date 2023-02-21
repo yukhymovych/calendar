@@ -53,7 +53,7 @@ export const EventModal: FC<EventModalProps> = ({
       additional: "",
       startDate: defaultStartDate,
       endDate: addHours(defaultStartDate, 1),
-      color: "",
+      color: "none",
       isAllDayEvent: false,
       recurrence: "noRecurrence",
       recurrenceDays: [] as string[],
@@ -61,14 +61,6 @@ export const EventModal: FC<EventModalProps> = ({
   }, [defaultStartDate]);
 
   const [formData, setFormData] = useState<EventItem>(formDefaultValue);
-
-  const setDefaultData = () => {
-    if (initialData) {
-      setFormData(initialData);
-    } else {
-      setFormData(formDefaultValue);
-    }
-  };
 
   useEffect(() => {
     if (initialData) {
@@ -84,7 +76,6 @@ export const EventModal: FC<EventModalProps> = ({
 
   const handleClose = () => {
     setOpen(false);
-    setDefaultData();
   };
 
   const handleSubmitButton = () => {
@@ -98,8 +89,8 @@ export const EventModal: FC<EventModalProps> = ({
       const newItem = {
         id: itemId,
         title: formData.title,
-        place: formData.place || null,
-        additional: formData.additional || null,
+        place: formData.place || "",
+        additional: formData.additional || "",
         startDate: format(new Date(formData.startDate), "yyyy-MM-dd HH:mm"),
         endDate: format(new Date(formData.endDate), "yyyy-MM-dd HH:mm"),
         color: formData.color,
