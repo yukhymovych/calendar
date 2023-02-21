@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import {
   isToday,
   isFuture,
@@ -12,7 +12,6 @@ import {
   set,
   startOfDay,
 } from "date-fns";
-import { useAuthContext } from "../Context/AuthProvider";
 import UserInfo from "./UserInfo/UserInfo";
 import EventListColumn from "./EventListColumn/EventListColumn";
 import Reminder from "./ShortTodos/ShortTodos";
@@ -154,8 +153,11 @@ const filterEventsUpcoming = (events: EventItem[]) => {
 const Dashboard: FC = () => {
   const events = useGetItems();
   const shortTodos = useGetShortTodos();
-  const eventListTodays = filterEventsForToday(events);
-  const eventListUpcoming = filterEventsUpcoming(events);
+  const eventListTodays = useMemo(() => filterEventsForToday(events), [events]);
+  const eventListUpcoming = useMemo(
+    () => filterEventsUpcoming(events),
+    [events]
+  );
 
   const userInfo = {
     fullDate: format(new Date(), "cccc, MMMM d, H:mm"),
@@ -184,7 +186,10 @@ const Dashboard: FC = () => {
               />
             )}
             {showThisWeekEvents && (
-              <EventListColumn title="Upcoming Events" data={eventListUpcoming} />
+              <EventListColumn
+                title="Upcoming Events"
+                data={eventListUpcoming}
+              />
             )}
           </>
         ) : (

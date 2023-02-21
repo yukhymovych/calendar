@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -43,6 +43,10 @@ export const RecurrenceSelect: FC<RecurrenceSelectProps> = ({
 }) => {
   const [value, setValue] = useState<string>(defaultValue);
 
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue])
+
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value);
     onChange(event);
@@ -62,7 +66,7 @@ export const RecurrenceSelect: FC<RecurrenceSelectProps> = ({
           <em>No recurrence</em>
         </MenuItem>
         {recurrenceOptions.map((item: SelectOption) => {
-          return <MenuItem value={item.value}>{item.name}</MenuItem>;
+          return <MenuItem value={item.value} key={item.value}>{item.name}</MenuItem>;
         })}
       </Select>
     </FormControl>

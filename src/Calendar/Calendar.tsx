@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef } from "react";
+import React, { FC, useState, useRef, useMemo } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -36,39 +36,45 @@ const Calendar: FC = () => {
 
   const rawData = useGetItems();
 
-  const formattedData = rawData.map((item: EventItem) => {
-    let newItem = {
-      id: item.id,
-      title: item.title,
-      start: item.startDate,
-      end: item.endDate,
-      color: item.color || "",
-      allDay: item.isAllDayEvent,
-    };
-    if (item.recurrence !== RecurrenceType.NoRecurrence) {
-      if (
-        item.recurrence === RecurrenceType.CertainDays &&
-        item?.recurrenceDays
-      ) {
-        Object.assign(newItem, {
-          rrule: {
-            freq: RRule.WEEKLY,
-            dtstart: item.startDate,
-            byweekday: item.recurrenceDays.map((day: string) => dayMap[day]),
-          },
-        });
-      }
-      if (item.recurrence !== RecurrenceType.CertainDays) {
-        Object.assign(newItem, {
-          rrule: {
-            freq: item.recurrence,
-            dtstart: item.startDate,
-          },
-        });
-      }
-    }
-    return newItem;
-  });
+  const formattedData = useMemo(
+    () =>
+      rawData.map((item: EventItem) => {
+        let newItem = {
+          id: item.id,
+          title: item.title,
+          start: item.startDate,
+          end: item.endDate,
+          color: item.color || "",
+          allDay: item.isAllDayEvent,
+        };
+        if (item.recurrence !== RecurrenceType.NoRecurrence) {
+          if (
+            item.recurrence === RecurrenceType.CertainDays &&
+            item?.recurrenceDays
+          ) {
+            Object.assign(newItem, {
+              rrule: {
+                freq: RRule.WEEKLY,
+                dtstart: item.startDate,
+                byweekday: item.recurrenceDays.map(
+                  (day: string) => dayMap[day]
+                ),
+              },
+            });
+          }
+          if (item.recurrence !== RecurrenceType.CertainDays) {
+            Object.assign(newItem, {
+              rrule: {
+                freq: item.recurrence,
+                dtstart: item.startDate,
+              },
+            });
+          }
+        }
+        return newItem;
+      }),
+    [rawData]
+  );
 
   const handleEventClick = (data: EventClickArg) => {
     setEventModalType(EventModalType.Edit);

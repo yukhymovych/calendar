@@ -37,7 +37,7 @@ export const SelectColor: FC<SelectColorProps> = ({
         </MenuItem>
         {colorOptions.map((item) => {
           return (
-            <MenuItem value={item.value}>
+            <MenuItem value={item.value} key={item.value}>
               <div className="color-selector-item">
                 <div
                   className="color-box"
