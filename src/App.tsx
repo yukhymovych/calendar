@@ -27,16 +27,14 @@ const App = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <div className="App">
-        <Container>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/login" element={<Auth />} />
-          </Routes>
-        </Container>
-      </div>
+      <Container>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/login" element={<Auth />} />
+        </Routes>
+      </Container>
     </LocalizationProvider>
   );
 };

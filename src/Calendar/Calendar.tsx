@@ -8,7 +8,6 @@ import rrulePlugin from "@fullcalendar/rrule";
 import { updateItem, useGetItems } from "../firebase/crud";
 import { EventItem, EventModalType, RecurrenceType } from "../types";
 import { EventModal } from "../components";
-import "./Calendar.css";
 import { format, addHours } from "date-fns";
 import { useAuthContext } from "../Context/AuthProvider";
 import { RRule } from "rrule";
@@ -125,7 +124,7 @@ const Calendar: FC = () => {
           left: "title",
           right: "dayGridMonth,listWeek,dayGridWeek,today,prev,next",
         }}
-        initialView="dayGridMonth" //dayGridMonth, timeGridWeek, listWeek, dayGridWeek
+        initialView="dayGridMonth"
         dateClick={handleDateCellClick}
         eventClick={handleEventClick}
         eventDrop={handleEventDrop}

@@ -15,8 +15,15 @@ import "./Auth.css";
 const Auth = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
-  const { user, isLoggedIn } = useAuthContext();
   const [errorMessage, setErrorMessage] = useState("");
+  const { user, isLoggedIn } = useAuthContext();
+
+  const showErrorMessage = (errorMessage: string) => {
+    setErrorMessage(errorMessage.replace("auth/", "").replace(/-/g, " "));
+    setTimeout(() => {
+      setErrorMessage("");
+    }, 4000);
+  };
 
   const handleLogin = async () => {
     await signInWithEmailAndPassword(auth, login, password)
@@ -25,10 +32,7 @@ const Auth = () => {
         setPassword("");
       })
       .catch((error) => {
-        setErrorMessage(error.code.replace("auth/", "").replace(/-/g, " "));
-        setTimeout(() => {
-          setErrorMessage("");
-        }, 4000);
+        showErrorMessage(error.code);
       });
   };
 
@@ -43,10 +47,7 @@ const Auth = () => {
         setPassword("");
       })
       .catch((error) => {
-        setErrorMessage(error.code.replace("auth/", "").replace(/-/g, " "));
-        setTimeout(() => {
-          setErrorMessage("");
-        }, 4000);
+        showErrorMessage(error.code);
       });
   };
 
@@ -90,9 +91,7 @@ const Auth = () => {
             <Button onClick={handleRegister}>Register</Button>
           </>
         )}
-        {errorMessage !== "" && (
-          <p className="p auth-error">{errorMessage}</p>
-        )}
+        {errorMessage !== "" && <p className="p auth-error">{errorMessage}</p>}
         {isLoggedIn && <Button onClick={handleLogout}>Log out</Button>}
       </Box>
     </Grid>
