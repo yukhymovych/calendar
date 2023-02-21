@@ -45,7 +45,7 @@ export const EventModal: FC<EventModalProps> = ({
     type === EventModalType.Create ? "Create New Event" : "Edit Event";
   const modalSubmitButtonText =
     type === EventModalType.Create ? "Create" : "Save";
-  const formDefaultValue = useMemo(() => {
+  const formDefaultValue: EventItem = useMemo(() => {
     return {
       id: "",
       title: "",
@@ -60,12 +60,11 @@ export const EventModal: FC<EventModalProps> = ({
     };
   }, [defaultStartDate]);
 
-  const [formData, setFormData] = useState(formDefaultValue);
+  const [formData, setFormData] = useState<EventItem>(formDefaultValue);
 
   const setDefaultData = () => {
     if (initialData) {
-      const { id, ...data } = initialData;
-      setFormData(data as any);
+      setFormData(initialData);
     } else {
       setFormData(formDefaultValue);
     }
@@ -73,8 +72,7 @@ export const EventModal: FC<EventModalProps> = ({
 
   useEffect(() => {
     if (initialData) {
-      const { id, color, ...data } = initialData;
-      setFormData(data as any);
+      setFormData(initialData);
     }
   }, [initialData]);
 
@@ -102,8 +100,8 @@ export const EventModal: FC<EventModalProps> = ({
         title: formData.title,
         place: formData.place || null,
         additional: formData.additional || null,
-        startDate: format(formData.startDate, "yyyy-MM-dd HH:mm"),
-        endDate: format(formData.endDate, "yyyy-MM-dd HH:mm"),
+        startDate: format(new Date(formData.startDate), "yyyy-MM-dd HH:mm"),
+        endDate: format(new Date(formData.endDate), "yyyy-MM-dd HH:mm"),
         color: formData.color,
         isAllDayEvent: formData.isAllDayEvent,
         recurrence: formData.recurrence,
@@ -224,7 +222,7 @@ export const EventModal: FC<EventModalProps> = ({
             {formData.recurrence === RecurrenceType.CertainDays && (
               <Grid>
                 <RecurrenceDaySelect
-                  defaultValue={formData?.recurrenceDays}
+                  defaultValue={formData?.recurrenceDays || []}
                   onChange={(data: string[]) =>
                     setFormData({
                       ...formData,
