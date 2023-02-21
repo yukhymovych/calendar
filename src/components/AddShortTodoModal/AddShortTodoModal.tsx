@@ -23,13 +23,14 @@ export const AddShortTodoModal: FC<AddShortTodoModalProps> = ({
 
   const handleClose = () => {
     setOpen(false);
+    setShortTodoTitle("");
   };
 
   const handleSubmitButton = () => {
     setOpen(false);
   };
 
-  const handleOnSubmit = (e: any) => {
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const itemId = uid();
     const newItem = {
@@ -37,7 +38,8 @@ export const AddShortTodoModal: FC<AddShortTodoModalProps> = ({
       title: shortTodoTitle,
       completed: false,
     };
-    addShortTodo(newItem, user?.uid);
+    if (user) addShortTodo(newItem, user?.uid);
+    setShortTodoTitle("");
   };
 
   return (

@@ -8,7 +8,7 @@ import "./SelectColor.css";
 
 interface SelectColorProps {
   defaultValue: string;
-  onChange: (data: any) => void;
+  onChange: (data: SelectChangeEvent) => void;
 }
 
 export const SelectColor: FC<SelectColorProps> = ({

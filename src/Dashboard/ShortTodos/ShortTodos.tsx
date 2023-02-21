@@ -30,7 +30,10 @@ const ShortTodos: FC<ShortTodosProps> = ({ data }) => {
     setOpenRemoveModal(true);
   };
 
-  const handleCheckbox = (item: ShortTodo, data: any) => {
+  const handleCheckbox = (
+    item: ShortTodo,
+    data: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setShortTodoData({
       id: item.id,
       title: item.title,
@@ -39,8 +42,9 @@ const ShortTodos: FC<ShortTodosProps> = ({ data }) => {
   };
 
   useEffect(() => {
-    if (shortTodoData.title !== "") updateShortTodo(shortTodoData, user?.uid);
-  }, [shortTodoData, shortTodoData.completed, user?.uid]);
+    if (shortTodoData.title !== "" && user)
+      updateShortTodo(shortTodoData, user?.uid);
+  }, [shortTodoData, shortTodoData.completed, user, user?.uid]);
 
   const showShortTodos = data.length !== 0;
 

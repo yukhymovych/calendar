@@ -33,8 +33,10 @@ export const ItemRemoveModal: FC<ItemRemoveModalProps> = ({
     if (callback) {
       callback();
     }
-    if (ItemType.Event === itemName) removeItem(eventId, user?.uid);
-    if (ItemType.Todo === itemName) removeShortTodo(eventId, user?.uid);
+    if (user) {
+      if (ItemType.Event === itemName) removeItem(eventId, user?.uid);
+      if (ItemType.Todo === itemName) removeShortTodo(eventId, user?.uid);
+    }
     setOpen(false);
   };
 

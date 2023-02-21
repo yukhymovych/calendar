@@ -3,7 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
-import interactionPlugin from "@fullcalendar/interaction";
+import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import rrulePlugin from "@fullcalendar/rrule";
 import { updateItem, useGetItems } from "../firebase/crud";
 import { EventItem, EventModalType, RecurrenceType } from "../types";
@@ -12,6 +12,7 @@ import "./Calendar.css";
 import { format, addHours } from "date-fns";
 import { useAuthContext } from "../Context/AuthProvider";
 import { RRule } from "rrule";
+import { EventClickArg, EventDropArg } from "@fullcalendar/core";
 
 const dayMap: Record<string, number> = {
   Monday: 0,
@@ -69,7 +70,7 @@ const Calendar: FC = () => {
     return newItem;
   });
 
-  const handleEventClick = (data: any) => {
+  const handleEventClick = (data: EventClickArg) => {
     setEventModalType(EventModalType.Edit);
     const event =
       rawData.find((item: EventItem) => item.id === data.event.id) || undefined;
@@ -77,16 +78,16 @@ const Calendar: FC = () => {
     setOpenEditModal(true);
   };
 
-  const handleEventDrop = (data: any) => {
+  const handleEventDrop = (data: EventDropArg) => {
     const event = rawData.find((item: EventItem) => item.id === data.event.id);
     const editedEvent = {
       id: event?.id || "",
       title: event?.title || "",
       place: event?.place || null,
       additional: event?.additional || null,
-      startDate: format(data.event.start, "yyyy-MM-dd HH:mm"),
+      startDate: format(data.event.start || new Date(), "yyyy-MM-dd HH:mm"),
       endDate: format(
-        data.event.end || addHours(data.event.start, 1),
+        data.event.end || addHours(data.event.start || new Date(), 1),
         "yyyy-MM-dd HH:mm"
       ),
       color: event?.color || null,
@@ -94,10 +95,10 @@ const Calendar: FC = () => {
       recurrence: event?.recurrence || "noRecurrence",
       recurrenceDays: event?.recurrenceDays || [],
     };
-    updateItem(editedEvent, user?.uid);
+    if (user) updateItem(editedEvent, user?.uid);
   };
 
-  const handleDateCellClick = (data: any) => {
+  const handleDateCellClick = (data: DateClickArg) => {
     setCreateStartDate(data.date);
     setEventModalType(EventModalType.Create);
     setOpenEditModal(true);

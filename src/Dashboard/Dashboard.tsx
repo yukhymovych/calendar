@@ -154,13 +154,11 @@ const filterEventsUpcoming = (events: EventItem[]) => {
 const Dashboard: FC = () => {
   const events = useGetItems();
   const shortTodos = useGetShortTodos();
-  const { user } = useAuthContext();
   const eventListTodays = filterEventsForToday(events);
   const eventListUpcoming = filterEventsUpcoming(events);
 
   const userInfo = {
     fullDate: format(new Date(), "cccc, MMMM d, H:mm"),
-    name: user?.displayName || null,
     today: eventListTodays.length,
     upcoming: eventListUpcoming.length,
   };

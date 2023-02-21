@@ -9,7 +9,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 
 interface RecurrenceDaySelectProps {
   defaultValue: string[];
-  onChange: (data: any) => void;
+  onChange: (data: string[]) => void;
 }
 
 const ITEM_HEIGHT = 48;
@@ -39,7 +39,7 @@ export const RecurrenceDaySelect: FC<RecurrenceDaySelectProps> = ({
 }) => {
   const [value, setValue] = useState<string[]>(defaultValue);
 
-  const handleChange = (event: SelectChangeEvent) => {
+  const handleChange = (event: SelectChangeEvent<string[]>) => {
     const {
       target: { value },
     } = event;
@@ -54,10 +54,10 @@ export const RecurrenceDaySelect: FC<RecurrenceDaySelectProps> = ({
         labelId="days-of-week-select"
         id="days-of-week-select"
         multiple
-        value={value as any}
+        value={value}
         onChange={handleChange}
         input={<OutlinedInput label="Days of week" />}
-        renderValue={(selected: any) => selected.join(", ")}
+        renderValue={(selected: string[]) => selected.join(", ")}
         MenuProps={MenuProps}
       >
         {days.map((day: string) => (

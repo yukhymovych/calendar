@@ -20,6 +20,7 @@ import {
   ItemRemoveModal,
   RecurrenceDaySelect,
 } from "../../components";
+import { SelectChangeEvent } from "@mui/material";
 
 interface EventModalProps {
   defaultStartDate?: Date;
@@ -46,15 +47,16 @@ export const EventModal: FC<EventModalProps> = ({
     type === EventModalType.Create ? "Create" : "Save";
   const formDefaultValue = useMemo(() => {
     return {
+      id: "",
       title: "",
       place: "",
       additional: "",
       startDate: defaultStartDate,
       endDate: addHours(defaultStartDate, 1),
-      color: null,
+      color: "",
       isAllDayEvent: false,
       recurrence: "noRecurrence",
-      recurrenceDays: [],
+      recurrenceDays: [] as string[],
     };
   }, [defaultStartDate]);
 
@@ -62,7 +64,7 @@ export const EventModal: FC<EventModalProps> = ({
 
   const setDefaultData = () => {
     if (initialData) {
-      const { id, color, ...data } = initialData;
+      const { id, ...data } = initialData;
       setFormData(data as any);
     } else {
       setFormData(formDefaultValue);
@@ -91,7 +93,7 @@ export const EventModal: FC<EventModalProps> = ({
     setOpen(false);
   };
 
-  const handleOnSubmit = (e: any) => {
+  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (type === EventModalType.Create) {
       const itemId = uid();
@@ -107,7 +109,7 @@ export const EventModal: FC<EventModalProps> = ({
         recurrence: formData.recurrence,
         recurrenceDays: formData?.recurrenceDays || [],
       };
-      addItem(newItem, user?.uid);
+      if (user) addItem(newItem, user?.uid);
     } else {
       const editedItem = {
         ...initialData,
@@ -119,11 +121,11 @@ export const EventModal: FC<EventModalProps> = ({
         recurrence: formData.recurrence,
         recurrenceDays: formData?.recurrenceDays || [],
       };
-      updateItem(editedItem, user?.uid);
+      if (user) updateItem(editedItem, user?.uid);
     }
   };
 
-  const handleChange = (data: any) => {
+  const handleChange = (data: { target: { name: string; value: string } }) => {
     setFormData({
       ...formData,
       [data.target.name]: data.target.value,
@@ -211,7 +213,7 @@ export const EventModal: FC<EventModalProps> = ({
             <Grid>
               <RecurrenceSelect
                 defaultValue={formData?.recurrence || "noRecurrence"}
-                onChange={(data: any) =>
+                onChange={(data: SelectChangeEvent) =>
                   setFormData({
                     ...formData,
                     recurrence: data.target.value,
@@ -223,7 +225,7 @@ export const EventModal: FC<EventModalProps> = ({
               <Grid>
                 <RecurrenceDaySelect
                   defaultValue={formData?.recurrenceDays}
-                  onChange={(data: any) =>
+                  onChange={(data: string[]) =>
                     setFormData({
                       ...formData,
                       recurrenceDays: data,

@@ -11,7 +11,7 @@ type SelectOption = {
 
 interface RecurrenceSelectProps {
   defaultValue: string;
-  onChange: (data: any) => void;
+  onChange: (data: SelectChangeEvent) => void;
 }
 
 const recurrenceOptions = [

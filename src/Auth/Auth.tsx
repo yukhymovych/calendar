@@ -10,11 +10,13 @@ import {
 } from "firebase/auth";
 import { auth } from "../firebase/config";
 import { useAuthContext } from "../Context/AuthProvider";
+import "./Auth.css";
 
 const Auth = () => {
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const { user, isLoggedIn } = useAuthContext();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleLogin = async () => {
     await signInWithEmailAndPassword(auth, login, password)
@@ -23,7 +25,10 @@ const Auth = () => {
         setPassword("");
       })
       .catch((error) => {
-        console.log("Login error: ", error);
+        setErrorMessage(error.code.replace("auth/", "").replace(/-/g, " "));
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 4000);
       });
   };
 
@@ -38,14 +43,21 @@ const Auth = () => {
         setPassword("");
       })
       .catch((error) => {
-        console.log("Register error: ", error);
+        setErrorMessage(error.code.replace("auth/", "").replace(/-/g, " "));
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 4000);
       });
   };
 
   return (
     <Grid container sx={{ justifyContent: "center" }}>
       <Box sx={{ width: 300, textAlign: "center" }}>
-        <h2 className="h2">{isLoggedIn ? `You've been logged in via ${user?.email}` : "Authentification"}</h2>
+        <h2 className="h2">
+          {isLoggedIn
+            ? `You've been logged in via ${user?.email}`
+            : "Authentification"}
+        </h2>
         {!isLoggedIn && (
           <>
             <TextField
@@ -77,6 +89,9 @@ const Auth = () => {
             <Button onClick={handleLogin}>Login</Button>
             <Button onClick={handleRegister}>Register</Button>
           </>
+        )}
+        {errorMessage !== "" && (
+          <p className="p auth-error">{errorMessage}</p>
         )}
         {isLoggedIn && <Button onClick={handleLogout}>Log out</Button>}
       </Box>

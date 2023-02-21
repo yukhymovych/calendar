@@ -1,3 +1,4 @@
+import { User } from "firebase/auth";
 import React, {
   createContext,
   useContext,
@@ -9,7 +10,7 @@ import React, {
 import { auth } from "../firebase/config";
 
 export interface AuthContextValue {
-  user: any;
+  user: User | null;
   isLoggedIn: boolean;
 }
 
@@ -27,11 +28,11 @@ interface AuthProviderProps {
 export const AuthProvider: FC<AuthProviderProps> = ({
   children,
 }) => {
-  const [user, setUser] = useState<any>([]);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    auth.onAuthStateChanged((data) => {
+    auth.onAuthStateChanged((data: User | null) => {
       setUser(data);
     });
   }, []);

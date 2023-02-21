@@ -66,7 +66,7 @@ const EventListColumn: FC<EventListColumnProps> = ({
       if (recurrence === RecurrenceType.CertainDays) return "Weekly";
       return recurrence.charAt(0).toUpperCase() + recurrence.slice(1);
     }
-    console.log(today)
+    
     return today ? todayRelativeTime : format(new Date(startDate), "MMMM d");
   };
 
