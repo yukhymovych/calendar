@@ -21,6 +21,7 @@ import {
   RecurrenceDaySelect,
 } from "../../components";
 import { SelectChangeEvent } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 interface EventModalProps {
   defaultStartDate?: Date;
@@ -224,9 +225,22 @@ export const EventModal: FC<EventModalProps> = ({
               </Grid>
             )}
           </Grid>
-          {!formData.isAllDayEvent && (
-            <Grid container mt="30px" justifyContent="space-between">
-              <Grid>
+          <Grid container mt="30px" justifyContent="space-between">
+            <Grid>
+              {formData.isAllDayEvent ? (
+                <DatePicker
+                  renderInput={(innerProps) => <TextField {...innerProps} />}
+                  label="Start Date"
+                  value={formData.startDate}
+                  onChange={(data) =>
+                    setFormData({
+                      ...formData,
+                      startDate: data as Date,
+                      endDate: addHours(data as Date, 1),
+                    })
+                  }
+                />
+              ) : (
                 <DateTimePicker
                   renderInput={(innerProps) => <TextField {...innerProps} />}
                   label="Start Date"
@@ -240,8 +254,22 @@ export const EventModal: FC<EventModalProps> = ({
                   }
                   ampm={false}
                 />
-              </Grid>
-              <Grid>
+              )}
+            </Grid>
+            <Grid>
+              {formData.isAllDayEvent ? (
+                <DatePicker
+                  renderInput={(innerProps) => <TextField {...innerProps} />}
+                  label="End Date"
+                  value={formData.endDate}
+                  onChange={(data) =>
+                    setFormData({
+                      ...formData,
+                      endDate: data as Date,
+                    })
+                  }
+                />
+              ) : (
                 <DateTimePicker
                   renderInput={(innerProps) => <TextField {...innerProps} />}
                   label="End Date"
@@ -254,9 +282,9 @@ export const EventModal: FC<EventModalProps> = ({
                   }
                   ampm={false}
                 />
-              </Grid>
+              )}
             </Grid>
-          )}
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>
