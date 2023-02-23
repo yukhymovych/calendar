@@ -14,11 +14,11 @@ import {
   isToday,
   set,
 } from "date-fns";
-import { EventModal, ItemRemoveModal } from "../../components";
-import { EventModalType, EventItem, RecurrenceType } from "../../types";
+import { EventModal, ItemRemoveModal } from "../../../components";
+import { EventModalType, EventItem, RecurrenceType } from "../../../types";
 import { TransitionGroup } from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
-import { colorOptions } from "../../components/SelectColor/colors";
+import { colorOptions } from "../../../components/SelectColor/colors";
 import "./EventListColumn.css";
 
 interface EventListColumnProps {
@@ -49,6 +49,9 @@ const EventListColumn: FC<EventListColumnProps> = ({
     recurrence: "noRecurrence",
     recurrenceDays: [],
   });
+  const formatMonthDay = "MMMM d";
+  const formatHoursMinutes = "HH:mm";
+  const formatMonthDayHoursMinutes = "MMM.dd, HH:mm";
 
   const getTodayStartTime = (startDate: string | Date, recurrence: string) => {
     const todayDate = new Date();
@@ -66,8 +69,10 @@ const EventListColumn: FC<EventListColumnProps> = ({
       if (recurrence === RecurrenceType.CertainDays) return "Weekly";
       return recurrence.charAt(0).toUpperCase() + recurrence.slice(1);
     }
-    
-    return today ? todayRelativeTime : format(new Date(startDate), "MMMM d");
+
+    return today
+      ? todayRelativeTime
+      : format(new Date(startDate), formatMonthDay);
   };
 
   const getTimeRange = (event: EventItem, daysAmountInRange: number) => {
@@ -75,22 +80,24 @@ const EventListColumn: FC<EventListColumnProps> = ({
     if (daysAmountInRange > 1) {
       if (today) {
         if (isToday(new Date(event.startDate)))
-          return "from " + format(new Date(event.startDate), "HH:mm");
+          return (
+            "from " + format(new Date(event.startDate), formatHoursMinutes)
+          );
         if (isToday(new Date(event.endDate)))
-          return "to " + format(new Date(event.endDate), "HH:mm");
+          return "to " + format(new Date(event.endDate), formatHoursMinutes);
         return "All day";
       }
       return (
-        format(new Date(event.startDate), "MMM.dd, HH:mm") +
+        format(new Date(event.startDate), formatMonthDayHoursMinutes) +
         " to " +
-        format(new Date(event.endDate), "MMM.dd, HH:mm")
+        format(new Date(event.endDate), formatMonthDayHoursMinutes)
       );
     }
 
     const startEndTimePeriod =
-      format(new Date(event.startDate), "HH:mm") +
+      format(new Date(event.startDate), formatHoursMinutes) +
       "-" +
-      format(new Date(event.endDate), "HH:mm");
+      format(new Date(event.endDate), formatHoursMinutes);
 
     return startEndTimePeriod;
   };
@@ -108,7 +115,7 @@ const EventListColumn: FC<EventListColumnProps> = ({
   return (
     <div className="event-list__column">
       <div className="event-list__top">
-        <h2 className="h2">{title}</h2>
+        <h2 className="header">{title}</h2>
         {showSeeAllButton && (
           <span className="link active" onClick={() => setShowAll(!showAll)}>
             {showAll ? "Collapse" : "See All"}
@@ -131,7 +138,10 @@ const EventListColumn: FC<EventListColumnProps> = ({
             <Collapse key={event.id}>
               <div className="event-list__item">
                 <Grid container justifyContent="space-between">
-                  <h2 className="h3" style={{ color: colorPalette?.value }}>
+                  <h2
+                    className="sub-header"
+                    style={{ color: colorPalette?.value }}
+                  >
                     {event.title}{" "}
                     {today &&
                       daysAmountInRange > 1 &&
@@ -152,18 +162,18 @@ const EventListColumn: FC<EventListColumnProps> = ({
                     </div>
                   </div>
                 </Grid>
-                <p className="p">
+                <p className="text">
                   <AccessTimeIcon fontSize="small" />
                   {getTimeRange(event, daysAmountInRange)}
                 </p>
                 {event.place && (
-                  <p className="p">
+                  <p className="text">
                     <PlaceIcon fontSize="small" />
                     {event.place}
                   </p>
                 )}
                 {event.additional && (
-                  <p className="p">
+                  <p className="text">
                     <ApartmentIcon fontSize="small" />
                     {event.additional}
                   </p>

@@ -2,13 +2,13 @@ import React, { FC, useEffect, useState } from "react";
 import { Checkbox, FormControlLabel } from "@mui/material";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import "./ShortTodos.css";
-import { AddShortTodoModal, ItemRemoveModal } from "../../components";
+import { AddShortTodoModal, ItemRemoveModal } from "../../../components";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TransitionGroup } from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
-import { ShortTodo } from "../../types";
-import { updateShortTodo } from "../../firebase/crud";
-import { useAuthContext } from "../../Context/AuthProvider";
+import { ShortTodo } from "../../../types";
+import { updateShortTodo } from "../../../firebase/crud";
+import { useAuthContext } from "../../../Context/AuthProvider";
 
 interface ShortTodosProps {
   data: ShortTodo[];
@@ -51,7 +51,7 @@ const ShortTodos: FC<ShortTodosProps> = ({ data }) => {
   return (
     <div className="right-sidebar__short-todo">
       <div className="short-todo__top">
-        <h3 className="h3">Short Todos</h3>
+        <h3 className="sub-header">Short Todos</h3>
         <div
           className="short-todo__add-button"
           onClick={() => setOpenEditModal(true)}
@@ -84,7 +84,7 @@ const ShortTodos: FC<ShortTodosProps> = ({ data }) => {
           ))}
       </TransitionGroup>
       {!showShortTodos && (
-        <p className="p">
+        <p className="text">
           You don't have any Short Todos yet. Add new todos to see them
         </p>
       )}

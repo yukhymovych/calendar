@@ -10,7 +10,7 @@
   justify-content: space-between;
   margin-bottom: 10px;
 }
-.short-todo__top .h3 {
+.short-todo__top .sub-header {
   margin-bottom: 0;
 }
 .short-todo__item {

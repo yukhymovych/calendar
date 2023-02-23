@@ -5,11 +5,11 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
 import rrulePlugin from "@fullcalendar/rrule";
-import { updateItem, useGetItems } from "../firebase/crud";
-import { EventItem, EventModalType, RecurrenceType } from "../types";
-import { EventModal } from "../components";
+import { updateItem, useGetItems } from "../../firebase/crud";
+import { EventItem, EventModalType, RecurrenceType } from "../../types";
+import { EventModal } from "../../components";
 import { format, addHours } from "date-fns";
-import { useAuthContext } from "../Context/AuthProvider";
+import { useAuthContext } from "../../Context/AuthProvider";
 import { RRule } from "rrule";
 import { EventClickArg, EventDropArg } from "@fullcalendar/core";
 
@@ -23,7 +23,7 @@ const dayMap: Record<string, number> = {
   Sunday: 6,
 };
 
-const Calendar: FC = () => {
+export const Calendar: FC = () => {
   const { user } = useAuthContext();
   const [openEditModal, setOpenEditModal] = useState(false);
   const [eventForEdit, setEventForEdit] = useState<EventItem | undefined>(
@@ -32,6 +32,7 @@ const Calendar: FC = () => {
   const [eventModalType, setEventModalType] = useState(EventModalType.Edit);
   const [createStartDate, setCreateStartDate] = useState(new Date());
   const calendarRef = useRef<FullCalendar | null>(null);
+  const formatFullDateTime = "yyyy-MM-dd HH:mm";
 
   const rawData = useGetItems();
 
@@ -90,10 +91,10 @@ const Calendar: FC = () => {
       title: event?.title || "",
       place: event?.place || "",
       additional: event?.additional || "",
-      startDate: format(data.event.start || new Date(), "yyyy-MM-dd HH:mm"),
+      startDate: format(data.event.start || new Date(), formatFullDateTime),
       endDate: format(
         data.event.end || addHours(data.event.start || new Date(), 1),
-        "yyyy-MM-dd HH:mm"
+        formatFullDateTime
       ),
       color: event?.color || "none",
       isAllDayEvent: event?.isAllDayEvent || false,
@@ -153,5 +154,3 @@ const Calendar: FC = () => {
     </>
   );
 };
-
-export default Calendar;

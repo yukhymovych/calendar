@@ -6,7 +6,7 @@
   justify-content: space-between;
   align-items: center;
 }
-.event-list__top .h2 {
+.event-list__top .header {
   margin-bottom: 0;
 }
 .event-list__item {

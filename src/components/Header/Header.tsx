@@ -16,7 +16,7 @@ export const Header: FC = () => {
   };
 
   return (
-    <div className="header">
+    <div className="header-container">
       <div className="logo">
         <span>M</span>agnificent Calendar
       </div>

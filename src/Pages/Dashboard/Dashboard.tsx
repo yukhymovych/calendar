@@ -16,9 +16,9 @@ import UserInfo from "./UserInfo/UserInfo";
 import EventListColumn from "./EventListColumn/EventListColumn";
 import Reminder from "./ShortTodos/ShortTodos";
 import SidebarDatepicker from "./SidebarDatepicker/SidebarDatepicker";
-import { useGetItems, useGetShortTodos } from "../firebase/crud";
+import { useGetItems, useGetShortTodos } from "../../firebase/crud";
 import "./Dashboard.css";
-import { EventItem, RecurrenceType } from "../types";
+import { EventItem, RecurrenceType } from "../../types";
 
 const filterEventsForToday = (events: EventItem[]) => {
   const today = startOfDay(new Date());
@@ -150,7 +150,7 @@ const filterEventsUpcoming = (events: EventItem[]) => {
   });
 };
 
-const Dashboard: FC = () => {
+export const Dashboard: FC = () => {
   const events = useGetItems();
   const shortTodos = useGetShortTodos();
   const eventListTodays = useMemo(() => filterEventsForToday(events), [events]);
@@ -159,8 +159,10 @@ const Dashboard: FC = () => {
     [events]
   );
 
+  const userInfoDateFormat = "cccc, MMMM d, H:mm";
+
   const userInfo = {
-    fullDate: format(new Date(), "cccc, MMMM d, H:mm"),
+    fullDate: format(new Date(), userInfoDateFormat),
     today: eventListTodays.length,
     upcoming: eventListUpcoming.length,
   };
@@ -193,7 +195,7 @@ const Dashboard: FC = () => {
             )}
           </>
         ) : (
-          <h2 className="h3">
+          <h2 className="sub-header">
             You don't have any events yet. After you add them you will see it
             here
           </h2>
@@ -207,5 +209,3 @@ const Dashboard: FC = () => {
     </div>
   );
 };
-
-export default Dashboard;

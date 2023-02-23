@@ -85,6 +85,9 @@ export const EventModal: FC<EventModalProps> = ({
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const dateFormatting = "yyyy-MM-dd HH:mm";
+
+    if (!user) return;
     if (type === EventModalType.Create) {
       const itemId = uid();
       const newItem = {
@@ -92,26 +95,26 @@ export const EventModal: FC<EventModalProps> = ({
         title: formData.title,
         place: formData.place || "",
         additional: formData.additional || "",
-        startDate: format(new Date(formData.startDate), "yyyy-MM-dd HH:mm"),
-        endDate: format(new Date(formData.endDate), "yyyy-MM-dd HH:mm"),
+        startDate: format(new Date(formData.startDate), dateFormatting),
+        endDate: format(new Date(formData.endDate), dateFormatting),
         color: formData.color,
         isAllDayEvent: formData.isAllDayEvent,
         recurrence: formData.recurrence,
         recurrenceDays: formData?.recurrenceDays || [],
       };
-      if (user) addItem(newItem, user?.uid);
+      addItem(newItem, user?.uid);
     } else {
       const editedItem = {
         ...initialData,
         ...formData,
         id: initialData?.id || "",
-        startDate: format(new Date(formData.startDate), "yyyy-MM-dd HH:mm"),
-        endDate: format(new Date(formData.endDate), "yyyy-MM-dd HH:mm"),
+        startDate: format(new Date(formData.startDate), dateFormatting),
+        endDate: format(new Date(formData.endDate), dateFormatting),
         isAllDayEvent: formData.isAllDayEvent,
         recurrence: formData.recurrence,
         recurrenceDays: formData?.recurrenceDays || [],
       };
-      if (user) updateItem(editedItem, user?.uid);
+      updateItem(editedItem, user?.uid);
     }
   };
 

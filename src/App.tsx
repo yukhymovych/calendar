@@ -1,9 +1,7 @@
 import React, { useEffect } from "react";
 import { Container } from "@mui/material";
 import { Header } from "./components";
-import Dashboard from "./Dashboard/Dashboard";
-import Calendar from "./Calendar/Calendar";
-import Auth from "./Auth/Auth";
+import { Auth, Calendar, Dashboard } from "./Pages";
 import { Routes, Route } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
