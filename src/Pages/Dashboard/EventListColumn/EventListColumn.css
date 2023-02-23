@@ -15,7 +15,7 @@
   margin: 20px 0;
   padding: 15px 20px;
 }
-.event-list__item .p {
+.event-list__item .text {
   display: flex;
   align-items: center;
   gap: 5px;

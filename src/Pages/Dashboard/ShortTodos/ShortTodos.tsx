@@ -8,7 +8,7 @@ import { TransitionGroup } from "react-transition-group";
 import Collapse from "@mui/material/Collapse";
 import { ShortTodo } from "../../../types";
 import { updateShortTodo } from "../../../firebase/crud";
-import { useAuthContext } from "../../../Context/AuthProvider";
+import { useAuthContext } from "../../../context/AuthProvider";
 
 interface ShortTodosProps {
   data: ShortTodo[];

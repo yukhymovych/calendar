@@ -9,7 +9,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../../firebase/config";
-import { useAuthContext } from "../../Context/AuthProvider";
+import { useAuthContext } from "../../context/AuthProvider";
 import "./Auth.css";
 
 export const Auth: FC = () => {

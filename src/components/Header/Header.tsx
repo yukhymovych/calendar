@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import "./Header.css";
-import { useAuthContext } from "../../Context/AuthProvider";
+import { useAuthContext } from "../../context/AuthProvider";
 
 export const Header: FC = () => {
   const { isLoggedIn } = useAuthContext();
