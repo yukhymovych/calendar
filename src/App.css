@@ -1,11 +1,11 @@
 html {
   --main-blue: #3664da;
-  --main-gray: #9A9A9B;
-  --gray-light: #FAFAFA;
+  --main-gray: #9a9a9b;
+  --gray-light: #fafafa;
   --border-gray: #e4e4e4;
-  --main-green: #52AB54;
-  --main-red: #EF7163;
-  --main-purple: #A426F2;
+  --main-green: #52ab54;
+  --main-red: #ef7163;
+  --main-purple: #a426f2;
   --main-black: rgb(44, 44, 44);
 }
 a {

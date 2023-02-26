@@ -8,7 +8,7 @@ const firebaseConfig = {
   projectId: "magnificent-calendar",
   storageBucket: "magnificent-calendar.appspot.com",
   messagingSenderId: "251814553024",
-  appId: "1:251814553024:web:a2f51204786404cad29425"
+  appId: "1:251814553024:web:a2f51204786404cad29425",
 };
 
 const app = initializeApp(firebaseConfig);

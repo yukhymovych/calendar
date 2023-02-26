@@ -91,7 +91,9 @@ export const Auth: FC = () => {
             <Button onClick={handleRegister}>Register</Button>
           </>
         )}
-        {errorMessage !== "" && <p className="text auth-error">{errorMessage}</p>}
+        {errorMessage !== "" && (
+          <p className="text auth-error">{errorMessage}</p>
+        )}
         {isLoggedIn && <Button onClick={handleLogout}>Log out</Button>}
       </Box>
     </Grid>

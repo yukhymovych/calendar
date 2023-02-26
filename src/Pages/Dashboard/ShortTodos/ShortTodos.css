@@ -25,5 +25,5 @@
   transition: 0.2s;
 }
 .short-todo__add-button:hover {
-  opacity: 0.5
+  opacity: 0.5;
 }

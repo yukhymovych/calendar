@@ -7,7 +7,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 type SelectOption = {
   name: string;
   value: string;
-}
+};
 
 interface RecurrenceSelectProps {
   defaultValue: string;
@@ -45,7 +45,7 @@ export const RecurrenceSelect: FC<RecurrenceSelectProps> = ({
 
   useEffect(() => {
     setValue(defaultValue);
-  }, [defaultValue])
+  }, [defaultValue]);
 
   const handleChange = (event: SelectChangeEvent) => {
     setValue(event.target.value);
@@ -66,7 +66,11 @@ export const RecurrenceSelect: FC<RecurrenceSelectProps> = ({
           <em>No recurrence</em>
         </MenuItem>
         {recurrenceOptions.map((item: SelectOption) => {
-          return <MenuItem value={item.value} key={item.value}>{item.name}</MenuItem>;
+          return (
+            <MenuItem value={item.value} key={item.value}>
+              {item.name}
+            </MenuItem>
+          );
         })}
       </Select>
     </FormControl>

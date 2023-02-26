@@ -41,7 +41,7 @@ export const RecurrenceDaySelect: FC<RecurrenceDaySelectProps> = ({
 
   useEffect(() => {
     setValue(defaultValue);
-  }, [defaultValue])
+  }, [defaultValue]);
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     const {
