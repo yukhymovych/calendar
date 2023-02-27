@@ -5,7 +5,7 @@ import { Auth, Calendar, Dashboard } from "./Pages";
 import { Routes, Route } from "react-router-dom";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { useAuthContext } from "./Context/auth-provider";
+import { useAuthContext } from "./context/auth-provider";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./App.css";
 

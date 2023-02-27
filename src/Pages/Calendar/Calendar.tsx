@@ -9,7 +9,7 @@ import { updateItem, useGetItems } from "../../firebase/crud";
 import { EventItem, EventModalType, RecurrenceType } from "../../types";
 import { EventModal } from "../../components";
 import { format, addHours } from "date-fns";
-import { useAuthContext } from "../../Context/auth-provider";
+import { useAuthContext } from "../../context/auth-provider";
 import { RRule } from "rrule";
 import { EventClickArg, EventDropArg } from "@fullcalendar/core";
 
