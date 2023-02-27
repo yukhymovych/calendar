@@ -11,7 +11,7 @@ import { uid } from "uid";
 import { addItem, updateItem } from "../../firebase/crud";
 import { format, addHours, set } from "date-fns";
 import { EventModalType, EventItem, RecurrenceType } from "../../types";
-import { useAuthContext } from "../../context/auth-provider";
+import { useAuthContext } from "../../Context/auth-provider";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import {

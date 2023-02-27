@@ -5,7 +5,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { removeItem, removeShortTodo } from "../../firebase/crud";
-import { useAuthContext } from "../../context/auth-provider";
+import { useAuthContext } from "../../Context/auth-provider";
 import { ItemType } from "../../types";
 
 interface ItemRemoveModalProps {

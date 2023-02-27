@@ -7,7 +7,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import { uid } from "uid";
 import { addShortTodo } from "../../firebase/crud";
-import { useAuthContext } from "../../context/auth-provider";
+import { useAuthContext } from "../../Context/auth-provider";
 
 interface AddShortTodoModalProps {
   open: boolean;
