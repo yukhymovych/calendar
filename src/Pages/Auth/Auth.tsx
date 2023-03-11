@@ -14,9 +14,9 @@ import './Auth.css';
 
 export const Auth: FC = () => {
   const [login, setLogin] = useState('');
-    const [password, setPassword] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const { user, isLoggedIn } = useAuthContext();
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const { user, isLoggedIn } = useAuthContext();
 
   const showErrorMessage = (errorMessage: string) => {
     setErrorMessage(errorMessage.replace('auth/', '').replace(/-/g, ' '));
