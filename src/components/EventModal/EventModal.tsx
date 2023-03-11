@@ -118,7 +118,12 @@ export const EventModal: FC<EventModalProps> = ({
     }
   };
 
-  const handleChange = (data: { target: { name: string; value: string } }) => {
+  const handleChange = (data: {
+    target: {
+      name: string;
+      value: string;
+    };
+  }) => {
     setFormData({
       ...formData,
       [data.target.name]: data.target.value,

@@ -24,11 +24,12 @@ const UserInfo: FC<UserInfoProps> = ({ data }) => {
       <div className="user-info__planned">
         <p className="text">You have:</p>
         <p className="text planned__text">
-          {today} event{today > 1 && 's'} <span className="today">today</span>
+          {today} event
+          {today > 1 && 's'} <span className="today">today</span>
         </p>
         <p className="text planned__text">
-          {upcoming} event{upcoming > 1 && 's'}{' '}
-          <span className="upcoming">this week</span>
+          {upcoming} event
+          {upcoming > 1 && 's'} <span className="upcoming">this week</span>
         </p>
       </div>
       <Link to="/calendar">

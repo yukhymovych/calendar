@@ -70,7 +70,9 @@ export const filteringUpcomingMonthly = (start: Date) => {
 };
 
 export const filteringUpcomingYearly = (start: Date) => {
-  let recurrenceTempDay = set(start, { year: today.getFullYear() });
+  let recurrenceTempDay = set(start, {
+    year: today.getFullYear(),
+  });
 
   if (
     isWithinInterval(recurrenceTempDay, {

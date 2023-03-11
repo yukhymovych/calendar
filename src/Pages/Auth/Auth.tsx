@@ -53,7 +53,12 @@ export const Auth: FC = () => {
 
   return (
     <Grid container sx={{ justifyContent: 'center' }}>
-      <Box sx={{ width: 300, textAlign: 'center' }}>
+      <Box
+        sx={{
+          width: 300,
+          textAlign: 'center',
+        }}
+      >
         <h2 className="header">
           {isLoggedIn
             ? `You've been logged in via ${user?.email}`

@@ -41,7 +41,9 @@ export const SelectColor: FC<SelectColorProps> = ({
               <div className="color-selector-item">
                 <div
                   className="color-box"
-                  style={{ backgroundColor: item.value }}
+                  style={{
+                    backgroundColor: item.value,
+                  }}
                 ></div>
                 {item.name}
               </div>
