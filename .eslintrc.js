@@ -5,11 +5,9 @@ module.exports = {
   //   indent: ['error', 4],
   //   'linebreak-style': ['error', 'unix'],
   //   semi: ['error', 'always'],
-
   //   // override configuration set by extending "eslint:recommended"
   //   'no-empty': 'warn',
   //   'no-cond-assign': ['error', 'always'],
-
   //   // disable rules from base configurations
   //   'for-direction': 'off',
   // },
