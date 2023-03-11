@@ -1,27 +1,27 @@
-import React, { FC, useState, useEffect, useMemo } from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
-import Grid from "@mui/material/Grid";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import { uid } from "uid";
-import { addItem, updateItem } from "../../firebase/crud";
-import { format, addHours, set } from "date-fns";
-import { EventModalType, EventItem, RecurrenceType } from "../../types";
-import { useAuthContext } from "../../context/auth-provider";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import React, { FC, useState, useEffect, useMemo } from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { uid } from 'uid';
+import { addItem, updateItem } from '../../firebase/crud';
+import { format, addHours, set } from 'date-fns';
+import { EventModalType, EventItem, RecurrenceType } from '../../types';
+import { useAuthContext } from '../../context/auth-provider';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import {
   RecurrenceSelect,
   SelectColor,
   ItemRemoveModal,
   RecurrenceDaySelect,
-} from "../../components";
-import { SelectChangeEvent } from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+} from '../../components';
+import { SelectChangeEvent } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface EventModalProps {
   defaultStartDate?: Date;
@@ -43,20 +43,20 @@ export const EventModal: FC<EventModalProps> = ({
   const { user } = useAuthContext();
   const [openRemoveModal, setOpenRemoveModal] = useState(false);
   const modalTitleText =
-    type === EventModalType.Create ? "Create New Event" : "Edit Event";
+    type === EventModalType.Create ? 'Create New Event' : 'Edit Event';
   const modalSubmitButtonText =
-    type === EventModalType.Create ? "Create" : "Save";
+    type === EventModalType.Create ? 'Create' : 'Save';
   const formDefaultValue: EventItem = useMemo(() => {
     return {
-      id: "",
-      title: "",
-      place: "",
-      additional: "",
+      id: '',
+      title: '',
+      place: '',
+      additional: '',
       startDate: defaultStartDate,
       endDate: addHours(defaultStartDate, 1),
-      color: "none",
+      color: 'none',
       isAllDayEvent: false,
-      recurrence: "noRecurrence",
+      recurrence: 'noRecurrence',
       recurrenceDays: [] as string[],
     };
   }, [defaultStartDate]);
@@ -85,7 +85,7 @@ export const EventModal: FC<EventModalProps> = ({
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const dateFormatting = "yyyy-MM-dd HH:mm";
+    const dateFormatting = 'yyyy-MM-dd HH:mm';
 
     if (!user) return;
     if (type === EventModalType.Create) {
@@ -93,8 +93,8 @@ export const EventModal: FC<EventModalProps> = ({
       const newItem = {
         id: itemId,
         title: formData.title,
-        place: formData.place || "",
-        additional: formData.additional || "",
+        place: formData.place || '',
+        additional: formData.additional || '',
         startDate: format(new Date(formData.startDate), dateFormatting),
         endDate: format(new Date(formData.endDate), dateFormatting),
         color: formData.color,
@@ -107,7 +107,7 @@ export const EventModal: FC<EventModalProps> = ({
       const editedItem = {
         ...initialData,
         ...formData,
-        id: initialData?.id || "",
+        id: initialData?.id || '',
         startDate: format(new Date(formData.startDate), dateFormatting),
         endDate: format(new Date(formData.endDate), dateFormatting),
         isAllDayEvent: formData.isAllDayEvent,
@@ -168,7 +168,7 @@ export const EventModal: FC<EventModalProps> = ({
           <Grid container justifyContent="space-between">
             <Grid>
               <SelectColor
-                defaultValue={initialData?.color || ""}
+                defaultValue={initialData?.color || ''}
                 onChange={(data) =>
                   setFormData({
                     ...formData,
@@ -177,7 +177,7 @@ export const EventModal: FC<EventModalProps> = ({
                 }
               />
             </Grid>
-            <Grid sx={{ marginTop: "30px" }}>
+            <Grid sx={{ marginTop: '30px' }}>
               <FormControlLabel
                 control={
                   <Checkbox
@@ -205,7 +205,7 @@ export const EventModal: FC<EventModalProps> = ({
           <Grid container justifyContent="space-between">
             <Grid>
               <RecurrenceSelect
-                defaultValue={formData?.recurrence || "noRecurrence"}
+                defaultValue={formData?.recurrence || 'noRecurrence'}
                 onChange={(data: SelectChangeEvent) =>
                   setFormData({
                     ...formData,
@@ -301,7 +301,7 @@ export const EventModal: FC<EventModalProps> = ({
         <ItemRemoveModal
           open={openRemoveModal}
           setOpen={setOpenRemoveModal}
-          eventId={initialData?.id || ""}
+          eventId={initialData?.id || ''}
           callback={() => setOpen(false)}
           itemName="event"
         />

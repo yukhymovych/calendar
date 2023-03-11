@@ -1,17 +1,17 @@
-import React, { FC, useState, useRef, useMemo } from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import listPlugin from "@fullcalendar/list";
-import interactionPlugin, { DateClickArg } from "@fullcalendar/interaction";
-import rrulePlugin from "@fullcalendar/rrule";
-import { updateItem, useGetItems } from "../../firebase/crud";
-import { EventItem, EventModalType, RecurrenceType } from "../../types";
-import { EventModal } from "../../components";
-import { format, addHours } from "date-fns";
-import { useAuthContext } from "../../context/auth-provider";
-import { RRule } from "rrule";
-import { EventClickArg, EventDropArg } from "@fullcalendar/core";
+import React, { FC, useState, useRef, useMemo } from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import rrulePlugin from '@fullcalendar/rrule';
+import { updateItem, useGetItems } from '../../firebase/crud';
+import { EventItem, EventModalType, RecurrenceType } from '../../types';
+import { EventModal } from '../../components';
+import { format, addHours } from 'date-fns';
+import { useAuthContext } from '../../context/auth-provider';
+import { RRule } from 'rrule';
+import { EventClickArg, EventDropArg } from '@fullcalendar/core';
 
 const dayMap: Record<string, number> = {
   Monday: 0,
@@ -32,7 +32,7 @@ export const Calendar: FC = () => {
   const [eventModalType, setEventModalType] = useState(EventModalType.Edit);
   const [createStartDate, setCreateStartDate] = useState(new Date());
   const calendarRef = useRef<FullCalendar | null>(null);
-  const formatFullDateTime = "yyyy-MM-dd HH:mm";
+  const formatFullDateTime = 'yyyy-MM-dd HH:mm';
 
   const rawData = useGetItems();
 
@@ -44,7 +44,7 @@ export const Calendar: FC = () => {
           title: item.title,
           start: item.startDate,
           end: item.endDate,
-          color: item.color || "",
+          color: item.color || '',
           allDay: item.isAllDayEvent,
         };
         if (item.recurrence !== RecurrenceType.NoRecurrence) {
@@ -87,18 +87,18 @@ export const Calendar: FC = () => {
   const handleEventDrop = (data: EventDropArg) => {
     const event = rawData.find((item: EventItem) => item.id === data.event.id);
     const editedEvent = {
-      id: event?.id || "",
-      title: event?.title || "",
-      place: event?.place || "",
-      additional: event?.additional || "",
+      id: event?.id || '',
+      title: event?.title || '',
+      place: event?.place || '',
+      additional: event?.additional || '',
       startDate: format(data.event.start || new Date(), formatFullDateTime),
       endDate: format(
         data.event.end || addHours(data.event.start || new Date(), 1),
         formatFullDateTime
       ),
-      color: event?.color || "none",
+      color: event?.color || 'none',
       isAllDayEvent: event?.isAllDayEvent || false,
-      recurrence: event?.recurrence || "noRecurrence",
+      recurrence: event?.recurrence || 'noRecurrence',
       recurrenceDays: event?.recurrenceDays || [],
     };
     if (user) updateItem(editedEvent, user?.uid);
@@ -122,8 +122,8 @@ export const Calendar: FC = () => {
           rrulePlugin,
         ]}
         headerToolbar={{
-          left: "title",
-          right: "dayGridMonth,listWeek,dayGridWeek,today,prev,next",
+          left: 'title',
+          right: 'dayGridMonth,listWeek,dayGridWeek,today,prev,next',
         }}
         initialView="dayGridMonth"
         dateClick={handleDateCellClick}
@@ -131,8 +131,8 @@ export const Calendar: FC = () => {
         eventDrop={handleEventDrop}
         editable={true}
         eventTimeFormat={{
-          hour: "2-digit",
-          minute: "2-digit",
+          hour: '2-digit',
+          minute: '2-digit',
           hour12: false,
           meridiem: false,
         }}

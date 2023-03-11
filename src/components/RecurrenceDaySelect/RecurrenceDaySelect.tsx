@@ -1,11 +1,11 @@
-import React, { FC, useEffect, useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import Checkbox from "@mui/material/Checkbox";
-import ListItemText from "@mui/material/ListItemText";
-import OutlinedInput from "@mui/material/OutlinedInput";
+import React, { FC, useEffect, useState } from 'react';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
+import ListItemText from '@mui/material/ListItemText';
+import OutlinedInput from '@mui/material/OutlinedInput';
 
 interface RecurrenceDaySelectProps {
   defaultValue: string[];
@@ -24,13 +24,13 @@ const MenuProps = {
 };
 
 const days = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  'Sunday',
 ];
 
 export const RecurrenceDaySelect: FC<RecurrenceDaySelectProps> = ({
@@ -47,12 +47,12 @@ export const RecurrenceDaySelect: FC<RecurrenceDaySelectProps> = ({
     const {
       target: { value },
     } = event;
-    setValue(typeof value === "string" ? value.split(",") : value);
-    onChange(typeof value === "string" ? value.split(",") : value);
+    setValue(typeof value === 'string' ? value.split(',') : value);
+    onChange(typeof value === 'string' ? value.split(',') : value);
   };
 
   return (
-    <FormControl sx={{ mt: "30px", minWidth: 200 }} size="small">
+    <FormControl sx={{ mt: '30px', minWidth: 200 }} size="small">
       <InputLabel id="days-of-week-select">Days of week</InputLabel>
       <Select
         labelId="days-of-week-select"
@@ -61,7 +61,7 @@ export const RecurrenceDaySelect: FC<RecurrenceDaySelectProps> = ({
         value={value}
         onChange={handleChange}
         input={<OutlinedInput label="Days of week" />}
-        renderValue={(selected: string[]) => selected.join(", ")}
+        renderValue={(selected: string[]) => selected.join(', ')}
         MenuProps={MenuProps}
       >
         {days.map((day: string) => (

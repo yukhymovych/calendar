@@ -1,4 +1,4 @@
-import { User } from "firebase/auth";
+import { User } from 'firebase/auth';
 import React, {
   createContext,
   useContext,
@@ -6,8 +6,8 @@ import React, {
   useEffect,
   FC,
   ReactNode,
-} from "react";
-import { auth } from "../firebase/config";
+} from 'react';
+import { auth } from '../firebase/config';
 
 export interface AuthContextValue {
   user: User | null;

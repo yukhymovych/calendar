@@ -1,13 +1,13 @@
-import React, { FC, useState } from "react";
-import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import TextField from "@mui/material/TextField";
-import { uid } from "uid";
-import { addShortTodo } from "../../firebase/crud";
-import { useAuthContext } from "../../context/auth-provider";
+import React, { FC, useState } from 'react';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import { uid } from 'uid';
+import { addShortTodo } from '../../firebase/crud';
+import { useAuthContext } from '../../context/auth-provider';
 
 interface AddShortTodoModalProps {
   open: boolean;
@@ -19,11 +19,11 @@ export const AddShortTodoModal: FC<AddShortTodoModalProps> = ({
   setOpen,
 }) => {
   const { user } = useAuthContext();
-  const [shortTodoTitle, setShortTodoTitle] = useState("");
+  const [shortTodoTitle, setShortTodoTitle] = useState('');
 
   const handleClose = () => {
     setOpen(false);
-    setShortTodoTitle("");
+    setShortTodoTitle('');
   };
 
   const handleSubmitButton = () => {
@@ -39,7 +39,7 @@ export const AddShortTodoModal: FC<AddShortTodoModalProps> = ({
       completed: false,
     };
     if (user) addShortTodo(newItem, user?.uid);
-    setShortTodoTitle("");
+    setShortTodoTitle('');
   };
 
   return (

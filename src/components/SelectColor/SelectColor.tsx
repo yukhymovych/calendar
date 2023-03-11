@@ -1,10 +1,10 @@
-import React, { FC, useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
-import { colorOptions } from "./colors";
-import "./SelectColor.css";
+import React, { FC, useState } from 'react';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { colorOptions } from './colors';
+import './SelectColor.css';
 
 interface SelectColorProps {
   defaultValue: string;
@@ -23,7 +23,7 @@ export const SelectColor: FC<SelectColorProps> = ({
   };
 
   return (
-    <FormControl sx={{ mt: "30px", minWidth: 200 }} size="small">
+    <FormControl sx={{ mt: '30px', minWidth: 200 }} size="small">
       <InputLabel id="select-color">Color</InputLabel>
       <Select
         labelId="select-color"

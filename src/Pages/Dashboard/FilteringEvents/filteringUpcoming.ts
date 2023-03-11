@@ -8,7 +8,7 @@ import {
   set,
   startOfDay,
   startOfTomorrow,
-} from "date-fns";
+} from 'date-fns';
 
 const today = startOfDay(new Date());
 const firstUpcomingDay = startOfTomorrow();

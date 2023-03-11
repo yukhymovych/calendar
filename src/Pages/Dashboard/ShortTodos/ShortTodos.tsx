@@ -1,14 +1,14 @@
-import React, { FC, useEffect, useState } from "react";
-import { Checkbox, FormControlLabel } from "@mui/material";
-import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
-import "./ShortTodos.css";
-import { AddShortTodoModal, ItemRemoveModal } from "../../../components";
-import DeleteIcon from "@mui/icons-material/Delete";
-import { TransitionGroup } from "react-transition-group";
-import Collapse from "@mui/material/Collapse";
-import { ShortTodo } from "../../../types";
-import { updateShortTodo } from "../../../firebase/crud";
-import { useAuthContext } from "../../../context/auth-provider";
+import React, { FC, useEffect, useState } from 'react';
+import { Checkbox, FormControlLabel } from '@mui/material';
+import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import './ShortTodos.css';
+import { AddShortTodoModal, ItemRemoveModal } from '../../../components';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { TransitionGroup } from 'react-transition-group';
+import Collapse from '@mui/material/Collapse';
+import { ShortTodo } from '../../../types';
+import { updateShortTodo } from '../../../firebase/crud';
+import { useAuthContext } from '../../../context/auth-provider';
 
 interface ShortTodosProps {
   data: ShortTodo[];
@@ -18,10 +18,10 @@ const ShortTodos: FC<ShortTodosProps> = ({ data }) => {
   const { user } = useAuthContext();
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openRemoveModal, setOpenRemoveModal] = useState(false);
-  const [removeEventId, setRemoveEventId] = useState("");
+  const [removeEventId, setRemoveEventId] = useState('');
   const [shortTodoData, setShortTodoData] = useState<ShortTodo>({
-    id: "",
-    title: "",
+    id: '',
+    title: '',
     completed: false,
   });
 
@@ -42,7 +42,7 @@ const ShortTodos: FC<ShortTodosProps> = ({ data }) => {
   };
 
   useEffect(() => {
-    if (shortTodoData.title !== "" && user)
+    if (shortTodoData.title !== '' && user)
       updateShortTodo(shortTodoData, user?.uid);
   }, [shortTodoData, shortTodoData.completed, user, user?.uid]);
 
@@ -56,7 +56,7 @@ const ShortTodos: FC<ShortTodosProps> = ({ data }) => {
           className="short-todo__add-button"
           onClick={() => setOpenEditModal(true)}
         >
-          <AddCircleOutlinedIcon sx={{ color: "#3664da" }} />
+          <AddCircleOutlinedIcon sx={{ color: '#3664da' }} />
         </div>
       </div>
       <TransitionGroup>

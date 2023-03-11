@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
-import { firebaseDB } from "./config";
-import { set, ref, onValue, remove, update } from "@firebase/database";
-import { EventItem, ShortTodo } from "../types";
-import { useAuthContext } from "../context/auth-provider";
+import { useState, useEffect } from 'react';
+import { firebaseDB } from './config';
+import { set, ref, onValue, remove, update } from '@firebase/database';
+import { EventItem, ShortTodo } from '../types';
+import { useAuthContext } from '../context/auth-provider';
 
 export const addItem = (item: EventItem, userId: string) => {
   set(ref(firebaseDB, `/${userId}/events/${item.id}`), {

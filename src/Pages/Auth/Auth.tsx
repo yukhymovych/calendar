@@ -1,35 +1,35 @@
-import React, { FC, useState } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
+import React, { FC, useState } from 'react';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
-} from "firebase/auth";
-import { auth } from "../../firebase/config";
-import { useAuthContext } from "../../context/auth-provider";
-import "./Auth.css";
+} from 'firebase/auth';
+import { auth } from '../../firebase/config';
+import { useAuthContext } from '../../context/auth-provider';
+import './Auth.css';
 
 export const Auth: FC = () => {
-  const [login, setLogin] = useState("");
-  const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [login, setLogin] = useState('');
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const { user, isLoggedIn } = useAuthContext();
 
   const showErrorMessage = (errorMessage: string) => {
-    setErrorMessage(errorMessage.replace("auth/", "").replace(/-/g, " "));
+    setErrorMessage(errorMessage.replace('auth/', '').replace(/-/g, ' '));
     setTimeout(() => {
-      setErrorMessage("");
+      setErrorMessage('');
     }, 4000);
   };
 
   const handleLogin = async () => {
     await signInWithEmailAndPassword(auth, login, password)
       .then(() => {
-        setLogin("");
-        setPassword("");
+        setLogin('');
+        setPassword('');
       })
       .catch((error) => {
         showErrorMessage(error.code);
@@ -37,14 +37,14 @@ export const Auth: FC = () => {
   };
 
   const handleLogout = async () => {
-    signOut(auth).catch((error) => console.log("Log out error: ", error));
+    signOut(auth).catch((error) => console.log('Log out error: ', error));
   };
 
   const handleRegister = async () => {
     await createUserWithEmailAndPassword(auth, login, password)
       .then(() => {
-        setLogin("");
-        setPassword("");
+        setLogin('');
+        setPassword('');
       })
       .catch((error) => {
         showErrorMessage(error.code);
@@ -52,12 +52,12 @@ export const Auth: FC = () => {
   };
 
   return (
-    <Grid container sx={{ justifyContent: "center" }}>
-      <Box sx={{ width: 300, textAlign: "center" }}>
+    <Grid container sx={{ justifyContent: 'center' }}>
+      <Box sx={{ width: 300, textAlign: 'center' }}>
         <h2 className="header">
           {isLoggedIn
             ? `You've been logged in via ${user?.email}`
-            : "Authentification"}
+            : 'Authentification'}
         </h2>
         {!isLoggedIn && (
           <>
@@ -91,7 +91,7 @@ export const Auth: FC = () => {
             <Button onClick={handleRegister}>Register</Button>
           </>
         )}
-        {errorMessage !== "" && (
+        {errorMessage !== '' && (
           <p className="text auth-error">{errorMessage}</p>
         )}
         {isLoggedIn && <Button onClick={handleLogout}>Log out</Button>}

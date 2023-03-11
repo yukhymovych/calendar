@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useState } from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import React, { FC, useEffect, useState } from 'react';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 
 type SelectOption = {
   name: string;
@@ -16,24 +16,24 @@ interface RecurrenceSelectProps {
 
 const recurrenceOptions = [
   {
-    name: "Daily",
-    value: "daily",
+    name: 'Daily',
+    value: 'daily',
   },
   {
-    name: "Weekly",
-    value: "weekly",
+    name: 'Weekly',
+    value: 'weekly',
   },
   {
-    name: "Monthly",
-    value: "monthly",
+    name: 'Monthly',
+    value: 'monthly',
   },
   {
-    name: "Yearly",
-    value: "yearly",
+    name: 'Yearly',
+    value: 'yearly',
   },
   {
-    name: "Сertain days",
-    value: "certainDays",
+    name: 'Сertain days',
+    value: 'certainDays',
   },
 ];
 
@@ -53,7 +53,7 @@ export const RecurrenceSelect: FC<RecurrenceSelectProps> = ({
   };
 
   return (
-    <FormControl sx={{ mt: "30px", minWidth: 200 }} size="small">
+    <FormControl sx={{ mt: '30px', minWidth: 200 }} size="small">
       <InputLabel id="recurrence-select">Recurrence</InputLabel>
       <Select
         labelId="recurrence-select"

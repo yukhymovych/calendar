@@ -5,7 +5,7 @@ import {
   isPast,
   getDay,
   startOfDay,
-} from "date-fns";
+} from 'date-fns';
 
 const today = startOfDay(new Date());
 
@@ -43,7 +43,7 @@ export const filteringTodayCertainDays = (
   recurrenceDays: string[] | undefined
 ) => {
   return (
-    recurrenceDays?.some((day) => day === format(today, "iiii")) &&
+    recurrenceDays?.some((day) => day === format(today, 'iiii')) &&
     (isToday(start) || isPast(start))
   );
 };

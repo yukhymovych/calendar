@@ -1,10 +1,10 @@
-import React, { FC, useState } from "react";
-import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import PlaceIcon from "@mui/icons-material/Place";
-import ApartmentIcon from "@mui/icons-material/Apartment";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
-import Grid from "@mui/material/Grid";
+import React, { FC, useState } from 'react';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import PlaceIcon from '@mui/icons-material/Place';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import Grid from '@mui/material/Grid';
 import {
   differenceInCalendarDays,
   eachDayOfInterval,
@@ -13,13 +13,13 @@ import {
   isPast,
   isToday,
   set,
-} from "date-fns";
-import { EventModal, ItemRemoveModal } from "../../../components";
-import { EventModalType, EventItem, RecurrenceType } from "../../../types";
-import { TransitionGroup } from "react-transition-group";
-import Collapse from "@mui/material/Collapse";
-import { colorOptions } from "../../../components/SelectColor/colors";
-import "./EventListColumn.css";
+} from 'date-fns';
+import { EventModal, ItemRemoveModal } from '../../../components';
+import { EventModalType, EventItem, RecurrenceType } from '../../../types';
+import { TransitionGroup } from 'react-transition-group';
+import Collapse from '@mui/material/Collapse';
+import { colorOptions } from '../../../components/SelectColor/colors';
+import './EventListColumn.css';
 
 interface EventListColumnProps {
   title: string;
@@ -36,22 +36,22 @@ const EventListColumn: FC<EventListColumnProps> = ({
   const showSeeAllButton = data.length > 4;
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openRemoveModal, setOpenRemoveModal] = useState(false);
-  const [removeEventId, setRemoveEventId] = useState("");
+  const [removeEventId, setRemoveEventId] = useState('');
   const [initialEventData, setInitialEventData] = useState<EventItem>({
-    id: "",
-    title: "",
-    startDate: "",
-    endDate: "",
-    place: "",
-    additional: "",
-    color: "",
+    id: '',
+    title: '',
+    startDate: '',
+    endDate: '',
+    place: '',
+    additional: '',
+    color: '',
     isAllDayEvent: false,
-    recurrence: "noRecurrence",
+    recurrence: 'noRecurrence',
     recurrenceDays: [],
   });
-  const formatMonthDay = "MMMM d";
-  const formatHoursMinutes = "HH:mm";
-  const formatMonthDayHoursMinutes = "MMM.dd, HH:mm";
+  const formatMonthDay = 'MMMM d';
+  const formatHoursMinutes = 'HH:mm';
+  const formatMonthDayHoursMinutes = 'MMM.dd, HH:mm';
 
   const getTodayStartTime = (startDate: string | Date, recurrence: string) => {
     const todayDate = new Date();
@@ -63,10 +63,10 @@ const EventListColumn: FC<EventListColumnProps> = ({
             month: todayDate.getMonth(),
             date: todayDate.getDate(),
           })
-        ) + " ago"
-      : "in " + formatDistanceToNowStrict(new Date(startDate));
+        ) + ' ago'
+      : 'in ' + formatDistanceToNowStrict(new Date(startDate));
     if (!today && recurrence !== RecurrenceType.NoRecurrence) {
-      if (recurrence === RecurrenceType.CertainDays) return "Weekly";
+      if (recurrence === RecurrenceType.CertainDays) return 'Weekly';
       return recurrence.charAt(0).toUpperCase() + recurrence.slice(1);
     }
 
@@ -76,27 +76,27 @@ const EventListColumn: FC<EventListColumnProps> = ({
   };
 
   const getTimeRange = (event: EventItem, daysAmountInRange: number) => {
-    if (event.isAllDayEvent) return "All day";
+    if (event.isAllDayEvent) return 'All day';
     if (daysAmountInRange > 1) {
       if (today) {
         if (isToday(new Date(event.startDate)))
           return (
-            "from " + format(new Date(event.startDate), formatHoursMinutes)
+            'from ' + format(new Date(event.startDate), formatHoursMinutes)
           );
         if (isToday(new Date(event.endDate)))
-          return "to " + format(new Date(event.endDate), formatHoursMinutes);
-        return "All day";
+          return 'to ' + format(new Date(event.endDate), formatHoursMinutes);
+        return 'All day';
       }
       return (
         format(new Date(event.startDate), formatMonthDayHoursMinutes) +
-        " to " +
+        ' to ' +
         format(new Date(event.endDate), formatMonthDayHoursMinutes)
       );
     }
 
     const startEndTimePeriod =
       format(new Date(event.startDate), formatHoursMinutes) +
-      "-" +
+      '-' +
       format(new Date(event.endDate), formatHoursMinutes);
 
     return startEndTimePeriod;
@@ -118,7 +118,7 @@ const EventListColumn: FC<EventListColumnProps> = ({
         <h2 className="header">{title}</h2>
         {showSeeAllButton && (
           <span className="link active" onClick={() => setShowAll(!showAll)}>
-            {showAll ? "Collapse" : "See All"}
+            {showAll ? 'Collapse' : 'See All'}
           </span>
         )}
       </div>
@@ -140,9 +140,11 @@ const EventListColumn: FC<EventListColumnProps> = ({
                 <Grid container justifyContent="space-between">
                   <h2
                     className="sub-header"
-                    style={{ color: colorPalette?.value }}
+                    style={{
+                      color: colorPalette?.value,
+                    }}
                   >
-                    {event.title}{" "}
+                    {event.title}{' '}
                     {today &&
                       daysAmountInRange > 1 &&
                       `(${dayOfRange} of ${daysAmountInRange} days )`}

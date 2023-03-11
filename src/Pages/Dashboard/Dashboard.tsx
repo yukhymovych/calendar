@@ -1,12 +1,12 @@
-import React, { FC, useMemo } from "react";
-import { format } from "date-fns";
-import UserInfo from "./UserInfo/UserInfo";
-import EventListColumn from "./EventListColumn/EventListColumn";
-import Reminder from "./ShortTodos/ShortTodos";
-import SidebarDatepicker from "./SidebarDatepicker/SidebarDatepicker";
-import { useGetItems, useGetShortTodos } from "../../firebase/crud";
-import { filterEventsForToday, filterEventsUpcoming } from "./FilteringEvents";
-import "./Dashboard.css";
+import React, { FC, useMemo } from 'react';
+import { format } from 'date-fns';
+import UserInfo from './UserInfo/UserInfo';
+import EventListColumn from './EventListColumn/EventListColumn';
+import Reminder from './ShortTodos/ShortTodos';
+import SidebarDatepicker from './SidebarDatepicker/SidebarDatepicker';
+import { useGetItems, useGetShortTodos } from '../../firebase/crud';
+import { filterEventsForToday, filterEventsUpcoming } from './FilteringEvents';
+import './Dashboard.css';
 
 export const Dashboard: FC = () => {
   const events = useGetItems();
@@ -17,7 +17,7 @@ export const Dashboard: FC = () => {
     [events]
   );
 
-  const userInfoDateFormat = "cccc, MMMM d, H:mm";
+  const userInfoDateFormat = 'cccc, MMMM d, H:mm';
   const userInfo = {
     fullDate: format(new Date(), userInfoDateFormat),
     today: eventListTodays.length,

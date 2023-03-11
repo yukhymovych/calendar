@@ -18,20 +18,20 @@ export type ShortTodo = {
 };
 
 export enum EventModalType {
-  Create = "create",
-  Edit = "edit",
+  Create = 'create',
+  Edit = 'edit',
 }
 
 export enum ItemType {
-  Event = "event",
-  Todo = "todo",
+  Event = 'event',
+  Todo = 'todo',
 }
 
 export enum RecurrenceType {
-  NoRecurrence = "noRecurrence",
-  Daily = "daily",
-  Weekly = "weekly",
-  Monthly = "monthly",
-  Yearly = "yearly",
-  CertainDays = "certainDays",
+  NoRecurrence = 'noRecurrence',
+  Daily = 'daily',
+  Weekly = 'weekly',
+  Monthly = 'monthly',
+  Yearly = 'yearly',
+  CertainDays = 'certainDays',
 }

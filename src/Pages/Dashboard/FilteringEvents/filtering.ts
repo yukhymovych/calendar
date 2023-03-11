@@ -1,5 +1,5 @@
-import { startOfDay } from "date-fns";
-import { EventItem, RecurrenceType } from "../../../types";
+import { startOfDay } from 'date-fns';
+import { EventItem, RecurrenceType } from '../../../types';
 import {
   filteringTodayNoRecurrence,
   filteringTodayDaily,
@@ -13,7 +13,7 @@ import {
   filteringUpcomingMonthly,
   filteringUpcomingYearly,
   filteringUpcomingCertainDays,
-} from "./index";
+} from './index';
 
 export const filterEventsForToday = (events: EventItem[]) => {
   let start, end;

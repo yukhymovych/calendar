@@ -1,18 +1,18 @@
-import React, { FC } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { signOut } from "firebase/auth";
-import { auth } from "../../firebase/config";
-import "./Header.css";
-import { useAuthContext } from "../../context/auth-provider";
+import React, { FC } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../firebase/config';
+import './Header.css';
+import { useAuthContext } from '../../context/auth-provider';
 
 export const Header: FC = () => {
   const { isLoggedIn } = useAuthContext();
   const { pathname } = useLocation();
-  const isActiveDashboard = pathname === "/";
-  const isActiveCalendar = pathname === "/calendar";
+  const isActiveDashboard = pathname === '/';
+  const isActiveCalendar = pathname === '/calendar';
 
   const handleLogout = async () => {
-    signOut(auth).catch((error) => console.log("Log out error: ", error));
+    signOut(auth).catch((error) => console.log('Log out error: ', error));
   };
 
   return (
@@ -22,12 +22,12 @@ export const Header: FC = () => {
       </div>
       <div className="header-links">
         <Link to="/">
-          <span className={`link ${isActiveDashboard && "active"}`}>
+          <span className={`link ${isActiveDashboard && 'active'}`}>
             Dashboard
           </span>
         </Link>
         <Link to="/calendar">
-          <span className={`link ${isActiveCalendar && "active"}`}>
+          <span className={`link ${isActiveCalendar && 'active'}`}>
             Calendar
           </span>
         </Link>
