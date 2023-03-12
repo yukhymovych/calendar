@@ -39,7 +39,7 @@ export const Calendar: FC = () => {
   const formattedData = useMemo(
     () =>
       rawData.map((item: EventItem) => {
-        let newItem = {
+        const newItem = {
           id: item.id,
           title: item.title,
           start: item.startDate,

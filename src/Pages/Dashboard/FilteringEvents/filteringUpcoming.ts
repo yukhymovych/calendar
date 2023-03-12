@@ -54,7 +54,7 @@ export const filteringUpcomingWeekly = (start: Date) => {
 };
 
 export const filteringUpcomingMonthly = (start: Date) => {
-  let recurrenceTempDay = today;
+  const recurrenceTempDay = today;
   recurrenceTempDay.setDate(start.getDate());
   if (today >= start) {
     addMonths(recurrenceTempDay, 1);
@@ -70,7 +70,7 @@ export const filteringUpcomingMonthly = (start: Date) => {
 };
 
 export const filteringUpcomingYearly = (start: Date) => {
-  let recurrenceTempDay = set(start, {
+  const recurrenceTempDay = set(start, {
     year: today.getFullYear(),
   });
 
