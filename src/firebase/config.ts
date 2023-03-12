@@ -1,14 +1,22 @@
 import { initializeApp } from 'firebase/app';
 import { getDatabase } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
+import {
+  FIREBASE_API_KEY,
+  FIREBASE_AUTH_DOMAIN,
+  FIREBASE_PROJECT_ID,
+  FIREBASE_STORAGE_BUCKET,
+  FIREBASE_MESSAGING_SENDER_ID,
+  FIREBASE_APP_ID,
+} from '../constants';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyApdIyw2KNGX5abhQAo1KF_U3aJKGhx97k',
-  authDomain: 'magnificent-calendar.firebaseapp.com',
-  projectId: 'magnificent-calendar',
-  storageBucket: 'magnificent-calendar.appspot.com',
-  messagingSenderId: '251814553024',
-  appId: '1:251814553024:web:a2f51204786404cad29425',
+  apiKey: FIREBASE_API_KEY,
+  authDomain: FIREBASE_AUTH_DOMAIN,
+  projectId: FIREBASE_PROJECT_ID,
+  storageBucket: FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: FIREBASE_MESSAGING_SENDER_ID,
+  appId: FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
