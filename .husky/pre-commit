@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-# yarn prettier --write .
-# git add -A .
+yarn prettier --write
+git add -A .

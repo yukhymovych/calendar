@@ -34,14 +34,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "precommit": "lint-staged"
-  },
-  "lint-staged": {
-    "*.{tsx,ts,json,css}": [
-      "prettier --write",
-      "git add -A ."
-    ]
+    "eject": "react-scripts eject"
   },
   "browserslist": {
     "production": [
