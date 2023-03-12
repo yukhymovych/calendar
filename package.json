@@ -40,7 +40,7 @@
   "lint-staged": {
     "*.{tsx,ts,json,css}": [
       "prettier --write",
-      "git add"
+      "git add -A ."
     ]
   },
   "browserslist": {

@@ -14,14 +14,14 @@ const App = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    if (!isLoggedIn && location.pathname !== '/login') {
-      navigate('/login');
-    }
-    if (isLoggedIn && location.pathname === '/login') {
-      navigate('/');
-    }
-  }, [isLoggedIn, location.pathname, navigate]);
+    useEffect(() => {
+      if (!isLoggedIn && location.pathname !== '/login') {
+        navigate('/login');
+      }
+      if (isLoggedIn && location.pathname === '/login') {
+        navigate('/');
+      }
+    }, [isLoggedIn, location.pathname, navigate]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
