@@ -7,12 +7,18 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useAuthContext } from './context/auth-provider';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { logger } from './logger';
 import './App.css';
 
 const App = () => {
   const { isLoggedIn } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
+
+  // logger test
+  logger.debug('Debug message');
+  logger.warn('Warning message');
+  logger.error('Error message');
 
   useEffect(() => {
     if (!isLoggedIn && location.pathname !== '/login') {
