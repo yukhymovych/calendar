@@ -1,11 +1,14 @@
 import React, { FC, useMemo } from 'react';
 import { format } from 'date-fns';
+
+import { useGetItems, useGetShortTodos } from '../../firebase/crud';
+import { filterEventsForToday, filterEventsUpcoming } from './FilteringEvents';
+
 import UserInfo from './UserInfo/UserInfo';
 import EventListColumn from './EventListColumn/EventListColumn';
 import Reminder from './ShortTodos/ShortTodos';
 import SidebarDatepicker from './SidebarDatepicker/SidebarDatepicker';
-import { useGetItems, useGetShortTodos } from '../../firebase/crud';
-import { filterEventsForToday, filterEventsUpcoming } from './FilteringEvents';
+
 import './Dashboard.css';
 
 export const Dashboard: FC = () => {

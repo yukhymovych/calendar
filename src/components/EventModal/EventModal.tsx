@@ -1,27 +1,30 @@
 import React, { FC, useState, useEffect, useMemo } from 'react';
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
-import Grid from '@mui/material/Grid';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Grid,
+  FormControlLabel,
+  Checkbox,
+  SelectChangeEvent,
+} from '@mui/material';
+import { DateTimePicker, DatePicker } from '@mui/x-date-pickers';
 import { uid } from 'uid';
-import { addItem, updateItem } from '../../firebase/crud';
 import { format, addHours, set } from 'date-fns';
-import { EventModalType, EventItem, RecurrenceType } from '../../types';
+
+import { addItem, updateItem } from '../../firebase/crud';
 import { useAuthContext } from '../../context/auth-provider';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import { EventModalType, EventItem, RecurrenceType } from '../../types';
+
 import {
   RecurrenceSelect,
   SelectColor,
   ItemRemoveModal,
   RecurrenceDaySelect,
 } from '../../components';
-import { SelectChangeEvent } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface EventModalProps {
   defaultStartDate?: Date;

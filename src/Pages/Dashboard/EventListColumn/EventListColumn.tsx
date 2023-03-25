@@ -1,10 +1,4 @@
 import React, { FC, useState } from 'react';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import PlaceIcon from '@mui/icons-material/Place';
-import ApartmentIcon from '@mui/icons-material/Apartment';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-import Grid from '@mui/material/Grid';
 import {
   differenceInCalendarDays,
   eachDayOfInterval,
@@ -14,11 +8,19 @@ import {
   isToday,
   set,
 } from 'date-fns';
-import { EventModal, ItemRemoveModal } from '../../../components';
-import { EventModalType, EventItem, RecurrenceType } from '../../../types';
 import { TransitionGroup } from 'react-transition-group';
-import Collapse from '@mui/material/Collapse';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import PlaceIcon from '@mui/icons-material/Place';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Grid, Collapse } from '@mui/material';
+
 import { colorOptions } from '../../../components/SelectColor/colors';
+import { EventModalType, EventItem, RecurrenceType } from '../../../types';
+
+import { EventModal, ItemRemoveModal } from '../../../components';
+
 import './EventListColumn.css';
 
 interface EventListColumnProps {

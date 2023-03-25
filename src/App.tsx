@@ -1,13 +1,15 @@
 import React, { useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import { Container } from '@mui/material';
-import { Header } from './components';
-import { Auth, Calendar, Dashboard } from './Pages';
-import { Routes, Route } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
 import { useAuthContext } from './context/auth-provider';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { logger } from './logger';
+
+import { Header } from './components';
+import { Auth, Calendar, Dashboard } from './Pages';
+
 import './App.css';
 
 const App = () => {

@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
+
 import { auth } from '../../firebase/config';
-import './Header.css';
 import { useAuthContext } from '../../context/auth-provider';
+
+import './Header.css';
 
 export const Header: FC = () => {
   const { isLoggedIn } = useAuthContext();

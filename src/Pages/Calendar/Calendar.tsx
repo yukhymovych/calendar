@@ -1,17 +1,19 @@
 import React, { FC, useState, useRef, useMemo } from 'react';
+import { format, addHours } from 'date-fns';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
-import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import rrulePlugin from '@fullcalendar/rrule';
-import { updateItem, useGetItems } from '../../firebase/crud';
-import { EventItem, EventModalType, RecurrenceType } from '../../types';
-import { EventModal } from '../../components';
-import { format, addHours } from 'date-fns';
-import { useAuthContext } from '../../context/auth-provider';
-import { RRule } from 'rrule';
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
 import { EventClickArg, EventDropArg } from '@fullcalendar/core';
+import { RRule } from 'rrule';
+
+import { updateItem, useGetItems } from '../../firebase/crud';
+import { useAuthContext } from '../../context/auth-provider';
+import { EventItem, EventModalType, RecurrenceType } from '../../types';
+
+import { EventModal } from '../../components';
 
 const dayMap: Record<string, number> = {
   Monday: 0,

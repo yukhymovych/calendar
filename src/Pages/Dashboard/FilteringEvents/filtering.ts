@@ -1,4 +1,5 @@
 import { startOfDay } from 'date-fns';
+
 import { EventItem, RecurrenceType } from '../../../types';
 import {
   filteringTodayNoRecurrence,

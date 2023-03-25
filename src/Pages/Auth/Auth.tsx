@@ -1,15 +1,14 @@
 import React, { FC, useState } from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import { Button, TextField, Box, Grid } from '@mui/material';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
+
 import { auth } from '../../firebase/config';
 import { useAuthContext } from '../../context/auth-provider';
+
 import './Auth.css';
 
 export const Auth: FC = () => {

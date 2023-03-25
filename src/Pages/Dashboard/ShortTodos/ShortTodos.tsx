@@ -1,14 +1,16 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Checkbox, FormControlLabel } from '@mui/material';
-import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
-import './ShortTodos.css';
-import { AddShortTodoModal, ItemRemoveModal } from '../../../components';
-import DeleteIcon from '@mui/icons-material/Delete';
 import { TransitionGroup } from 'react-transition-group';
-import Collapse from '@mui/material/Collapse';
-import { ShortTodo } from '../../../types';
+import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Checkbox, FormControlLabel, Collapse } from '@mui/material';
+
 import { updateShortTodo } from '../../../firebase/crud';
 import { useAuthContext } from '../../../context/auth-provider';
+import { ShortTodo } from '../../../types';
+
+import { AddShortTodoModal, ItemRemoveModal } from '../../../components';
+
+import './ShortTodos.css';
 
 interface ShortTodosProps {
   data: ShortTodo[];
