@@ -1,25 +1,14 @@
-import React, { FC, useState, useMemo } from 'react';
+import React, { FC, useState } from 'react';
 import { format, addHours } from 'date-fns';
 import { DateClickArg } from '@fullcalendar/interaction';
 import { EventClickArg, EventDropArg } from '@fullcalendar/core';
-import { RRule } from 'rrule';
 
 import { updateItem, useGetItems } from '../../firebase/crud';
 import { useAuthContext } from '../../context/auth-provider';
-import { EventItem, EventModalType, RecurrenceType } from '../../types';
+import { EventItem, EventModalType } from '../../types';
 
 import { EventModal } from '../../components';
 import { CalendarAdapter } from './CalendarAdapter';
-
-const dayMap: Record<string, number> = {
-  Monday: 0,
-  Tuesday: 1,
-  Wednesday: 2,
-  Thursday: 3,
-  Friday: 4,
-  Saturday: 5,
-  Sunday: 6,
-};
 
 export const Calendar: FC = () => {
   const { user } = useAuthContext();
@@ -31,58 +20,21 @@ export const Calendar: FC = () => {
   const [createStartDate, setCreateStartDate] = useState(new Date());
   const formatFullDateTime = 'yyyy-MM-dd HH:mm';
 
-  const rawData = useGetItems();
-
-  const formattedData = useMemo(
-    () =>
-      rawData.map((item: EventItem) => {
-        const formattedItem = {
-          id: item.id,
-          title: item.title,
-          start: item.startDate,
-          end: item.endDate,
-          color: item.color || '',
-          allDay: item.isAllDayEvent,
-        };
-        if (item.recurrence !== RecurrenceType.NoRecurrence) {
-          if (
-            item.recurrence === RecurrenceType.CertainDays &&
-            item?.recurrenceDays
-          ) {
-            Object.assign(formattedItem, {
-              rrule: {
-                freq: RRule.WEEKLY,
-                dtstart: item.startDate,
-                byweekday: item.recurrenceDays.map(
-                  (day: string) => dayMap[day]
-                ),
-              },
-            });
-          }
-          if (item.recurrence !== RecurrenceType.CertainDays) {
-            Object.assign(formattedItem, {
-              rrule: {
-                freq: item.recurrence,
-                dtstart: item.startDate,
-              },
-            });
-          }
-        }
-        return formattedItem;
-      }),
-    [rawData]
-  );
+  const eventsData = useGetItems();
 
   const handleEventClick = (data: EventClickArg) => {
     setEventModalType(EventModalType.Edit);
     const event =
-      rawData.find((item: EventItem) => item.id === data.event.id) || undefined;
+      eventsData.find((item: EventItem) => item.id === data.event.id) ||
+      undefined;
     setEventForEdit(event);
     setOpenEditModal(true);
   };
 
   const handleEventDrop = (data: EventDropArg) => {
-    const event = rawData.find((item: EventItem) => item.id === data.event.id);
+    const event = eventsData.find(
+      (item: EventItem) => item.id === data.event.id
+    );
     const editedEvent = {
       id: event?.id || '',
       title: event?.title || '',
@@ -113,7 +65,8 @@ export const Calendar: FC = () => {
         onDateCellClick={handleDateCellClick}
         onEventClick={handleEventClick}
         onEventDrop={handleEventDrop}
-        events={formattedData}
+        events={eventsData}
+        is12HourFormat={false}
       />
       <EventModal
         open={openEditModal}
