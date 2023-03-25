@@ -4,6 +4,8 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signOut,
+  Auth as AuthType,
+  UserCredential,
 } from 'firebase/auth';
 
 import { auth } from '../../firebase/config';
@@ -26,28 +28,32 @@ export const Auth: FC = () => {
     }, hidingMessageDelay);
   };
 
-  const handleLogin = async () => {
+  const handleAuthAction = async (
+    callback: (
+      auth: AuthType,
+      login: string,
+      password: string
+    ) => Promise<UserCredential>
+  ) => {
     try {
-      await signInWithEmailAndPassword(auth, login, password);
+      await callback(auth, login, password);
       setLogin('');
       setPassword('');
     } catch ({ code }) {
       showErrorMessage(code as string);
     }
+  };
+
+  const handleLogin = () => {
+    handleAuthAction(signInWithEmailAndPassword);
+  };
+
+  const handleRegister = () => {
+    handleAuthAction(createUserWithEmailAndPassword);
   };
 
   const handleLogout = () => {
     signOut(auth).catch((error) => console.log('Log out error: ', error));
-  };
-
-  const handleRegister = async () => {
-    try {
-      await createUserWithEmailAndPassword(auth, login, password);
-      setLogin('');
-      setPassword('');
-    } catch ({ code }) {
-      showErrorMessage(code as string);
-    }
   };
 
   return (
