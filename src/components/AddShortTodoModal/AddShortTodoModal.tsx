@@ -35,13 +35,13 @@ export const AddShortTodoModal: FC<AddShortTodoModalProps> = ({
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const itemId = uid();
-    const newItem = {
-      id: itemId,
+    const todoItemId = uid();
+    const newTodoItem = {
+      id: todoItemId,
       title: shortTodoTitle,
       completed: false,
     };
-    if (user) addShortTodo(newItem, user?.uid);
+    if (user) addShortTodo(newTodoItem, user?.uid);
     setShortTodoTitle('');
   };
 

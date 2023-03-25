@@ -92,9 +92,9 @@ export const EventModal: FC<EventModalProps> = ({
 
     if (!user) return;
     if (type === EventModalType.Create) {
-      const itemId = uid();
-      const newItem = {
-        id: itemId,
+      const createdItemId = uid();
+      const createdItem = {
+        id: createdItemId,
         title: formData.title,
         place: formData.place || '',
         additional: formData.additional || '',
@@ -105,7 +105,7 @@ export const EventModal: FC<EventModalProps> = ({
         recurrence: formData.recurrence,
         recurrenceDays: formData?.recurrenceDays || [],
       };
-      addItem(newItem, user?.uid);
+      addItem(createdItem, user?.uid);
     } else {
       const editedItem = {
         ...initialData,

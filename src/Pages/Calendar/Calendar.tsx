@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, useMemo } from 'react';
+import React, { FC, useState, useMemo } from 'react';
 import { format, addHours } from 'date-fns';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -33,7 +33,6 @@ export const Calendar: FC = () => {
   );
   const [eventModalType, setEventModalType] = useState(EventModalType.Edit);
   const [createStartDate, setCreateStartDate] = useState(new Date());
-  const calendarRef = useRef<FullCalendar | null>(null);
   const formatFullDateTime = 'yyyy-MM-dd HH:mm';
 
   const rawData = useGetItems();
@@ -41,7 +40,7 @@ export const Calendar: FC = () => {
   const formattedData = useMemo(
     () =>
       rawData.map((item: EventItem) => {
-        const newItem = {
+        const formattedItem = {
           id: item.id,
           title: item.title,
           start: item.startDate,
@@ -54,7 +53,7 @@ export const Calendar: FC = () => {
             item.recurrence === RecurrenceType.CertainDays &&
             item?.recurrenceDays
           ) {
-            Object.assign(newItem, {
+            Object.assign(formattedItem, {
               rrule: {
                 freq: RRule.WEEKLY,
                 dtstart: item.startDate,
@@ -65,7 +64,7 @@ export const Calendar: FC = () => {
             });
           }
           if (item.recurrence !== RecurrenceType.CertainDays) {
-            Object.assign(newItem, {
+            Object.assign(formattedItem, {
               rrule: {
                 freq: item.recurrence,
                 dtstart: item.startDate,
@@ -73,7 +72,7 @@ export const Calendar: FC = () => {
             });
           }
         }
-        return newItem;
+        return formattedItem;
       }),
     [rawData]
   );
@@ -115,7 +114,6 @@ export const Calendar: FC = () => {
   return (
     <>
       <FullCalendar
-        ref={calendarRef}
         plugins={[
           dayGridPlugin,
           timeGridPlugin,

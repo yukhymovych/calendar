@@ -17,37 +17,37 @@ export const Auth: FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { user, isLoggedIn } = useAuthContext();
 
+  const hidingMessageDelay = 4000;
+
   const showErrorMessage = (errorMessage: string) => {
     setErrorMessage(errorMessage.replace('auth/', '').replace(/-/g, ' '));
     setTimeout(() => {
       setErrorMessage('');
-    }, 4000);
+    }, hidingMessageDelay);
   };
 
   const handleLogin = async () => {
-    await signInWithEmailAndPassword(auth, login, password)
-      .then(() => {
-        setLogin('');
-        setPassword('');
-      })
-      .catch((error) => {
-        showErrorMessage(error.code);
-      });
+    try {
+      await signInWithEmailAndPassword(auth, login, password);
+      setLogin('');
+      setPassword('');
+    } catch ({ code }) {
+      showErrorMessage(code as string);
+    }
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     signOut(auth).catch((error) => console.log('Log out error: ', error));
   };
 
   const handleRegister = async () => {
-    await createUserWithEmailAndPassword(auth, login, password)
-      .then(() => {
-        setLogin('');
-        setPassword('');
-      })
-      .catch((error) => {
-        showErrorMessage(error.code);
-      });
+    try {
+      await createUserWithEmailAndPassword(auth, login, password);
+      setLogin('');
+      setPassword('');
+    } catch ({ code }) {
+      showErrorMessage(code as string);
+    }
   };
 
   return (

@@ -26,7 +26,7 @@ const MenuProps = {
   },
 };
 
-const days = [
+const DAYS = [
   'Monday',
   'Tuesday',
   'Wednesday',
@@ -67,7 +67,7 @@ export const RecurrenceDaySelect: FC<RecurrenceDaySelectProps> = ({
         renderValue={(selected: string[]) => selected.join(', ')}
         MenuProps={MenuProps}
       >
-        {days.map((day: string) => (
+        {DAYS.map((day: string) => (
           <MenuItem key={day} value={day}>
             <Checkbox checked={value?.indexOf(day) > -1} />
             <ListItemText primary={day} />

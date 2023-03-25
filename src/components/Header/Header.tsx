@@ -13,7 +13,7 @@ export const Header: FC = () => {
   const isActiveDashboard = pathname === '/';
   const isActiveCalendar = pathname === '/calendar';
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     signOut(auth).catch((error) => console.log('Log out error: ', error));
   };
 
