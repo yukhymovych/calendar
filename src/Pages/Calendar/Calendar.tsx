@@ -1,11 +1,6 @@
 import React, { FC, useState, useMemo } from 'react';
 import { format, addHours } from 'date-fns';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import listPlugin from '@fullcalendar/list';
-import rrulePlugin from '@fullcalendar/rrule';
-import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import { DateClickArg } from '@fullcalendar/interaction';
 import { EventClickArg, EventDropArg } from '@fullcalendar/core';
 import { RRule } from 'rrule';
 
@@ -14,6 +9,7 @@ import { useAuthContext } from '../../context/auth-provider';
 import { EventItem, EventModalType, RecurrenceType } from '../../types';
 
 import { EventModal } from '../../components';
+import { CalendarAdapter } from './CalendarAdapter';
 
 const dayMap: Record<string, number> = {
   Monday: 0,
@@ -113,30 +109,10 @@ export const Calendar: FC = () => {
 
   return (
     <>
-      <FullCalendar
-        plugins={[
-          dayGridPlugin,
-          timeGridPlugin,
-          listPlugin,
-          interactionPlugin,
-          rrulePlugin,
-        ]}
-        headerToolbar={{
-          left: 'title',
-          right: 'dayGridMonth,listWeek,dayGridWeek,today,prev,next',
-        }}
-        initialView="dayGridMonth"
-        dateClick={handleDateCellClick}
-        eventClick={handleEventClick}
-        eventDrop={handleEventDrop}
-        editable={true}
-        eventTimeFormat={{
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: false,
-          meridiem: false,
-        }}
-        displayEventEnd
+      <CalendarAdapter
+        onDateCellClick={handleDateCellClick}
+        onEventClick={handleEventClick}
+        onEventDrop={handleEventDrop}
         events={formattedData}
       />
       <EventModal
