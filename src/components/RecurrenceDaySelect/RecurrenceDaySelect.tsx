@@ -17,7 +17,7 @@ interface RecurrenceDaySelectProps {
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
-const MenuProps = {
+const MENU_PROPS = {
   PaperProps: {
     style: {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
@@ -65,7 +65,7 @@ export const RecurrenceDaySelect: FC<RecurrenceDaySelectProps> = ({
         onChange={handleChange}
         input={<OutlinedInput label="Days of week" />}
         renderValue={(selected: string[]) => selected.join(', ')}
-        MenuProps={MenuProps}
+        MenuProps={MENU_PROPS}
       >
         {DAYS.map((day: string) => (
           <MenuItem key={day} value={day}>

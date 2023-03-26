@@ -10,6 +10,7 @@ import {
 
 import { auth } from '../../api';
 import { useAuthContext } from '../../context';
+import { logger } from '../../logger';
 
 import './Auth.css';
 
@@ -21,8 +22,12 @@ export const Auth: FC = () => {
 
   const hidingMessageDelay = 4000;
 
-  const showErrorMessage = (errorMessage: string) => {
-    setErrorMessage(errorMessage.replace('auth/', '').replace(/-/g, ' '));
+  const formatErrorMessage = (message: string) => {
+    return message.replace('auth/', '').replace(/-/g, ' ');
+  };
+
+  const showErrorMessage = (message: string) => {
+    setErrorMessage(formatErrorMessage(message));
     setTimeout(() => {
       setErrorMessage('');
     }, hidingMessageDelay);
@@ -53,7 +58,7 @@ export const Auth: FC = () => {
   };
 
   const handleLogout = () => {
-    signOut(auth).catch((error) => console.log('Log out error: ', error));
+    signOut(auth).catch((error) => logger.error('Log out error: ', error));
   };
 
   return (

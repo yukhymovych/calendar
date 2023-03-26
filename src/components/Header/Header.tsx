@@ -4,6 +4,7 @@ import { signOut } from 'firebase/auth';
 
 import { auth } from '../../api';
 import { useAuthContext } from '../../context';
+import { logger } from '../../logger';
 
 import './Header.css';
 
@@ -14,7 +15,7 @@ export const Header: FC = () => {
   const isActiveCalendar = pathname === '/calendar';
 
   const handleLogout = () => {
-    signOut(auth).catch((error) => console.log('Log out error: ', error));
+    signOut(auth).catch((error) => logger.error('Log out error: ', error));
   };
 
   return (

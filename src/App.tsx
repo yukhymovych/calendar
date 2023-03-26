@@ -8,7 +8,6 @@ import { Header } from './components';
 import { Auth, Calendar, Dashboard } from './pages';
 
 import { useAuthContext } from './context';
-// import { logger } from './logger';
 
 import './App.css';
 
@@ -16,11 +15,6 @@ const App = () => {
   const { isLoggedIn } = useAuthContext();
   const navigate = useNavigate();
   const location = useLocation();
-
-  // logger test
-  // logger.debug('Debug message');
-  // logger.warn('Warning message');
-  // logger.error('Error message');
 
   useEffect(() => {
     if (!isLoggedIn && location.pathname !== '/login') {

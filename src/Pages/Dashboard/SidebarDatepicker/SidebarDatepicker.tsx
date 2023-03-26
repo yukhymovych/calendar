@@ -8,7 +8,7 @@ import { EventModalType } from '../../../types';
 import './SidebarDatepicker.css';
 
 const UserInfo: FC = () => {
-  const [defaultStartDate, setDefaultStartDate] = useState<Date>(new Date());
+  const [defaultStartDate, setDefaultStartDate] = useState(new Date());
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {

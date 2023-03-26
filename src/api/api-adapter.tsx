@@ -5,6 +5,8 @@ import { firebaseDB } from './config';
 import { useAuthContext } from '../context';
 import { EventItem, ShortTodo, ItemType } from '../types';
 
+const eventsPath = 'events';
+
 export const addItemAdapter = <T extends EventItem | ShortTodo>(
   item: T,
   userId: string,
@@ -32,7 +34,7 @@ export const removeItemAdapter = (id: string, userId: string, path: string) => {
 export const useGetItemsAdapter = (path: string) => {
   const { user } = useAuthContext();
   const [items, setItems] = useState<EventItem[] | ShortTodo[]>([]);
-  const dataType = path === 'events' ? ItemType.Event : ItemType.Todo;
+  const dataType = path === eventsPath ? ItemType.Event : ItemType.Todo;
 
   useEffect(() => {
     onValue(ref(firebaseDB, `/${user?.uid}/${path}/`), (snapshot) => {

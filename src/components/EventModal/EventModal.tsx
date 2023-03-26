@@ -89,7 +89,6 @@ export const EventModal: FC<EventModalProps> = ({
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     if (!user) return;
 
     const startDate = new Date(formData.startDate);

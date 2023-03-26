@@ -8,6 +8,7 @@ import {
 } from 'date-fns';
 
 const today = startOfDay(new Date());
+const dayOfTheWeekFormat = 'iiii';
 
 export const filteringTodayNoRecurrence = (start: Date, end: Date) => {
   return (
@@ -43,7 +44,7 @@ export const filteringTodayCertainDays = (
   recurrenceDays: string[] | undefined
 ) => {
   return (
-    recurrenceDays?.some((day) => day === format(today, 'iiii')) &&
+    recurrenceDays?.some((day) => day === format(today, dayOfTheWeekFormat)) &&
     (isToday(start) || isPast(start))
   );
 };
