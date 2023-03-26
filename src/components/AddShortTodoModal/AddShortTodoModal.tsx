@@ -10,7 +10,7 @@ import {
 import { uid } from 'uid';
 
 import { addShortTodo } from '../../api';
-import { useAuthContext } from '../../context/auth-provider';
+import { useAuthContext } from '../../context';
 
 interface AddShortTodoModalProps {
   open: boolean;

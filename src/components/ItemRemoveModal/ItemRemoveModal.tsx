@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 
 import { removeEvent, removeShortTodo } from '../../api';
-import { useAuthContext } from '../../context/auth-provider';
+import { useAuthContext } from '../../context';
 import { ItemType } from '../../types';
 
 interface ItemRemoveModalProps {

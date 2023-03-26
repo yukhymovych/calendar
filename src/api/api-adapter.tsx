@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { set, ref, onValue, remove, update } from '@firebase/database';
 
 import { firebaseDB } from './config';
-import { useAuthContext } from '../context/auth-provider';
+import { useAuthContext } from '../context';
 import { EventItem, ShortTodo, ItemType } from '../types';
 
 export const addItemAdapter = <T extends EventItem | ShortTodo>(

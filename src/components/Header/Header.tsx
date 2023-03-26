@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 
 import { auth } from '../../api';
-import { useAuthContext } from '../../context/auth-provider';
+import { useAuthContext } from '../../context';
 
 import './Header.css';
 

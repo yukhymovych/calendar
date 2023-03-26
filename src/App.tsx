@@ -4,7 +4,7 @@ import { Container } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-import { useAuthContext } from './context/auth-provider';
+import { useAuthContext } from './context';
 // import { logger } from './logger';
 
 import { Header } from './components';

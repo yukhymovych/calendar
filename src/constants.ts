@@ -13,3 +13,5 @@ export const FIREBASE_MESSAGING_SENDER_ID =
   process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || '';
 
 export const FIREBASE_APP_ID = process.env.REACT_APP_FIREBASE_APP_ID || '';
+
+export const fullDateTimeFormat = 'yyyy-MM-dd HH:mm';

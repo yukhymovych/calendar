@@ -4,8 +4,9 @@ import { DateClickArg } from '@fullcalendar/interaction';
 import { EventClickArg, EventDropArg } from '@fullcalendar/core';
 
 import { updateEvent, useGetEvents } from '../../api';
-import { useAuthContext } from '../../context/auth-provider';
+import { useAuthContext } from '../../context';
 import { EventItem, EventModalType } from '../../types';
+import { fullDateTimeFormat } from '../../constants';
 
 import { EventModal } from '../../components';
 import { CalendarAdapter } from './CalendarAdapter';
@@ -18,7 +19,6 @@ export const Calendar: FC = () => {
   );
   const [eventModalType, setEventModalType] = useState(EventModalType.Edit);
   const [createStartDate, setCreateStartDate] = useState(new Date());
-  const formatFullDateTime = 'yyyy-MM-dd HH:mm';
 
   const eventsData = useGetEvents();
 
@@ -40,10 +40,10 @@ export const Calendar: FC = () => {
       title: event?.title || '',
       place: event?.place || '',
       additional: event?.additional || '',
-      startDate: format(data.event.start || new Date(), formatFullDateTime),
+      startDate: format(data.event.start || new Date(), fullDateTimeFormat),
       endDate: format(
         data.event.end || addHours(data.event.start || new Date(), 1),
-        formatFullDateTime
+        fullDateTimeFormat
       ),
       color: event?.color || 'none',
       isAllDayEvent: event?.isAllDayEvent || false,

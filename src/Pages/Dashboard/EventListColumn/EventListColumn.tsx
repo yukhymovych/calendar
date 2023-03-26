@@ -29,13 +29,28 @@ interface EventListColumnProps {
   today?: boolean;
 }
 
+const getTodayRelativeTimeLayout1 = (startDate: Date, todayDate: Date) => {
+  return (
+    formatDistanceToNowStrict(
+      set(startDate, {
+        year: todayDate.getFullYear(),
+        month: todayDate.getMonth(),
+        date: todayDate.getDate(),
+      })
+    ) + ' ago'
+  );
+};
+
+const getTodayRelativeTimeLayout2 = (startDate: Date) => {
+  return 'in ' + formatDistanceToNowStrict(startDate);
+};
+
 const EventListColumn: FC<EventListColumnProps> = ({
   title,
   data,
   today = false,
 }) => {
   const [showAll, setShowAll] = useState(false);
-  const showSeeAllButton = data.length > 4;
   const [openEditModal, setOpenEditModal] = useState(false);
   const [openRemoveModal, setOpenRemoveModal] = useState(false);
   const [removeEventId, setRemoveEventId] = useState('');
@@ -54,52 +69,54 @@ const EventListColumn: FC<EventListColumnProps> = ({
   const formatMonthDay = 'MMMM d';
   const formatHoursMinutes = 'HH:mm';
   const formatMonthDayHoursMinutes = 'MMM.dd, HH:mm';
+  const showSeeAllButton = data.length > 4;
+  const itemsAmountToShow = showAll ? data.length : 4;
 
-  const getTodayStartTime = (startDate: string | Date, recurrence: string) => {
+  const getTodayStartTime = (
+    rawStartDate: string | Date,
+    recurrence: string
+  ) => {
     const todayDate = new Date();
-    const isPastTime = isPast(new Date(startDate));
-    const todayRelativeTime = isPastTime
-      ? formatDistanceToNowStrict(
-          set(new Date(startDate), {
-            year: todayDate.getFullYear(),
-            month: todayDate.getMonth(),
-            date: todayDate.getDate(),
-          })
-        ) + ' ago'
-      : 'in ' + formatDistanceToNowStrict(new Date(startDate));
+    const startDate = new Date(rawStartDate);
+    const isPastTime = isPast(startDate);
+    const timeLayout1 = getTodayRelativeTimeLayout1(startDate, todayDate);
+    const timeLayout2 = getTodayRelativeTimeLayout2(startDate);
+    const todayRelativeTime = isPastTime ? timeLayout1 : timeLayout2;
+
     if (!today && recurrence !== RecurrenceType.NoRecurrence) {
-      if (recurrence === RecurrenceType.CertainDays) return 'Weekly';
+      if (recurrence === RecurrenceType.CertainDays) {
+        return 'Weekly';
+      }
       return recurrence.charAt(0).toUpperCase() + recurrence.slice(1);
     }
-
-    return today
-      ? todayRelativeTime
-      : format(new Date(startDate), formatMonthDay);
+    return today ? todayRelativeTime : format(startDate, formatMonthDay);
   };
 
   const getTimeRange = (event: EventItem, daysAmountInRange: number) => {
     if (event.isAllDayEvent) return 'All day';
+
+    const startDate = new Date(event.startDate);
+    const endDate = new Date(event.endDate);
+
     if (daysAmountInRange > 1) {
       if (today) {
-        if (isToday(new Date(event.startDate)))
-          return (
-            'from ' + format(new Date(event.startDate), formatHoursMinutes)
-          );
-        if (isToday(new Date(event.endDate)))
-          return 'to ' + format(new Date(event.endDate), formatHoursMinutes);
+        if (isToday(startDate))
+          return 'from ' + format(startDate, formatHoursMinutes);
+        if (isToday(endDate))
+          return 'to ' + format(endDate, formatHoursMinutes);
         return 'All day';
       }
       return (
-        format(new Date(event.startDate), formatMonthDayHoursMinutes) +
+        format(startDate, formatMonthDayHoursMinutes) +
         ' to ' +
-        format(new Date(event.endDate), formatMonthDayHoursMinutes)
+        format(endDate, formatMonthDayHoursMinutes)
       );
     }
 
     const startEndTimePeriod =
-      format(new Date(event.startDate), formatHoursMinutes) +
+      format(startDate, formatHoursMinutes) +
       '-' +
-      format(new Date(event.endDate), formatHoursMinutes);
+      format(endDate, formatHoursMinutes);
 
     return startEndTimePeriod;
   };
@@ -125,7 +142,7 @@ const EventListColumn: FC<EventListColumnProps> = ({
         )}
       </div>
       <TransitionGroup>
-        {data.slice(0, showAll ? data.length : 4).map((event: EventItem) => {
+        {data.slice(0, itemsAmountToShow).map((event: EventItem) => {
           const daysAmountInRange = eachDayOfInterval({
             start: new Date(event.startDate),
             end: new Date(event.endDate),

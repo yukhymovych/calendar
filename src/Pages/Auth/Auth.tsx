@@ -9,7 +9,7 @@ import {
 } from 'firebase/auth';
 
 import { auth } from '../../api';
-import { useAuthContext } from '../../context/auth-provider';
+import { useAuthContext } from '../../context';
 
 import './Auth.css';
 

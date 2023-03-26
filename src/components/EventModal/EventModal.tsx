@@ -16,8 +16,9 @@ import { uid } from 'uid';
 import { format, addHours, set } from 'date-fns';
 
 import { addEvent, updateEvent } from '../../api';
-import { useAuthContext } from '../../context/auth-provider';
+import { useAuthContext } from '../../context';
 import { EventModalType, EventItem, RecurrenceType } from '../../types';
+import { fullDateTimeFormat } from '../../constants';
 
 import {
   RecurrenceSelect,
@@ -88,9 +89,11 @@ export const EventModal: FC<EventModalProps> = ({
 
   const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const dateFormatting = 'yyyy-MM-dd HH:mm';
 
     if (!user) return;
+
+    const startDate = new Date(formData.startDate);
+    const endDate = new Date(formData.endDate);
     if (type === EventModalType.Create) {
       const createdItemId = uid();
       const createdItem = {
@@ -98,8 +101,8 @@ export const EventModal: FC<EventModalProps> = ({
         title: formData.title,
         place: formData.place || '',
         additional: formData.additional || '',
-        startDate: format(new Date(formData.startDate), dateFormatting),
-        endDate: format(new Date(formData.endDate), dateFormatting),
+        startDate: format(startDate, fullDateTimeFormat),
+        endDate: format(endDate, fullDateTimeFormat),
         color: formData.color,
         isAllDayEvent: formData.isAllDayEvent,
         recurrence: formData.recurrence,
@@ -111,8 +114,8 @@ export const EventModal: FC<EventModalProps> = ({
         ...initialData,
         ...formData,
         id: initialData?.id || '',
-        startDate: format(new Date(formData.startDate), dateFormatting),
-        endDate: format(new Date(formData.endDate), dateFormatting),
+        startDate: format(startDate, fullDateTimeFormat),
+        endDate: format(endDate, fullDateTimeFormat),
         isAllDayEvent: formData.isAllDayEvent,
         recurrence: formData.recurrence,
         recurrenceDays: formData?.recurrenceDays || [],

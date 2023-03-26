@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { Checkbox, FormControlLabel, Collapse } from '@mui/material';
 
 import { updateShortTodo } from '../../../api';
-import { useAuthContext } from '../../../context/auth-provider';
+import { useAuthContext } from '../../../context';
 import { ShortTodo } from '../../../types';
 
 import { AddShortTodoModal, ItemRemoveModal } from '../../../components';
