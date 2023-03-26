@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 
-import { auth } from '../../firebase/config';
+import { auth } from '../../api';
 import { useAuthContext } from '../../context/auth-provider';
 
 import './Header.css';

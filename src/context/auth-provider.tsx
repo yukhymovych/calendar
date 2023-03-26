@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import { User } from 'firebase/auth';
 
-import { auth } from '../firebase/config';
+import { auth } from '../api';
 
 export interface AuthContextValue {
   user: User | null;

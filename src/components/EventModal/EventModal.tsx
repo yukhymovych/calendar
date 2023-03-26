@@ -15,7 +15,7 @@ import { DateTimePicker, DatePicker } from '@mui/x-date-pickers';
 import { uid } from 'uid';
 import { format, addHours, set } from 'date-fns';
 
-import { addItem, updateItem } from '../../firebase/crud';
+import { addEvent, updateEvent } from '../../api';
 import { useAuthContext } from '../../context/auth-provider';
 import { EventModalType, EventItem, RecurrenceType } from '../../types';
 
@@ -105,7 +105,7 @@ export const EventModal: FC<EventModalProps> = ({
         recurrence: formData.recurrence,
         recurrenceDays: formData?.recurrenceDays || [],
       };
-      addItem(createdItem, user?.uid);
+      addEvent(createdItem, user?.uid);
     } else {
       const editedItem = {
         ...initialData,
@@ -117,7 +117,7 @@ export const EventModal: FC<EventModalProps> = ({
         recurrence: formData.recurrence,
         recurrenceDays: formData?.recurrenceDays || [],
       };
-      updateItem(editedItem, user?.uid);
+      updateEvent(editedItem, user?.uid);
     }
   };
 

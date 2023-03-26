@@ -1,7 +1,7 @@
 import React, { FC, useMemo } from 'react';
 import { format } from 'date-fns';
 
-import { useGetItems, useGetShortTodos } from '../../firebase/crud';
+import { useGetEvents, useGetShortTodos } from '../../api';
 import { filterEventsForToday, filterEventsUpcoming } from './FilteringEvents';
 
 import UserInfo from './UserInfo/UserInfo';
@@ -12,7 +12,7 @@ import SidebarDatepicker from './SidebarDatepicker/SidebarDatepicker';
 import './Dashboard.css';
 
 export const Dashboard: FC = () => {
-  const events = useGetItems();
+  const events = useGetEvents();
   const shortTodos = useGetShortTodos();
   const eventListTodays = useMemo(() => filterEventsForToday(events), [events]);
   const eventListUpcoming = useMemo(

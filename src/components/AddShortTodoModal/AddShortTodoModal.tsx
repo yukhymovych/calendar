@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { uid } from 'uid';
 
-import { addShortTodo } from '../../firebase/crud';
+import { addShortTodo } from '../../api';
 import { useAuthContext } from '../../context/auth-provider';
 
 interface AddShortTodoModalProps {

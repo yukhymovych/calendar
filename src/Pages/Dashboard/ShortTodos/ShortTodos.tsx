@@ -4,7 +4,7 @@ import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Checkbox, FormControlLabel, Collapse } from '@mui/material';
 
-import { updateShortTodo } from '../../../firebase/crud';
+import { updateShortTodo } from '../../../api';
 import { useAuthContext } from '../../../context/auth-provider';
 import { ShortTodo } from '../../../types';
 

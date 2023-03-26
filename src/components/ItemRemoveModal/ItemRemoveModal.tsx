@@ -7,7 +7,7 @@ import {
   DialogTitle,
 } from '@mui/material';
 
-import { removeItem, removeShortTodo } from '../../firebase/crud';
+import { removeEvent, removeShortTodo } from '../../api';
 import { useAuthContext } from '../../context/auth-provider';
 import { ItemType } from '../../types';
 
@@ -37,7 +37,7 @@ export const ItemRemoveModal: FC<ItemRemoveModalProps> = ({
       callback();
     }
     if (user) {
-      if (ItemType.Event === itemName) removeItem(eventId, user?.uid);
+      if (ItemType.Event === itemName) removeEvent(eventId, user?.uid);
       if (ItemType.Todo === itemName) removeShortTodo(eventId, user?.uid);
     }
     setOpen(false);

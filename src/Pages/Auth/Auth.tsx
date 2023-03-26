@@ -8,7 +8,7 @@ import {
   UserCredential,
 } from 'firebase/auth';
 
-import { auth } from '../../firebase/config';
+import { auth } from '../../api';
 import { useAuthContext } from '../../context/auth-provider';
 
 import './Auth.css';

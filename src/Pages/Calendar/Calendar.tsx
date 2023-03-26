@@ -3,7 +3,7 @@ import { format, addHours } from 'date-fns';
 import { DateClickArg } from '@fullcalendar/interaction';
 import { EventClickArg, EventDropArg } from '@fullcalendar/core';
 
-import { updateItem, useGetItems } from '../../firebase/crud';
+import { updateEvent, useGetEvents } from '../../api';
 import { useAuthContext } from '../../context/auth-provider';
 import { EventItem, EventModalType } from '../../types';
 
@@ -20,7 +20,7 @@ export const Calendar: FC = () => {
   const [createStartDate, setCreateStartDate] = useState(new Date());
   const formatFullDateTime = 'yyyy-MM-dd HH:mm';
 
-  const eventsData = useGetItems();
+  const eventsData = useGetEvents();
 
   const handleEventClick = (data: EventClickArg) => {
     setEventModalType(EventModalType.Edit);
@@ -50,7 +50,7 @@ export const Calendar: FC = () => {
       recurrence: event?.recurrence || 'noRecurrence',
       recurrenceDays: event?.recurrenceDays || [],
     };
-    if (user) updateItem(editedEvent, user?.uid);
+    if (user) updateEvent(editedEvent, user?.uid);
   };
 
   const handleDateCellClick = (data: DateClickArg) => {
