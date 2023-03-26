@@ -15,17 +15,17 @@ import { DateTimePicker, DatePicker } from '@mui/x-date-pickers';
 import { uid } from 'uid';
 import { format, addHours, set } from 'date-fns';
 
-import { addEvent, updateEvent } from '../../api';
-import { useAuthContext } from '../../context';
-import { EventModalType, EventItem, RecurrenceType } from '../../types';
-import { fullDateTimeFormat } from '../../constants';
-
 import {
   RecurrenceSelect,
   SelectColor,
   ItemRemoveModal,
   RecurrenceDaySelect,
 } from '../../components';
+
+import { addEvent, updateEvent } from '../../api';
+import { useAuthContext } from '../../context';
+import { EventModalType, EventItem, RecurrenceType } from '../../types';
+import { fullDateTimeFormat } from '../../constants';
 
 interface EventModalProps {
   defaultStartDate?: Date;

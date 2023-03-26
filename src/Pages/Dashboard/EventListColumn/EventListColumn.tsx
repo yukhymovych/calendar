@@ -16,10 +16,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Grid, Collapse } from '@mui/material';
 
+import { EventModal, ItemRemoveModal } from '../../../components';
+
 import { colorOptions } from '../../../components/SelectColor/colors';
 import { EventModalType, EventItem, RecurrenceType } from '../../../types';
-
-import { EventModal, ItemRemoveModal } from '../../../components';
 
 import './EventListColumn.css';
 

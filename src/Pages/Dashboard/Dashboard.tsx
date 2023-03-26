@@ -1,13 +1,13 @@
 import React, { FC, useMemo } from 'react';
 import { format } from 'date-fns';
 
-import { useGetEvents, useGetShortTodos } from '../../api';
-import { filterEventsForToday, filterEventsUpcoming } from './helpers';
-
 import UserInfo from './UserInfo/UserInfo';
 import EventListColumn from './EventListColumn/EventListColumn';
 import Reminder from './ShortTodos/ShortTodos';
 import SidebarDatepicker from './SidebarDatepicker/SidebarDatepicker';
+
+import { useGetEvents, useGetShortTodos } from '../../api';
+import { filterEventsForToday, filterEventsUpcoming } from './helpers';
 
 import './Dashboard.css';
 

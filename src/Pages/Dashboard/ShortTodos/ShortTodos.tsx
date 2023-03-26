@@ -4,11 +4,11 @@ import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Checkbox, FormControlLabel, Collapse } from '@mui/material';
 
+import { AddShortTodoModal, ItemRemoveModal } from '../../../components';
+
 import { updateShortTodo } from '../../../api';
 import { useAuthContext } from '../../../context';
 import { ShortTodo } from '../../../types';
-
-import { AddShortTodoModal, ItemRemoveModal } from '../../../components';
 
 import './ShortTodos.css';
 

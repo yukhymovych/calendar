@@ -3,13 +3,13 @@ import { format, addHours } from 'date-fns';
 import { DateClickArg } from '@fullcalendar/interaction';
 import { EventClickArg, EventDropArg } from '@fullcalendar/core';
 
+import { EventModal } from '../../components';
+import { CalendarAdapter } from './CalendarAdapter';
+
 import { updateEvent, useGetEvents } from '../../api';
 import { useAuthContext } from '../../context';
 import { EventItem, EventModalType } from '../../types';
 import { fullDateTimeFormat } from '../../constants';
-
-import { EventModal } from '../../components';
-import { CalendarAdapter } from './CalendarAdapter';
 
 export const Calendar: FC = () => {
   const { user } = useAuthContext();
