@@ -14,7 +14,7 @@ import {
   filteringUpcomingMonthly,
   filteringUpcomingYearly,
   filteringUpcomingCertainDays,
-} from './index';
+} from '.';
 
 export const filterEventsForToday = (events: EventItem[]) => {
   let start, end;

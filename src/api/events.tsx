@@ -5,7 +5,7 @@ import {
   updateItemAdapter,
   removeItemAdapter,
   useGetItemsAdapter,
-} from './apiAdapter';
+} from './api-adapter';
 
 const eventsPath = 'events';
 

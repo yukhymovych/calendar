@@ -8,7 +8,7 @@ import { useAuthContext } from './context/auth-provider';
 // import { logger } from './logger';
 
 import { Header } from './components';
-import { Auth, Calendar, Dashboard } from './Pages';
+import { Auth, Calendar, Dashboard } from './pages';
 
 import './App.css';
 
