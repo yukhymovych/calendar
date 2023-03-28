@@ -10,15 +10,6 @@ import { RRule } from 'rrule';
 
 import { EventItem, RecurrenceType } from '../../types';
 
-type FormattedEvents = {
-  id: string;
-  title: string;
-  start: string | Date;
-  end: string | Date;
-  color: string;
-  allDay: boolean;
-};
-
 const dayMap: Record<string, number> = {
   Monday: 0,
   Tuesday: 1,
@@ -37,6 +28,45 @@ interface CalendarAdapterProps {
   is12HourFormat: boolean;
 }
 
+const formatData = (events: EventItem[]) => {
+  const formattedEvents = events.map((item: EventItem) => {
+    const formattedEvent = {
+      id: item.id,
+      title: item.title,
+      start: item.startDate,
+      end: item.endDate,
+      color: item.color || '',
+      allDay: item.isAllDayEvent,
+    };
+    const isRecurrence = item.recurrence !== RecurrenceType.NoRecurrence;
+    const isCertainDaysReccurence =
+      item.recurrence === RecurrenceType.CertainDays;
+    if (isRecurrence) {
+      if (isCertainDaysReccurence) {
+        Object.assign(formattedEvent, {
+          rrule: {
+            freq: RRule.WEEKLY,
+            dtstart: item.startDate,
+            byweekday:
+              item.recurrenceDays &&
+              item.recurrenceDays.map((day: string) => dayMap[day]),
+          },
+        });
+      }
+      if (!isCertainDaysReccurence) {
+        Object.assign(formattedEvent, {
+          rrule: {
+            freq: item.recurrence,
+            dtstart: item.startDate,
+          },
+        });
+      }
+    }
+    return formattedEvent;
+  });
+  return formattedEvents;
+};
+
 export const CalendarAdapter: FC<CalendarAdapterProps> = ({
   onDateCellClick,
   onEventClick,
@@ -44,74 +74,33 @@ export const CalendarAdapter: FC<CalendarAdapterProps> = ({
   events,
   is12HourFormat,
 }) => {
-  const formattedData: FormattedEvents[] = useMemo(
-    () =>
-      events.map((item: EventItem) => {
-        const formattedItem = {
-          id: item.id,
-          title: item.title,
-          start: item.startDate,
-          end: item.endDate,
-          color: item.color || '',
-          allDay: item.isAllDayEvent,
-        };
-        if (item.recurrence !== RecurrenceType.NoRecurrence) {
-          if (
-            item.recurrence === RecurrenceType.CertainDays &&
-            item?.recurrenceDays
-          ) {
-            Object.assign(formattedItem, {
-              rrule: {
-                freq: RRule.WEEKLY,
-                dtstart: item.startDate,
-                byweekday: item.recurrenceDays.map(
-                  (day: string) => dayMap[day]
-                ),
-              },
-            });
-          }
-          if (item.recurrence !== RecurrenceType.CertainDays) {
-            Object.assign(formattedItem, {
-              rrule: {
-                freq: item.recurrence,
-                dtstart: item.startDate,
-              },
-            });
-          }
-        }
-        return formattedItem;
-      }),
-    [events]
-  );
-
+  const formattedEvents = useMemo(() => formatData(events), [events]);
   return (
-    <>
-      <FullCalendar
-        plugins={[
-          dayGridPlugin,
-          timeGridPlugin,
-          listPlugin,
-          interactionPlugin,
-          rrulePlugin,
-        ]}
-        headerToolbar={{
-          left: 'title',
-          right: 'dayGridMonth,listWeek,dayGridWeek,today,prev,next',
-        }}
-        initialView="dayGridMonth"
-        dateClick={onDateCellClick}
-        eventClick={onEventClick}
-        eventDrop={onEventDrop}
-        editable={true}
-        eventTimeFormat={{
-          hour: '2-digit',
-          minute: '2-digit',
-          hour12: is12HourFormat,
-          meridiem: is12HourFormat,
-        }}
-        displayEventEnd
-        events={formattedData}
-      />
-    </>
+    <FullCalendar
+      plugins={[
+        dayGridPlugin,
+        timeGridPlugin,
+        listPlugin,
+        interactionPlugin,
+        rrulePlugin,
+      ]}
+      headerToolbar={{
+        left: 'title',
+        right: 'dayGridMonth,listWeek,dayGridWeek,today,prev,next',
+      }}
+      initialView="dayGridMonth"
+      dateClick={onDateCellClick}
+      eventClick={onEventClick}
+      eventDrop={onEventDrop}
+      editable={true}
+      eventTimeFormat={{
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: is12HourFormat,
+        meridiem: is12HourFormat,
+      }}
+      displayEventEnd
+      events={formattedEvents}
+    />
   );
 };
