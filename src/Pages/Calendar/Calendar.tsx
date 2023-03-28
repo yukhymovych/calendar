@@ -14,9 +14,7 @@ import { fullDateTimeFormat } from '../../constants';
 export const Calendar: FC = () => {
   const { user } = useAuthContext();
   const [openEditModal, setOpenEditModal] = useState(false);
-  const [eventForEdit, setEventForEdit] = useState<EventItem | undefined>(
-    undefined
-  );
+  const [eventForEdit, setEventForEdit] = useState<EventItem | null>(null);
   const [eventModalType, setEventModalType] = useState(EventModalType.Edit);
   const [createStartDate, setCreateStartDate] = useState(new Date());
 
@@ -25,8 +23,7 @@ export const Calendar: FC = () => {
   const handleEventClick = (data: EventClickArg) => {
     setEventModalType(EventModalType.Edit);
     const event =
-      eventsData.find((item: EventItem) => item.id === data.event.id) ||
-      undefined;
+      eventsData.find((item: EventItem) => item.id === data.event.id) || null;
     setEventForEdit(event);
     setOpenEditModal(true);
   };
@@ -73,10 +70,12 @@ export const Calendar: FC = () => {
         setOpen={setOpenEditModal}
         type={eventModalType}
         initialData={
-          eventModalType === EventModalType.Edit ? eventForEdit : undefined
+          eventModalType === EventModalType.Edit ? eventForEdit : null
         }
         defaultStartDate={
-          eventModalType === EventModalType.Create ? createStartDate : undefined
+          eventModalType === EventModalType.Create
+            ? createStartDate
+            : new Date()
         }
         removeButton={eventModalType === EventModalType.Edit}
       />

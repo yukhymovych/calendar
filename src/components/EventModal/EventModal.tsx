@@ -32,7 +32,7 @@ interface EventModalProps {
   open: boolean;
   setOpen: (value: boolean) => void;
   type: EventModalType;
-  initialData?: EventItem;
+  initialData?: EventItem | null;
   removeButton?: boolean;
 }
 
@@ -41,7 +41,7 @@ export const EventModal: FC<EventModalProps> = ({
   open = false,
   setOpen,
   type = EventModalType.Create,
-  initialData,
+  initialData = null,
   removeButton = false,
 }) => {
   const { user } = useAuthContext();
