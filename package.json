@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/preset-react": "^7.23.3",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fullcalendar/core": "^6.1.4",
@@ -15,7 +16,7 @@
     "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.11.6",
     "@mui/x-date-pickers": "^5.0.16",
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.5.2",
@@ -37,6 +38,7 @@
     "start:prod": "cross-env REACT_APP_ENVIRONMENT=production react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "jest": "jest",
     "eject": "react-scripts eject",
     "editorconfig": "editorconfig-checker"
   },
@@ -53,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/preset-typescript": "^7.23.3",
     "@types/date-fns": "^2.6.0",
     "@types/node": "^18.11.19",
     "@types/react": "^18.0.27",

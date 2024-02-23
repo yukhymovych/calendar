@@ -171,12 +171,14 @@ const EventListColumn: FC<EventListColumnProps> = ({
                   <div className="event-list__button-wrapper">
                     <div
                       className="event-list__item-button"
+                      data-testid={`edit-button-${event.id}`}
                       onClick={() => handleEdit(event)}
                     >
                       <EditIcon fontSize="small" />
                     </div>
                     <div
                       className="event-list__item-button"
+                      data-testid={`remove-button-${event.id}`}
                       onClick={() => handleRemove(event.id)}
                     >
                       <DeleteIcon fontSize="small" />
